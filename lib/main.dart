@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const Login(),
       },
       theme: ThemeData(
-        // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 198, 6, 6)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 198, 6, 6)),
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: 'LOGO'),
