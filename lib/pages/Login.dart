@@ -1,30 +1,18 @@
+// ignore: file_names
+// ignore_for_file: prefer_const_constructors
+
+import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-void main() {
-  runApp(LoginScreen());
-}
-
-class LoginScreen extends StatelessWidget {
+class Login extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Login'),
-        ),
-        body: LoginForm(),
-      ),
-    );
-  }
+  // ignore: library_private_types_in_public_api
+  _LoginState createState() => _LoginState();
 }
 
-class LoginForm extends StatefulWidget {
-  @override
-  _LoginFormState createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
+class _LoginState extends State<Login> {
   bool _keepLoggedIn = false;
   final _nomeController = TextEditingController();
   final _whatsappController = TextEditingController();
@@ -38,93 +26,115 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text('Nome',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Outfit')),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                  width: 0.6,
-                  color: Color(0xFFC60606)), // Alteração na grossura da borda
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: TextField(
-              controller: _nomeController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          SizedBox(height: 20.0),
-          Text('WhatsApp'),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                  width: 0.6,
-                  color: Color(0xFFC60606)), // Alteração na grossura da borda
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: TextField(
-              controller: _whatsappController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          SizedBox(height: 20.0),
-          Row(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Checkbox(
-                value: _keepLoggedIn,
-                onChanged: (value) {
-                  setState(() {
-                    _keepLoggedIn = value!;
-                  });
-                },
+              CircleAvatar(
+                backgroundImage: NetworkImage(
+                  'https://raw.githubusercontent.com/WesleyRodrigues55/app-delivery-ponto-do-pastel/main/img/logo-pastel-fundo-amarelo.jpg',
+                ),
+                radius: 120,
+                // maxRadius: 90,
               ),
-              Text('Manter conectado'),
-            ],
-          ),
-          SizedBox(height: 33.0),
-          SizedBox(
-            height: 40.51,
-            child: ElevatedButton(
-              onPressed: () {
-                // Implemente a lógica para autenticar o usuário aqui
-                String nome = _nomeController.text.trim();
-                String whatsapp = _whatsappController.text.trim();
-                bool keepLoggedIn = _keepLoggedIn;
-
-                // Exemplo: Imprimir os dados do usuário
-                print('Nome: $nome');
-                print('WhatsApp: $whatsapp');
-                print('Manter conectado: $keepLoggedIn');
-              },
-              style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(Size(159.0, 40.51)),
-                backgroundColor: MaterialStateProperty.all(Color(0xFFC60606)),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                textStyle: MaterialStateProperty.all(
-                  TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
+              const Text('Nome',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Outfit')),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 0.6,
+                      color: const Color(
+                          0xFFC60606)), // Alteração na grossura da borda
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: _nomeController,
+                  decoration: const InputDecoration(
+                    hintText: 'Digite o seu Nome',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
+                    border: InputBorder.none,
                   ),
                 ),
               ),
-              child: Text('Entrar'),
-            ),
+              const SizedBox(height: 20.0),
+              const Text('WhatsApp',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Outfit')),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 0.6,
+                      color: const Color(
+                          0xFFC60606)), // Alteração na grossura da borda
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: _whatsappController,
+                  decoration: const InputDecoration(
+                    hintText: 'Digite o seu WhatsApp',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              Row(
+                children: [
+                  Checkbox(
+                    value: _keepLoggedIn,
+                    onChanged: (value) {
+                      setState(() {
+                        _keepLoggedIn = value!;
+                      });
+                    },
+                  ),
+                  const Text('Manter conectado'),
+                ],
+              ),
+              const SizedBox(height: 33.0),
+              PrimaryButton(
+                title: 'Entrar',
+                extraLarge: 1,
+              ),
+              SizedBox(height: 20),
+              Center(
+                  child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyHomePage(
+                              title: 'teste',
+                            )),
+                  );
+                },
+                child: Text(
+                  'Não tem uma conta? Registre agora',
+                  style: TextStyle(
+                      color: Color.fromARGB(62, 0, 0, 0),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Outfit'),
+                ),
+              )),
+              const SizedBox(height: 10),
+              PrimaryButton(
+                bgButton: Colors.black,
+                title: 'Entrar com o Google+',
+                extraLarge: 1,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
