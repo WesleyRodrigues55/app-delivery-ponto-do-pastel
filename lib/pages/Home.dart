@@ -1,5 +1,8 @@
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Login.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -12,7 +15,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  String _selectedCategory  = "SALGADOS";
+  String _selectedCategory = "SALGADOS";
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +26,13 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: (){print('Clique profile navbar');}, 
-              icon: const Icon(Icons.person, color: Colors.black,),
+              onPressed: () {
+                print('Clique profile navbar');
+              },
+              icon: const Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
@@ -52,12 +60,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           'SALGADOS',
                           style: TextStyle(
-                            color: _selectedCategory == "SALGADOS" ? Color.fromARGB(255, 198, 6, 6) : Colors.black,
-                  
+                            color: _selectedCategory == "SALGADOS"
+                                ? Color.fromARGB(255, 198, 6, 6)
+                                : Colors.black,
                           ),
                         ),
                       ),
-                      SizedBox(width: 20,),
+                      SizedBox(
+                        width: 20,
+                      ),
                       GestureDetector(
                         onTap: () => {
                           setState(() {
@@ -67,12 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           'DOCES',
                           style: TextStyle(
-                            color: _selectedCategory == "DOCES" ? Color.fromARGB(255, 198, 6, 6) : Colors.black,
-                  
+                            color: _selectedCategory == "DOCES"
+                                ? Color.fromARGB(255, 198, 6, 6)
+                                : Colors.black,
                           ),
                         ),
                       ),
-                      SizedBox(width: 20,),
+                      SizedBox(
+                        width: 20,
+                      ),
                       GestureDetector(
                         onTap: () => {
                           setState(() {
@@ -82,30 +96,30 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           'BEBIDAS',
                           style: TextStyle(
-                            color: _selectedCategory == "BEBIDAS" ? Color.fromARGB(255, 198, 6, 6) : Colors.black,
-                  
+                            color: _selectedCategory == "BEBIDAS"
+                                ? Color.fromARGB(255, 198, 6, 6)
+                                : Colors.black,
                           ),
                         ),
                       ),
-                      SizedBox(width: 20,),
+                      SizedBox(
+                        width: 20,
+                      ),
                     ],
                   ),
                 ),
               ),
-            
-            Container(
-              padding: EdgeInsets.all(20),
-              width: double.infinity,
-              color: Color.fromARGB(255, 255, 255, 255),
-              child: Column(
-                children: [
-                  PrimaryButton(title: 'Login', extraLarge: 1),
-                ],
+              Container(
+                padding: EdgeInsets.all(20),
+                width: double.infinity,
+                color: Color.fromARGB(255, 255, 255, 255),
+                child: Column(children: [
+                  PrimaryButton(title: 'Login', extraLarge: 1, route: '/login'),
+                ]),
               ),
-            ),
             ],
           ),
-        ), 
+        ),
       ),
       drawer: Drawer(
         backgroundColor: const Color.fromARGB(255, 231, 231, 231),
@@ -119,41 +133,47 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Text(
                       'Finalizar sessão',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 20,),
+                    SizedBox(
+                      width: 20,
+                    ),
                     Icon(
                       Icons.logout,
                       color: Colors.black,
                     )
                   ],
-                ), 
-                onTap: (){print('Finalizar sessão');},
+                ),
+                onTap: () {
+                  print('Finalizar sessão');
+                },
               ),
               Container(
-                margin: EdgeInsets.only(top: 60),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      title: Text('Meu Perfil'), 
-                      onTap: (){print('Meu Perfil');},
-                    ),
-                    ListTile(
-                      title: Text('Fale Conosco'), 
-                      onTap: (){print('Fale Conosco');},
-                    ),
-                    ListTile(
-                      title: Text('Dúvidas Frequentes'), 
-                      onTap: (){print('Dúvidas Frequentes');},
-                    ),
-                  ],
-                )
-              )
-              
+                  margin: EdgeInsets.only(top: 60),
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        title: Text('Meu Perfil'),
+                        onTap: () {
+                          print('Meu Perfil');
+                        },
+                      ),
+                      ListTile(
+                        title: Text('Fale Conosco'),
+                        onTap: () {
+                          print('Fale Conosco');
+                        },
+                      ),
+                      ListTile(
+                        title: Text('Dúvidas Frequentes'),
+                        onTap: () {
+                          print('Dúvidas Frequentes');
+                        },
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),
@@ -173,7 +193,6 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Cardápio',
           ),
           BottomNavigationBarItem(
-
             icon: Icon(Icons.summarize),
             label: 'Pedidos',
           ),
