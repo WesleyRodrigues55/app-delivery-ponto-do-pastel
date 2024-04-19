@@ -5,16 +5,18 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.extraLarge,
-    required this.route,
+    // required this.route,
+    required this.onPressed,
     this.bgButton,
     this.textColor,
   });
 
   final String title;
   final int extraLarge;   // 1 = width 100% / 0 = % of content
-  Color? bgButton;
-  Color? textColor;
-  String? route;
+  final Color? bgButton;
+  final Color? textColor;
+  // final String? route;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,10 @@ class PrimaryButton extends StatelessWidget {
           children: [
             Expanded (
               child: TextButton(
-                onPressed: (){
-                  Navigator.pushNamed(context, route ?? '');
-                },
+                // onPressed: (){
+                //   Navigator.pushNamed(context, route ?? '');
+                // },
+                onPressed: onPressed,
                 style: ButtonStyle(
                   padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20, horizontal: 40)),
                   backgroundColor: MaterialStatePropertyAll(bgButton ?? const Color.fromARGB(255, 198, 6, 6)),
@@ -53,9 +56,10 @@ class PrimaryButton extends StatelessWidget {
       children: [
         SizedBox(height: 10),
         TextButton(
-                onPressed: (){
-                  Navigator.pushNamed(context, route ?? '/');
-                },
+                // onPressed: (){
+                //   Navigator.pushNamed(context, route ?? '/');
+                // },
+                onPressed: onPressed,
                 style: ButtonStyle(
                   padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20, horizontal: 40)),
                   backgroundColor: MaterialStatePropertyAll(bgButton ?? const Color.fromARGB(255, 198, 6, 6)),

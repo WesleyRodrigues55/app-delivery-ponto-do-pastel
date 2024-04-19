@@ -1,6 +1,6 @@
-import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Login.dart';
+import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -1,8 +1,5 @@
-import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Login.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -51,7 +48,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Color.fromARGB(255, 255, 255, 255),
                 child: Column(
                   children: [
-                    PrimaryButton(title: 'Login', extraLarge: 1, route: '/login'),
+                    PrimaryButton(
+                      title: 'Login', 
+                      extraLarge: 1, 
+                      onPressed: (){
+                        Navigator.pushNamed(context, '/login');
+                      },
+                    ),
                   ],
                 ),
               )
