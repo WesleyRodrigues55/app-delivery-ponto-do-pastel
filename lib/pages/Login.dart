@@ -27,7 +27,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -102,6 +102,7 @@ class _LoginState extends State<Login> {
               PrimaryButton(
                 title: 'Entrar',
                 extraLarge: 1,
+                route: '',
               ),
               SizedBox(height: 20),
               Center(
@@ -129,6 +130,7 @@ class _LoginState extends State<Login> {
                 bgButton: Colors.black,
                 title: 'Entrar com o Google+',
                 extraLarge: 1,
+                route: '',
               ),
             ],
           ),

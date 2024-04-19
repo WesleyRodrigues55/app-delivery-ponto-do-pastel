@@ -5,9 +5,9 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.extraLarge,
+    required this.route,
     this.bgButton,
     this.textColor,
-    this.route,
   });
 
   final String title;
@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
             Expanded (
               child: TextButton(
                 onPressed: (){
-                  Navigator.pushNamed(context, route ?? '/');
+                  Navigator.pushNamed(context, route ?? '');
                 },
                 style: ButtonStyle(
                   padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20, horizontal: 40)),
