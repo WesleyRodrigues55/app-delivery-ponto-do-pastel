@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: double.infinity,
                 color: Color.fromARGB(255, 255, 255, 255),
                 child: Column(children: [
-                  PrimaryButton(title: 'Login', extraLarge: 1),
+                  PrimaryButton(title: 'Login', extraLarge: 1, route: '/login'),
                 ]),
               ),
             ],

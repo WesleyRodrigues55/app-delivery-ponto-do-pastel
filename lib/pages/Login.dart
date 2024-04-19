@@ -50,8 +50,7 @@ class _LoginState extends State<Login> {
                 decoration: BoxDecoration(
                   border: Border.all(
                       width: 0.6,
-                      color: const Color(
-                          0xFFC60606)), // Alteração na grossura da borda
+                      color: Colors.black), // Alteração na grossura da borda
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: TextField(
@@ -73,8 +72,7 @@ class _LoginState extends State<Login> {
                 decoration: BoxDecoration(
                   border: Border.all(
                       width: 0.6,
-                      color: const Color(
-                          0xFFC60606)), // Alteração na grossura da borda
+                      color: Colors.black), // Alteração na grossura da borda
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: TextField(
