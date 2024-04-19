@@ -38,8 +38,7 @@ class _LoginState extends State<Login> {
                 backgroundImage: NetworkImage(
                   'https://raw.githubusercontent.com/WesleyRodrigues55/app-delivery-ponto-do-pastel/main/img/logo-pastel-fundo-amarelo.jpg',
                 ),
-                radius: 120,
-                // maxRadius: 90,
+                radius: 140,
               ),
               const Text('Nome',
                   style: TextStyle(
