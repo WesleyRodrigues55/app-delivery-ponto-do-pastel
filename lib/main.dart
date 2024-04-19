@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MyHomePage(title: 'LOGO'),
-        '/login': (context) => const Login(),
+        '/login': (context) => Login(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 198, 6, 6)),
@@ -27,7 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
-

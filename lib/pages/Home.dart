@@ -1,5 +1,8 @@
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Login.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -12,7 +15,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  String _selectedCategory  = "SALGADOS";
+  String _selectedCategory = "SALGADOS";
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +26,13 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: (){print('Clique profile navbar');}, 
-              icon: const Icon(Icons.person, color: Colors.black,),
+              onPressed: () {
+                print('Clique profile navbar');
+              },
+              icon: const Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
@@ -37,20 +45,19 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: [
               itemCategoryNavigation(),
-            
-            Container(
-              padding: EdgeInsets.all(20),
-              width: double.infinity,
-              color: Color.fromARGB(255, 255, 255, 255),
-              child: Column(
-                children: [
-                  PrimaryButton(title: 'Login', extraLarge: 1, route: '/login'),
-                ],
-              ),
-            ),
+              Container(
+                padding: EdgeInsets.all(20),
+                width: double.infinity,
+                color: Color.fromARGB(255, 255, 255, 255),
+                child: Column(
+                  children: [
+                    PrimaryButton(title: 'Login', extraLarge: 1, route: '/login'),
+                  ],
+                ),
+              )
             ],
           ),
-        ), 
+        ),
       ),
       drawer: const Drawer(
         backgroundColor: Color.fromARGB(255, 231, 231, 231),
@@ -79,7 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Cardápio',
           ),
           BottomNavigationBarItem(
-
             icon: Icon(Icons.summarize),
             label: 'Pedidos',
           ),
