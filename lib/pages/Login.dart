@@ -5,8 +5,10 @@ import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
-  _LoginState createState() => _LoginState();
+  State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
@@ -42,7 +44,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   backgroundImage: NetworkImage(
                     'https://raw.githubusercontent.com/WesleyRodrigues55/app-delivery-ponto-do-pastel/main/img/logo-pastel-fundo-amarelo.jpg',
                   ),
@@ -65,7 +67,7 @@ class _LoginState extends State<Login> {
                   controllerName: _whatsappController,
                   validation: (value) {
                     if (value == null || value.length < 10) {
-                      return 'Digite um número de celualr válido!';
+                      return 'Digite um número de celular válido!';
                     }
                     return null;
                   },
@@ -93,7 +95,7 @@ class _LoginState extends State<Login> {
                   extraLarge: 1,
                   text: '',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Center(
                     child: GestureDetector(
                   onTap: () {
@@ -105,7 +107,7 @@ class _LoginState extends State<Login> {
                               )),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Não tem uma conta? Registre agora',
                     style: TextStyle(
                         color: Color.fromARGB(62, 0, 0, 0),
