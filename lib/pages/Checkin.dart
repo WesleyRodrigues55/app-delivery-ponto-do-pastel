@@ -52,7 +52,6 @@ class _CheckinState extends State<Checkin> {
                 onPressed: () {},
                 title: 'Continuar',
                 extraLarge: 1,
-                text: '',
               ),
             ),
           ],

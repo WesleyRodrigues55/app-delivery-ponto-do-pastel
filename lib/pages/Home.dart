@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         Navigator.pushNamed(context, '/login');
                       },
-                      text: '',
+
                     ),
                   ],
                 ),
