@@ -71,7 +71,7 @@ class _LoginState extends State<Login> {
                   controllerName: _whatsappController,
                   validation: (value) {
                     if (value == null || value.length < 10) {
-                      return 'Digite um número de celualr válido!';
+                      return 'Digite um número de celular válido!';
                     }
                     return null;
                   },
