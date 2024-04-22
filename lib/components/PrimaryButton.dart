@@ -9,7 +9,6 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     this.bgButton,
     this.textColor,
-    required String text,
   });
 
   final String title;

@@ -93,7 +93,6 @@ class _LoginState extends State<Login> {
                   },
                   title: 'Entrar',
                   extraLarge: 1,
-                  text: '',
                 ),
                 const SizedBox(height: 20),
                 Center(
@@ -122,7 +121,6 @@ class _LoginState extends State<Login> {
                   bgButton: Colors.black,
                   title: 'Entrar com o Google+',
                   extraLarge: 1,
-                  text: '',
                 ),
               ],
             ),
