@@ -1,3 +1,5 @@
+import 'package:app_delivery_ponto_do_pastel/components/cardapio.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const MyHomePage(title: 'LOGO'),
         '/login': (context) => Login(),
         '/login/checkin': (context) => Checkin(),
+        '/produto-selecionado': (context) => ProdutoSelecionado(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
