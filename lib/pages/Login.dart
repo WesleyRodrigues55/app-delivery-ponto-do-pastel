@@ -1,6 +1,3 @@
-// ignore: file_names
-// ignore_for_file: prefer_const_constructors
-
 import 'package:app_delivery_ponto_do_pastel/components/input.dart';
 import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
@@ -9,7 +6,6 @@ import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
   @override
-  // ignore: library_private_types_in_public_api
   _LoginState createState() => _LoginState();
 }
 
@@ -51,7 +47,6 @@ class _LoginState extends State<Login> {
                     'https://raw.githubusercontent.com/WesleyRodrigues55/app-delivery-ponto-do-pastel/main/img/logo-pastel-fundo-amarelo.jpg',
                   ),
                   radius: 120,
-                  // maxRadius: 90,
                 ),
                 InputCustom(
                   label: 'Usuario',
@@ -64,7 +59,6 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                 ),
-            
                 InputCustom(
                   label: 'WhatsApp',
                   placeholder: 'Digite o seu WhatsApp',
@@ -76,8 +70,7 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                 ),
-            
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 10.0),
                 Row(
                   children: [
                     Checkbox(
@@ -91,14 +84,14 @@ class _LoginState extends State<Login> {
                     const Text('Manter conectado'),
                   ],
                 ),
-
                 const SizedBox(height: 33.0),
                 PrimaryButton(
-                   onPressed: () {
+                  onPressed: () {
                     validaCampos();
                   },
                   title: 'Entrar',
                   extraLarge: 1,
+                  text: '',
                 ),
                 SizedBox(height: 20),
                 Center(
@@ -123,12 +116,11 @@ class _LoginState extends State<Login> {
                 )),
                 const SizedBox(height: 10),
                 PrimaryButton(
-                  onPressed: () {
-                    print('email');
-                  },
+                  onPressed: () {},
                   bgButton: Colors.black,
                   title: 'Entrar com o Google+',
                   extraLarge: 1,
+                  text: '',
                 ),
               ],
             ),
