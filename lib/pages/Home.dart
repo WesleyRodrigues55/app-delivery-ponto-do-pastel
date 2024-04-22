@@ -1,8 +1,5 @@
-import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Login.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -51,7 +48,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Color.fromARGB(255, 255, 255, 255),
                 child: Column(
                   children: [
-                    PrimaryButton(title: 'Login', extraLarge: 1, route: '/login'),
+                    PrimaryButton(
+                      title: 'Login',
+                      extraLarge: 1,
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      text: '',
+                    ),
                   ],
                 ),
               )
@@ -64,10 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Padding(
           padding: EdgeInsets.only(top: 20, right: 0, left: 20),
           child: Column(
-            children: [
-              logoutDrawer(),
-              itemsDrawer()
-            ],
+            children: [logoutDrawer(), itemsDrawer()],
           ),
         ),
       ),
@@ -101,61 +102,70 @@ class _MyHomePageState extends State<MyHomePage> {
 
   SingleChildScrollView itemCategoryNavigation() {
     return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () => {
-                        setState(() {
-                          _selectedCategory = "SALGADOS";
-                        })
-                      },
-                      child: Text(
-                        'SALGADOS',
-                        style: TextStyle(
-                          color: _selectedCategory == "SALGADOS" ? Color.fromARGB(255, 198, 6, 6) : Colors.black,
-                
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 20,),
-                    GestureDetector(
-                      onTap: () => {
-                        setState(() {
-                          _selectedCategory = "DOCES";
-                        })
-                      },
-                      child: Text(
-                        'DOCES',
-                        style: TextStyle(
-                          color: _selectedCategory == "DOCES" ? Color.fromARGB(255, 198, 6, 6) : Colors.black,
-                
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 20,),
-                    GestureDetector(
-                      onTap: () => {
-                        setState(() {
-                          _selectedCategory = "BEBIDAS";
-                        })
-                      },
-                      child: Text(
-                        'BEBIDAS',
-                        style: TextStyle(
-                          color: _selectedCategory == "BEBIDAS" ? Color.fromARGB(255, 198, 6, 6) : Colors.black,
-                
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 20,),
-                  ],
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () => {
+                setState(() {
+                  _selectedCategory = "SALGADOS";
+                })
+              },
+              child: Text(
+                'SALGADOS',
+                style: TextStyle(
+                  color: _selectedCategory == "SALGADOS"
+                      ? Color.fromARGB(255, 198, 6, 6)
+                      : Colors.black,
                 ),
               ),
-            );
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            GestureDetector(
+              onTap: () => {
+                setState(() {
+                  _selectedCategory = "DOCES";
+                })
+              },
+              child: Text(
+                'DOCES',
+                style: TextStyle(
+                  color: _selectedCategory == "DOCES"
+                      ? Color.fromARGB(255, 198, 6, 6)
+                      : Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            GestureDetector(
+              onTap: () => {
+                setState(() {
+                  _selectedCategory = "BEBIDAS";
+                })
+              },
+              child: Text(
+                'BEBIDAS',
+                style: TextStyle(
+                  color: _selectedCategory == "BEBIDAS"
+                      ? Color.fromARGB(255, 198, 6, 6)
+                      : Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -167,26 +177,31 @@ class itemsDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 60),
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            title: Text('Meu Perfil'), 
-            onTap: (){print('Meu Perfil');},
-          ),
-          ListTile(
-            title: Text('Fale Conosco'), 
-            onTap: (){print('Fale Conosco');},
-          ),
-          ListTile(
-            title: Text('Dúvidas Frequentes'), 
-            onTap: (){print('Dúvidas Frequentes');},
-          ),
-        ],
-      )
-    );
+        margin: EdgeInsets.only(top: 60),
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              title: Text('Meu Perfil'),
+              onTap: () {
+                print('Meu Perfil');
+              },
+            ),
+            ListTile(
+              title: Text('Fale Conosco'),
+              onTap: () {
+                print('Fale Conosco');
+              },
+            ),
+            ListTile(
+              title: Text('Dúvidas Frequentes'),
+              onTap: () {
+                print('Dúvidas Frequentes');
+              },
+            ),
+          ],
+        ));
   }
 }
 
@@ -203,18 +218,20 @@ class logoutDrawer extends StatelessWidget {
         children: [
           Text(
             'Finalizar sessão',
-            style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(width: 20,),
+          SizedBox(
+            width: 20,
+          ),
           Icon(
             Icons.logout,
             color: Colors.black,
           )
         ],
-      ), 
-      onTap: (){print('Finalizar sessão');},
+      ),
+      onTap: () {
+        print('Finalizar sessão');
+      },
     );
   }
 }
