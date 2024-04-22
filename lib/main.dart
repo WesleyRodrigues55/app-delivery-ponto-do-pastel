@@ -1,8 +1,7 @@
-import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
+import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
-import 'package:flutter/material.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Checkin.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MyHomePage(title: 'LOGO'),
         '/login': (context) => Login(),
-        '/checkin': (context) => Checkin(),
+        '/login/checkin': (context) => Checkin(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

@@ -3,8 +3,10 @@ import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:flutter/material.dart';
 
 class Checkin extends StatefulWidget {
+  const Checkin({super.key});
+
   @override
-  _CheckinState createState() => _CheckinState();
+  State<Checkin> createState() => _CheckinState();
 }
 
 class _CheckinState extends State<Checkin> {
@@ -16,11 +18,11 @@ class _CheckinState extends State<Checkin> {
         title: Text(''),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 50),
+        padding: const EdgeInsets.only(top: 50),
         alignment: Alignment.topCenter,
         child: Column(
           children: [
-            Text(
+            const Text(
               'Valide sua Conta',
               style: TextStyle(
                 color: Color.fromRGBO(132, 147, 172, 1),
