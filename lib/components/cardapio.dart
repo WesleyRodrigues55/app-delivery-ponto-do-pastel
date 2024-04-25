@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
 
 class Cardapio extends StatelessWidget {
   const Cardapio(
@@ -20,41 +19,54 @@ class Cardapio extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Padding(padding: EdgeInsets.all(20)),
-        ListTile(
-          title: Text(
-            nomeProduto,
-            textAlign: TextAlign.right,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                descricaoProduto,
-                textAlign: TextAlign.right,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Text("Preço: R\$${precoProduto}",
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black)),
-            ],
-          ),
-          trailing: Image(
-            image: NetworkImage(imageProduto),
-            width: 200,
-            height: 150,
-          ),
+        GestureDetector(
           onTap: onTap,
-          minVerticalPadding: 50,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        nomeProduto,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        descricaoProduto,
+                        textAlign: TextAlign.right,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Preço: R\$$precoProduto",
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          fontFamily: 'Outfit-Bold',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                SizedBox(
+                  width: 150,
+                  height: 100,
+                  child: Image.network(
+                    imageProduto,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        // SizedBox(height: 10),
-        const Divider(
-          height: 10,
-        ),
+        const Divider(height: 10),
       ],
     );
   }

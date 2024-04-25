@@ -1,5 +1,4 @@
 import 'package:app_delivery_ponto_do_pastel/components/cardapio.dart';
-import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -17,18 +16,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Map<dynamic, dynamic>> salgados = [
     {
-      'nomeProduto': 'Pastel Carne',
-      'descricaoProduto': 'Pastel Carne recheado',
+      'nomeProduto': 'Pastel de Carne',
+      'descricaoProduto':
+          'Delicioso paste de carne moída temperadinha com azeitonas e ovo',
       'precoProduto': 'Pastel Carne',
-      'imageProduto':
-          'https://live.staticflickr.com/5007/5289570176_d4002b4fa6_w.jpg',
+      'imageProduto': '/img/produtos/pastel-carne.png',
     },
     {
-      'nomeProduto': 'Pastel Queijo',
-      'descricaoProduto': 'Pastel Carne recheado',
+      'nomeProduto': 'Pastel de Queijo',
+      'descricaoProduto':
+          'Delicioso pastel recheado com muuuito queijo mussarela',
       'precoProduto': 'Pastel Carne',
-      'imageProduto':
-          'https://images.pexels.com/photos/2233442/pexels-photo-2233442.jpeg',
+      'imageProduto': '/img/produtos/pastel-queijo.png',
+    },
+    {
+      'nomeProduto': 'Pastel de Brócolis',
+      'descricaoProduto':
+          'Para os vegetarianos de plantão! Delicioso pastel de brócolis temperadinho',
+      'precoProduto': 'Pastel Carne',
+      'imageProduto': '/img/produtos/pastel-brocolis.png',
     }
   ];
 
@@ -136,9 +142,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               itemCategoryNavigation(),
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 width: double.infinity,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: const Color.fromARGB(255, 255, 255, 255),
                 child: Column(
                   children: output,
                 ),
@@ -163,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _currentIndex = index;
           })
         },
-        backgroundColor: Color.fromARGB(255, 251, 251, 251),
+        backgroundColor: const Color.fromARGB(255, 251, 251, 251),
         unselectedItemColor: Colors.black,
         items: const [
           BottomNavigationBarItem(
@@ -203,12 +209,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 'SALGADOS',
                 style: TextStyle(
                   color: _selectedCategory == "SALGADOS"
-                      ? Color.fromARGB(255, 198, 6, 6)
+                      ? const Color.fromARGB(255, 198, 6, 6)
                       : Colors.black,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             GestureDetector(
@@ -222,12 +228,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 'DOCES',
                 style: TextStyle(
                   color: _selectedCategory == "DOCES"
-                      ? Color.fromARGB(255, 198, 6, 6)
+                      ? const Color.fromARGB(255, 198, 6, 6)
                       : Colors.black,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             GestureDetector(
@@ -241,12 +247,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 'BEBIDAS',
                 style: TextStyle(
                   color: _selectedCategory == "BEBIDAS"
-                      ? Color.fromARGB(255, 198, 6, 6)
+                      ? const Color.fromARGB(255, 198, 6, 6)
                       : Colors.black,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
           ],
@@ -264,25 +270,25 @@ class itemsDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 60),
+        margin: const EdgeInsets.only(top: 60),
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-              title: Text('Meu Perfil'),
+              title: const Text('Meu Perfil'),
               onTap: () {
                 print('Meu Perfil');
               },
             ),
             ListTile(
-              title: Text('Fale Conosco'),
+              title: const Text('Fale Conosco'),
               onTap: () {
                 print('Fale Conosco');
               },
             ),
             ListTile(
-              title: Text('Dúvidas Frequentes'),
+              title: const Text('Dúvidas Frequentes'),
               onTap: () {
                 print('Dúvidas Frequentes');
               },
