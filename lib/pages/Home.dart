@@ -123,7 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             IconButton(
               onPressed: () {
-                print('Clique profile navbar');
+                // print('Clique profile navbar');
+                {
+                  Navigator.pushNamed(context, '/perfil-menu');
+                }
               },
               icon: const Icon(
                 Icons.person,
