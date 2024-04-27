@@ -1,4 +1,5 @@
 import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/cadastroUsuario.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const Login(),
         '/login/checkin': (context) => const Checkin(),
         '/produto-selecionado': (context) => const ProdutoSelecionado(),
+        '/cadastro': (context) => const Cadastro(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

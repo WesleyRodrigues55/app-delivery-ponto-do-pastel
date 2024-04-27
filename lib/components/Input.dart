@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class InputCustom extends StatelessWidget {
-  const InputCustom({ 
+  const InputCustom({
     super.key,
     required this.controllerName,
     required this.label,
     required this.placeholder,
     this.validation,
     this.obscureText,
+    this.onChanged,
   });
 
   final String label;
@@ -15,7 +16,8 @@ class InputCustom extends StatelessWidget {
   final TextEditingController controllerName;
   final bool? obscureText;
   final String? Function(String?)? validation;
-  
+  final String? Function(String?)? onChanged;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,12 +26,14 @@ class InputCustom extends StatelessWidget {
         TextFormField(
           controller: controllerName,
           obscureText: obscureText ?? false,
-          decoration:  InputDecoration(
+          decoration: InputDecoration(
             labelText: label,
-            border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+            border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8))),
             hintText: placeholder,
           ),
           validator: validation,
+          onChanged: onChanged,
         ),
       ],
     );
