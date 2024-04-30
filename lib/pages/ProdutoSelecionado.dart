@@ -1,3 +1,4 @@
+import 'package:app_delivery_ponto_do_pastel/components/input.dart';
 import 'package:flutter/material.dart';
 
 class ProdutoSelecionado extends StatefulWidget {
@@ -9,6 +10,7 @@ class ProdutoSelecionado extends StatefulWidget {
 
 class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
   final List<bool> _checkboxes = [false, false, false, false];
+  final _obsController = TextEditingController();
   int quantidadeProduto = 1;
 
   void adicionarProduto() {
@@ -23,6 +25,12 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
         quantidadeProduto--;
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _obsController.dispose();
+    super.dispose();
   }
 
   @override
@@ -82,13 +90,11 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
-                              labelText: "Observação",
-                              hintText:
-                                  "Caso tenha alguma observação sobre seu pedido, escreva aqui para nós =)",
-                              border: OutlineInputBorder(),
-                            ),
+                          InputCustom(
+                            label: 'Alguma observação?',
+                            placeholder:
+                                'Caso tenho algo a informar, digite aqui =)',
+                            controllerName: _obsController,
                           ),
                           const SizedBox(
                             height: 20,
