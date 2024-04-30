@@ -9,6 +9,21 @@ class ProdutoSelecionado extends StatefulWidget {
 
 class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
   final List<bool> _checkboxes = [false, false, false, false];
+  int quantidadeProduto = 1;
+
+  void adicionarProduto() {
+    setState(() {
+      quantidadeProduto++;
+    });
+  }
+
+  void removerProduto() {
+    setState(() {
+      if (quantidadeProduto > 1) {
+        quantidadeProduto--;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +43,7 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
                   children: [
                     Expanded(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
                             'Pastel de Carne',
@@ -121,6 +137,49 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
                               });
                             },
                             controlAffinity: ListTileControlAffinity.leading,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconButton(
+                                      onPressed: removerProduto,
+                                      icon: const Icon(Icons.remove),
+                                    ),
+                                    Text(
+                                      quantidadeProduto.toString(),
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    IconButton(
+                                        onPressed: adicionarProduto,
+                                        icon: const Icon(Icons.add))
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: TextButton(
+                                    onPressed: adicionarProduto,
+                                    child: const Text("Adicionar R\$ 10,00")),
+                              ),
+                            ],
                           ),
                         ],
                       ),
