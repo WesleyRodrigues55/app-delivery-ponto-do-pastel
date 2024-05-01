@@ -4,6 +4,7 @@ import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/CadastroUsuario.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => Login(),
         '/login/checkin': (context) => Checkin(),
         '/produto-selecionado': (context) => ProdutoSelecionado(),
+        '/step': (context) => const CadastroUsuario(),
         '/carrinho': (context) => Carrinho()
       },
       theme: ThemeData(
