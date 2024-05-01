@@ -1,4 +1,4 @@
-import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/components/cardapio.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -13,6 +13,105 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   String _selectedCategory = "SALGADOS";
+
+  List<Map<dynamic, dynamic>> salgados = [
+    {
+      'nomeProduto': 'Pastel de Carne',
+      'descricaoProduto':
+          'Delicioso paste de carne moída temperadinha com azeitonas e ovo',
+      'precoProduto': 'Pastel Carne',
+      'imageProduto': '/img/produtos/pastel-carne.png',
+    },
+    {
+      'nomeProduto': 'Pastel de Queijo',
+      'descricaoProduto':
+          'Delicioso pastel recheado com muuuito queijo mussarela',
+      'precoProduto': 'Pastel Carne',
+      'imageProduto': '/img/produtos/pastel-queijo.png',
+    },
+    {
+      'nomeProduto': 'Pastel de Brócolis',
+      'descricaoProduto':
+          'Para os vegetarianos de plantão! Delicioso pastel de brócolis temperadinho',
+      'precoProduto': 'Pastel Carne',
+      'imageProduto': '/img/produtos/pastel-brocolis.png',
+    }
+  ];
+
+  List<Map<dynamic, dynamic>> doces = [
+    {
+      'nomeProduto': 'Pastel Chocolate',
+      'descricaoProduto': 'Pastel de nutella',
+      'precoProduto': 'Pastel Carne',
+      'imageProduto':
+          'https://live.staticflickr.com/5007/5289570176_d4002b4fa6_w.jpg',
+    },
+    {
+      'nomeProduto': 'Pastel Romeu e Julieta',
+      'descricaoProduto': 'Pastel Carne recheado',
+      'precoProduto': 'Pastel Carne',
+      'imageProduto':
+          'https://images.pexels.com/photos/2233442/pexels-photo-2233442.jpeg',
+    }
+  ];
+
+  List<Map<dynamic, dynamic>> bebidas = [
+    {
+      'nomeProduto': 'Coca Cola',
+      'descricaoProduto': 'Pastel de nutella',
+      'precoProduto': 'Pastel Carne',
+      'imageProduto':
+          'https://live.staticflickr.com/5007/5289570176_d4002b4fa6_w.jpg',
+    },
+    {
+      'nomeProduto': 'Suco de laranja',
+      'descricaoProduto': 'Pastel Carne recheado',
+      'precoProduto': 'Pastel Carne',
+      'imageProduto':
+          'https://images.pexels.com/photos/2233442/pexels-photo-2233442.jpeg',
+    }
+  ];
+
+  List<Widget> output = [];
+
+  void itemSelecionado() {
+    setState(() {
+      if (_selectedCategory == "SALGADOS") {
+        output.clear();
+        for (var i = 0; i < salgados.length; i++) {
+          output.add(Cardapio(
+              onTap: () =>
+                  {Navigator.pushNamed(context, '/produto-selecionado')},
+              imageProduto: salgados[i]['imageProduto'],
+              descricaoProduto: salgados[i]['descricaoProduto'],
+              nomeProduto: salgados[i]['nomeProduto'],
+              precoProduto: salgados[i]['precoProduto']));
+        }
+      } else if (_selectedCategory == "DOCES") {
+        output.clear();
+        for (var i = 0; i < doces.length; i++) {
+          output.add(Cardapio(
+              onTap: () =>
+                  {Navigator.pushNamed(context, '/produto-selecionado')},
+              imageProduto: doces[i]['imageProduto'],
+              descricaoProduto: doces[i]['descricaoProduto'],
+              nomeProduto: doces[i]['nomeProduto'],
+              precoProduto: doces[i]['precoProduto']));
+        }
+      } else if (_selectedCategory == "BEBIDAS") {
+        output.clear();
+        for (var i = 0; i < bebidas.length; i++) {
+          output.add(Cardapio(
+              onTap: () =>
+                  {Navigator.pushNamed(context, '/produto-selecionado')},
+              imageProduto: bebidas[i]['imageProduto'],
+              descricaoProduto: bebidas[i]['descricaoProduto'],
+              nomeProduto: bebidas[i]['nomeProduto'],
+              precoProduto: bebidas[i]['precoProduto']));
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +142,11 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               itemCategoryNavigation(),
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 width: double.infinity,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: const Color.fromARGB(255, 255, 255, 255),
                 child: Column(
-                  children: [
-                    PrimaryButton(
-                      title: 'Login',
-                      extraLarge: 1,
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/login');
-                      },
-
-                    ),
-                  ],
+                  children: output,
                 ),
               )
             ],
@@ -79,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _currentIndex = index;
           })
         },
-        backgroundColor: Color.fromARGB(255, 251, 251, 251),
+        backgroundColor: const Color.fromARGB(255, 251, 251, 251),
         unselectedItemColor: Colors.black,
         items: const [
           BottomNavigationBarItem(
@@ -112,54 +202,57 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () => {
                 setState(() {
                   _selectedCategory = "SALGADOS";
+                  itemSelecionado();
                 })
               },
               child: Text(
                 'SALGADOS',
                 style: TextStyle(
                   color: _selectedCategory == "SALGADOS"
-                      ? Color.fromARGB(255, 198, 6, 6)
+                      ? const Color.fromARGB(255, 198, 6, 6)
                       : Colors.black,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             GestureDetector(
               onTap: () => {
                 setState(() {
                   _selectedCategory = "DOCES";
+                  itemSelecionado();
                 })
               },
               child: Text(
                 'DOCES',
                 style: TextStyle(
                   color: _selectedCategory == "DOCES"
-                      ? Color.fromARGB(255, 198, 6, 6)
+                      ? const Color.fromARGB(255, 198, 6, 6)
                       : Colors.black,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             GestureDetector(
               onTap: () => {
                 setState(() {
                   _selectedCategory = "BEBIDAS";
+                  itemSelecionado();
                 })
               },
               child: Text(
                 'BEBIDAS',
                 style: TextStyle(
                   color: _selectedCategory == "BEBIDAS"
-                      ? Color.fromARGB(255, 198, 6, 6)
+                      ? const Color.fromARGB(255, 198, 6, 6)
                       : Colors.black,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
           ],
@@ -177,25 +270,25 @@ class itemsDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 60),
+        margin: const EdgeInsets.only(top: 60),
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-              title: Text('Meu Perfil'),
+              title: const Text('Meu Perfil'),
               onTap: () {
                 print('Meu Perfil');
               },
             ),
             ListTile(
-              title: Text('Fale Conosco'),
+              title: const Text('Fale Conosco'),
               onTap: () {
                 print('Fale Conosco');
               },
             ),
             ListTile(
-              title: Text('Dúvidas Frequentes'),
+              title: const Text('Dúvidas Frequentes'),
               onTap: () {
                 print('Dúvidas Frequentes');
               },

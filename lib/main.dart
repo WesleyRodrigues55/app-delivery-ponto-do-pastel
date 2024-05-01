@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/CadastroUsuario.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,13 +19,16 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MyHomePage(title: 'LOGO'),
-        '/login': (context) => Login(),
-        '/login/checkin': (context) => Checkin(),
+        '/login': (context) => const Login(),
+        '/login/checkin': (context) => const Checkin(),
+        '/produto-selecionado': (context) => const ProdutoSelecionado(),
+        '/step': (context) => const CadastroUsuario(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 198, 6, 6)),
         useMaterial3: true,
+        fontFamily: 'Outfit',
       ),
     );
   }
