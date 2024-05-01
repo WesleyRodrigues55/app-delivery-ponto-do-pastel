@@ -167,6 +167,9 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: (index) => {
           setState(() {
             _currentIndex = index;
+            if (index == 2) {
+              Navigator.pushNamed(context, '/carrinho');              
+            }
           })
         },
         backgroundColor: const Color.fromARGB(255, 251, 251, 251),
