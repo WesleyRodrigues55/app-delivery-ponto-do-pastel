@@ -20,21 +20,21 @@ class _MyHomePageState extends State<MyHomePage> {
       'descricaoProduto':
           'Delicioso paste de carne moída temperadinha com azeitonas e ovo',
       'precoProduto': 'Pastel Carne',
-      'imageProduto': '/img/produtos/pastel-carne.png',
+      'imageProduto': 'https://raw.githubusercontent.com/WesleyRodrigues55/app-delivery-ponto-do-pastel/main/img/produtos/pastel-carne.png',
     },
     {
       'nomeProduto': 'Pastel de Queijo',
       'descricaoProduto':
           'Delicioso pastel recheado com muuuito queijo mussarela',
       'precoProduto': 'Pastel Carne',
-      'imageProduto': '/img/produtos/pastel-queijo.png',
+      'imageProduto': 'https://raw.githubusercontent.com/WesleyRodrigues55/app-delivery-ponto-do-pastel/main/img/produtos/pastel-queijo.png',
     },
     {
       'nomeProduto': 'Pastel de Brócolis',
       'descricaoProduto':
           'Para os vegetarianos de plantão! Delicioso pastel de brócolis temperadinho',
       'precoProduto': 'Pastel Carne',
-      'imageProduto': '/img/produtos/pastel-brocolis.png',
+      'imageProduto': 'https://raw.githubusercontent.com/WesleyRodrigues55/app-delivery-ponto-do-pastel/main/img/produtos/pastel-brocolis.png',
     }
   ];
 
@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               itemCategoryNavigation(),
               Container(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(0),
                 width: double.infinity,
                 color: const Color.fromARGB(255, 255, 255, 255),
                 child: Column(
