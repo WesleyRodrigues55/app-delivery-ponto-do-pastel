@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class Carrinho extends StatefulWidget {
@@ -232,18 +233,35 @@ class FormaPagamento {
           ),
           Text('Escolha a forma de pagamento',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          Center(
-            child: TextButton(
-                onPressed: () {},
-                style: ButtonStyle(),
-                child: Row(
-                  children: [
-                    Icon(Icons.credit_card),
-                    SizedBox(width: 10),
-                    Text('PIX'),
-                    Text('Pague agora com pix')
-                  ],
-                )),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: TextButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => Color.fromARGB(255, 199, 197, 197))),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.credit_card,
+                          color: Colors.black,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          'PIX - ',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        Text('Pague agora com pix',
+                            style: TextStyle(color: Colors.black))
+                      ],
+                    )),
+              ),
+            ],
           )
         ]),
       ),
