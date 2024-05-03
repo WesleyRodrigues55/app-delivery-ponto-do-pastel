@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InputCustom extends StatelessWidget {
   const InputCustom({
@@ -6,6 +7,7 @@ class InputCustom extends StatelessWidget {
     required this.controllerName,
     required this.label,
     required this.placeholder,
+    required this.keyboardType,
     this.validation,
     this.obscureText,
     this.onChanged,
@@ -17,6 +19,7 @@ class InputCustom extends StatelessWidget {
   final bool? obscureText;
   final String? Function(String?)? validation;
   final String? Function(String?)? onChanged;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,7 @@ class InputCustom extends StatelessWidget {
       children: [
         const SizedBox(height: 20.0),
         TextFormField(
+          keyboardType: keyboardType,
           controller: controllerName,
           obscureText: obscureText ?? false,
           decoration: InputDecoration(
