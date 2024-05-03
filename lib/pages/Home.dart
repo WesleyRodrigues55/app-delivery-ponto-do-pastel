@@ -15,7 +15,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -38,23 +38,22 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
           bottom: const TabBar(
-            isScrollable: true,
-            tabAlignment: TabAlignment.center,
-            tabs: [
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text('Salgados'),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text('Doces'),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text('Bebidas'),
-              ),
-            ]
-          ),
+              isScrollable: true,
+              tabAlignment: TabAlignment.center,
+              tabs: [
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text('Salgados'),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text('Doces'),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text('Bebidas'),
+                ),
+              ]),
         ),
         body: const TabBarView(
           children: [
@@ -100,8 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-  
 }
 
 class itemsDrawer extends StatelessWidget {

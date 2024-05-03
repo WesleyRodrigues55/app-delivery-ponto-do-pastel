@@ -95,6 +95,7 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
                             placeholder:
                                 'Caso tenho algo a informar, digite aqui =)',
                             controllerName: _obsController,
+                            keyboardType: null,
                           ),
                           const SizedBox(
                             height: 20,

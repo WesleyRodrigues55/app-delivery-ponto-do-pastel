@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const Login(),
         '/login/checkin': (context) => const Checkin(),
         '/produto-selecionado': (context) => const ProdutoSelecionado(),
-        '/step': (context) => const CadastroUsuario(),
+        '/cadastro': (context) => const CadastroUsuario(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

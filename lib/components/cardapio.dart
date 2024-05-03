@@ -1,18 +1,16 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Cardapio extends StatefulWidget {
-  const Cardapio({
-      super.key,
+  const Cardapio(
+      {super.key,
       required this.category,
       this.imageProduto,
       this.descricaoProduto,
       this.nomeProduto,
       this.precoProduto,
-      this.onTap
-  });
+      this.onTap});
 
   final String category;
   final String? imageProduto;
@@ -29,14 +27,15 @@ class _CardapioState extends State<Cardapio> {
   List<dynamic> products = [];
   bool isLoading = true;
 
- @override
+  @override
   void initState() {
     super.initState();
     fetchProducts();
   }
 
   Future<void> fetchProducts() async {
-    var url = Uri.parse('https://backend-delivery-ponto-do-pastel.onrender.com/api/product/get-products-by-category/${widget.category.toLowerCase()}');
+    var url = Uri.parse(
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/product/get-products-by-category/${widget.category.toLowerCase()}');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -71,12 +70,12 @@ class _CardapioState extends State<Cardapio> {
         itemBuilder: (BuildContext context, int i) {
           return SingleChildScrollView(
             child: CardapioItems(
-              onTap: () => {Navigator.pushNamed(context, '/produto-selecionado')},
-              imageProduto: products[i]['imagem_produto'].toString(),
-              descricaoProduto: products[i]['descricao'],
-              nomeProduto: products[i]['nome'],
-              precoProduto: products[i]['preco'].toString()
-            ),
+                onTap: () =>
+                    {Navigator.pushNamed(context, '/produto-selecionado')},
+                imageProduto: products[i]['imagem_produto'].toString(),
+                descricaoProduto: products[i]['descricao'],
+                nomeProduto: products[i]['nome'],
+                precoProduto: products[i]['preco'].toString()),
           );
         },
       );

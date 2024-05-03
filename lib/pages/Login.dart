@@ -52,6 +52,7 @@ class _LoginState extends State<Login> {
                     radius: 80,
                   ),
                   InputCustom(
+                    keyboardType: TextInputType.emailAddress,
                     label: 'Usuario',
                     placeholder: 'Digite o seu Usuário',
                     controllerName: _nomeController,
@@ -63,6 +64,7 @@ class _LoginState extends State<Login> {
                     },
                   ),
                   InputCustom(
+                    keyboardType: TextInputType.phone,
                     label: 'WhatsApp',
                     placeholder: 'Digite o seu WhatsApp',
                     controllerName: _whatsappController,
