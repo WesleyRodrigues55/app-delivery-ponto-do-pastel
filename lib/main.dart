@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => Login(),
         '/login/checkin': (context) => Checkin(),
         '/produto-selecionado': (context) => ProdutoSelecionado(),
-        '/step': (context) => const CadastroUsuario(),
+        '/cadastro': (context) => const CadastroUsuario(),
         '/carrinho': (context) => Carrinho()
       },
       theme: ThemeData(

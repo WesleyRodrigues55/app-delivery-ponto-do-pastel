@@ -34,6 +34,7 @@ class _CheckinState extends State<Checkin> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: InputCustom(
+                keyboardType: TextInputType.numberWithOptions(), //ALTERAR
                 label: 'Digite o código recebido',
                 placeholder: 'Exemplo: 4AJBC',
                 controllerName: _nomeController,
