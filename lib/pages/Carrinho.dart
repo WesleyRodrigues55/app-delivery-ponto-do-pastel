@@ -97,7 +97,7 @@ class _CarrinhoState extends State<Carrinho> {
                         title: "+ Continuar Comprando",
                         extraLarge: 0,
                         onPressed: () => {
-                          Navigator.pushReplacement(context,
+                          Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Home()
                             ),
                           )
