@@ -102,7 +102,7 @@ class _CheckinState extends State<Checkin> {
     // recebe id do produto selecionado
     var wpp = ModalRoute.of(context)!.settings.arguments;
 
-    var url = Uri.parse('http://localhost:5000/api/auth/authenticator-code-app');
+    var url = Uri.parse('https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/authenticator-code-app');
 
     var headers = {'Content-Type': 'application/json'};
     var data = {'username': wpp, 'senha': _codigoAcessoController.text};
