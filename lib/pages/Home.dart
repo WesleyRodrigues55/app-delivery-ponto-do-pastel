@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
               _currentIndex = index;
               if (index == 2) {
               // Navigator.pushNamed(context, '/carrinho');              
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Carrinho()
                 ),
               );
