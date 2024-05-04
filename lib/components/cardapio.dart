@@ -132,6 +132,7 @@ class CardapioItems extends StatelessWidget {
                         textAlign: TextAlign.right,
                         style: const TextStyle(
                           fontFamily: 'Outfit-Bold',
+                          fontWeight: FontWeight.bold
                         ),
                       ),
                     ],
