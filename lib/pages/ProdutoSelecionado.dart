@@ -39,6 +39,7 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
 
     // recebe id do produto selecionado
     var id = ModalRoute.of(context)!.settings.arguments;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
@@ -187,7 +188,7 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: TextButton(
-                                    onPressed: adicionarProduto,
+                                    onPressed: (){},
                                     child: const Text("Adicionar R\$ 10,00")),
                               ),
                             ],

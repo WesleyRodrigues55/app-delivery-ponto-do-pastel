@@ -1,8 +1,13 @@
 import 'package:app_delivery_ponto_do_pastel/components/input.dart';
 import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/CadastroUsuario.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,13 +18,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final formKey = GlobalKey<FormState>();
-  final _nomeController = TextEditingController();
   final _whatsappController = TextEditingController();
   bool _keepLoggedIn = false;
 
   void validaCampos() {
     if (formKey.currentState!.validate()) {
-      SnackBarUtils.showSnackBar(context, 'Formulário enviado');
+      sendCodeVerification();
     } else {
       SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos');
     }
@@ -27,7 +31,6 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    _nomeController.dispose();
     _whatsappController.dispose();
     super.dispose();
   }
@@ -91,9 +94,7 @@ class _LoginState extends State<Login> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyHomePage(
-                                title: 'teste',
-                              )),
+                          builder: (context) => const CadastroUsuario()),
                     );
                   },
                   child: const Text(
@@ -119,4 +120,23 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+  Future<void> sendCodeVerification() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var url = Uri.parse('http://localhost:5000/api/auth/generator-code-app/${(_whatsappController.text.toString())}');
+    var response = await http.put(url);
+
+    if (response.statusCode == 200) {
+      Navigator.push(context,
+        MaterialPageRoute(builder: (context) => Checkin(),
+          settings: RouteSettings(
+            arguments: _whatsappController.text.toString(),
+          ),
+        ),
+      );
+    } else {
+      SnackBarUtils.showSnackBar(context, 'Ocorreu um erro ao validar seu whatsapp, tente novamente.', color: Colors.red);
+    }
+  }
+
 }
