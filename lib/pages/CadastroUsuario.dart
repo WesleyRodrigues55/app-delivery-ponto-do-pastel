@@ -1,3 +1,4 @@
+import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/components/input.dart';
 import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:flutter/material.dart';
