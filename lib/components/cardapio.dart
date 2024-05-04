@@ -70,12 +70,12 @@ class _CardapioState extends State<Cardapio> {
         itemBuilder: (BuildContext context, int i) {
           return SingleChildScrollView(
             child: CardapioItems(
-                onTap: () =>
-                    {Navigator.pushNamed(context, '/produto-selecionado')},
-                imageProduto: products[i]['imagem_produto'].toString(),
-                descricaoProduto: products[i]['descricao'],
-                nomeProduto: products[i]['nome'],
-                precoProduto: products[i]['preco'].toString()),
+              onTap: () => {Navigator.pushNamed(context, '/produto-selecionado', arguments: products[i]['_id'])},
+              imageProduto: products[i]['imagem_produto'].toString(),
+              descricaoProduto: products[i]['descricao'],
+              nomeProduto: products[i]['nome'],
+              precoProduto: products[i]['preco'].toString()
+            ),
           );
         },
       );
