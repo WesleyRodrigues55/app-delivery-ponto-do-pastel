@@ -1,3 +1,5 @@
+import 'package:app_delivery_ponto_do_pastel/components/cardapio.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
@@ -18,11 +20,12 @@ class MyApp extends StatelessWidget {
       title: 'Ponto do pastel',
       initialRoute: '/',
       routes: {
-        '/': (context) => const MyHomePage(title: 'LOGO'),
-        '/login': (context) => const Login(),
-        '/login/checkin': (context) => const Checkin(),
-        '/produto-selecionado': (context) => const ProdutoSelecionado(),
+        '/': (context) => const MyHomePage(title:'LOGO'),
+        '/login': (context) => Login(),
+        '/login/checkin': (context) => Checkin(),
+        '/produto-selecionado': (context) => ProdutoSelecionado(),
         '/cadastro': (context) => const CadastroUsuario(),
+        '/carrinho': (context) => Carrinho()
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
