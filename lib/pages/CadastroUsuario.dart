@@ -1,5 +1,6 @@
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/components/input.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 
@@ -211,7 +212,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 if (formKey.currentState!.validate()) {
                   'Formulário é valido';
                   // Insira aqui o código para navegar para a tela de login
-                  Navigator.pushNamed(context, '/login');
+                  // Navigator.pushNamed(context, '/login');
+                  Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Login()
+                    ),
+                  );
                 } else {
                   'O formulário não é valido!';
                 }
