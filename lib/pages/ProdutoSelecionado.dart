@@ -12,6 +12,7 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
   final List<bool> _checkboxes = [false, false, false, false];
   final _obsController = TextEditingController();
   int quantidadeProduto = 1;
+  
 
   void adicionarProduto() {
     setState(() {
@@ -35,6 +36,9 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
 
   @override
   Widget build(BuildContext context) {
+
+    // recebe id do produto selecionado
+    var id = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
@@ -53,8 +57,8 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Pastel de Carne',
+                          Text(
+                            'Pastel de Carne ${id}',
                             style: TextStyle(
                               fontFamily: 'Outfit',
                               fontWeight: FontWeight.bold,
@@ -95,6 +99,7 @@ class _ProdutoSelecionadoState extends State<ProdutoSelecionado> {
                             placeholder:
                                 'Caso tenho algo a informar, digite aqui =)',
                             controllerName: _obsController,
+                            keyboardType: null,
                           ),
                           const SizedBox(
                             height: 20,

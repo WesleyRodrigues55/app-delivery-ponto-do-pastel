@@ -18,22 +18,22 @@ class _CheckinState extends State<Checkin> {
         title: Text(''),
       ),
       body: Container(
-        padding: const EdgeInsets.only(top: 50),
         alignment: Alignment.topCenter,
-        child: Column(
-          children: [
-            const Text(
-              'Valide sua Conta',
-              style: TextStyle(
-                color: Color.fromRGBO(132, 147, 172, 1),
-                fontFamily: 'OutFIT',
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              const Text(
+                'Valide sua Conta',
+                style: TextStyle(
+                  color: Color.fromRGBO(132, 147, 172, 1),
+                  fontFamily: 'OutFIT',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: InputCustom(
+              InputCustom(
+                keyboardType: TextInputType.numberWithOptions(), //ALTERAR
                 label: 'Digite o código recebido',
                 placeholder: 'Exemplo: 4AJBC',
                 controllerName: _nomeController,
@@ -44,17 +44,14 @@ class _CheckinState extends State<Checkin> {
                   return null;
                 },
               ),
-            ),
-            const SizedBox(height: 33.0),
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: PrimaryButton(
+              const SizedBox(height: 33.0),
+              PrimaryButton(
                 onPressed: () {},
-                title: 'Continuar',
+                title: 'Entrar',
                 extraLarge: 1,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
