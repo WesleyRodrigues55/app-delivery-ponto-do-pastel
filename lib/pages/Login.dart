@@ -123,7 +123,7 @@ class _LoginState extends State<Login> {
 
   Future<void> sendCodeVerification() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var url = Uri.parse('http://localhost:5000/api/auth/generator-code-app/${(_whatsappController.text.toString())}');
+    var url = Uri.parse('https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/generator-code-app/${(_whatsappController.text.toString())}');
     var response = await http.put(url);
 
     if (response.statusCode == 200) {
