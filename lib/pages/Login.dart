@@ -1,13 +1,11 @@
 import 'package:app_delivery_ponto_do_pastel/components/input.dart';
 import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/CadastroUsuario.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -55,8 +53,8 @@ class _LoginState extends State<Login> {
                 ),
                 InputCustom(
                   keyboardType: TextInputType.phone,
-                  label: 'WhatsApp',
-                  placeholder: 'Digite o seu WhatsApp',
+                  label: 'Digite o nº do seu WhatsApp',
+                  placeholder: 'Somente numeros com o DDD',
                   controllerName: _whatsappController,
                   validation: (value) {
                     if (value == null || value.length < 10) {
@@ -123,20 +121,24 @@ class _LoginState extends State<Login> {
 
   Future<void> sendCodeVerification() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var url = Uri.parse('https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/generator-code-app/${(_whatsappController.text.toString())}');
+    var url = Uri.parse(
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/generator-code-app/${(_whatsappController.text.toString())}');
     var response = await http.put(url);
 
     if (response.statusCode == 200) {
-      Navigator.push(context,
-        MaterialPageRoute(builder: (context) => Checkin(),
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Checkin(),
           settings: RouteSettings(
             arguments: _whatsappController.text.toString(),
           ),
         ),
       );
     } else {
-      SnackBarUtils.showSnackBar(context, 'Ocorreu um erro ao validar seu whatsapp, tente novamente.', color: Colors.red);
+      SnackBarUtils.showSnackBar(
+          context, 'Ocorreu um erro ao validar seu whatsapp, tente novamente.',
+          color: Colors.red);
     }
   }
-
 }
