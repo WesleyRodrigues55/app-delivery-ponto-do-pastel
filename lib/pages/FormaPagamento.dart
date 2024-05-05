@@ -4,14 +4,14 @@ import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-class Carrinho extends StatefulWidget {
-  const Carrinho({super.key});
+class FormaPagamento extends StatefulWidget {
+  const FormaPagamento({super.key});
 
   @override
-  State<Carrinho> createState() => _CarrinhoState();
+  State<FormaPagamento> createState() => _FormaPagamentoState();
 }
 
-class _CarrinhoState extends State<Carrinho> {
+class _FormaPagamentoState extends State<FormaPagamento> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,55 +161,46 @@ class _CarrinhoState extends State<Carrinho> {
             Container(
               child: Padding(
                 padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Row(
+                child: Column(children: [
+          Row(
+            children: [
+              IconButton(onPressed: () {Navigator.pushNamed(context, '/carrinho');}, icon: Icon(Icons.arrow_back))
+            ],
+          ),
+          Text('Escolha a forma de pagamento',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: TextButton(
+                    onPressed: () {{Navigator.pushNamed(context, '/carrinho');}},
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => Color.fromARGB(255, 199, 197, 197))),
+                    child: Row(
                       children: [
+                        Icon(
+                          Icons.credit_card,
+                          color: Colors.black,
+                        ),
+                        SizedBox(width: 10),
                         Text(
-                          'Pagamento',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Outfit'),
+                          'PIX - ',
+                          style: TextStyle(color: Colors.black),
                         ),
+                        Text('Pague agora com pix',
+                            style: TextStyle(color: Colors.black))
                       ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Pagamento',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        TextButton(
-                          onPressed: () => {Navigator.pushNamed(context, '/forma-pagamento')},
-                          child: Text(
-                            'Escolher',
-                            style: TextStyle(
-                                fontSize: 14,
-                                decoration: TextDecoration.underline,
-                                color: Colors.black),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                    )),
               ),
-            ),
-            Column(
-              children: [
-                PrimaryButton(
-                  title: "Finalizar Pedido",
-                  extraLarge: 0,
-                  textColor: Colors.black,
-                  bgButton: Color.fromARGB(255, 199, 197, 197),
-                  onPressed: () => {Navigator.pushNamed(context, '/pagamento')},
-                ),
-              ],
+            ],
+          )
+        ]),
+              ),
             ),
           ],
         ),
@@ -217,3 +208,5 @@ class _CarrinhoState extends State<Carrinho> {
     );
   }
 }
+
+
