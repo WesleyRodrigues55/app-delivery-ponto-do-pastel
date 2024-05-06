@@ -12,6 +12,7 @@ class Carrinho extends StatefulWidget {
 }
 
 class _CarrinhoState extends State<Carrinho> {
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +32,34 @@ class _CarrinhoState extends State<Carrinho> {
             ),
           ],
         ),
-      ),
+      ),bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) => {
+            setState(() {
+              _currentIndex = index;
+              if (index == 2) {
+              Navigator.pushNamed(context, '/carrinho');              
+            }
+          })
+          },
+          backgroundColor: const Color.fromARGB(255, 251, 251, 251),
+          unselectedItemColor: Colors.black,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.restaurant_menu),
+              label: 'Cardápio',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.summarize),
+              label: 'Pedidos',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: Colors.transparent,
+              icon: Icon(Icons.shopping_cart),
+              label: 'Carrinho',
+            ),
+          ],
+        ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
