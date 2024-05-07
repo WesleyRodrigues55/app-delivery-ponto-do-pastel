@@ -1,3 +1,5 @@
+import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
@@ -32,34 +34,38 @@ class _FormaPagamentoState extends State<FormaPagamento> {
             ),
           ],
         ),
-      ), bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) => {
-            setState(() {
-              _currentIndex = index;
-              if (index == 2) {
-              Navigator.pushNamed(context, '/carrinho');              
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => {
+          setState(() {
+            _currentIndex = index;
+            if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Carrinho()),
+              );
             }
           })
-          },
-          backgroundColor: const Color.fromARGB(255, 251, 251, 251),
-          unselectedItemColor: Colors.black,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.restaurant_menu),
-              label: 'Cardápio',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.summarize),
-              label: 'Pedidos',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: Colors.transparent,
-              icon: Icon(Icons.shopping_cart),
-              label: 'Carrinho',
-            ),
-          ],
-        ),
+        },
+        backgroundColor: const Color.fromARGB(255, 251, 251, 251),
+        unselectedItemColor: Colors.black,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant_menu),
+            label: 'Cardápio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.summarize),
+            label: 'Pedidos',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.transparent,
+            icon: Icon(Icons.shopping_cart),
+            label: 'Carrinho',
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +129,13 @@ class _FormaPagamentoState extends State<FormaPagamento> {
                       PrimaryButton(
                         title: "+ Continuar Comprando",
                         extraLarge: 0,
-                        onPressed: () => {Navigator.pushNamed(context, '/')},
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()),
+                          )
+                        },
                       ),
                     ],
                   ),
@@ -190,44 +202,62 @@ class _FormaPagamentoState extends State<FormaPagamento> {
               child: Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(children: [
-          Row(
-            children: [
-              IconButton(onPressed: () {Navigator.pushNamed(context, '/carrinho');}, icon: Icon(Icons.arrow_back))
-            ],
-          ),
-          Text('Escolha a forma de pagamento',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: TextButton(
-                    onPressed: () {{Navigator.pushNamed(context, '/carrinho');}},
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateColor.resolveWith(
-                            (states) => Color.fromARGB(255, 199, 197, 197))),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.credit_card,
-                          color: Colors.black,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'PIX - ',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        Text('Pague agora com pix',
-                            style: TextStyle(color: Colors.black))
-                      ],
-                    )),
-              ),
-            ],
-          )
-        ]),
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Carrinho()),
+                            );
+                          },
+                          icon: Icon(Icons.arrow_back))
+                    ],
+                  ),
+                  Text('Escolha a forma de pagamento',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: TextButton(
+                            onPressed: () {
+                              {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Carrinho()),
+                                );
+                              }
+                            },
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        Color.fromARGB(255, 199, 197, 197))),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.credit_card,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'PIX - ',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                Text('Pague agora com pix',
+                                    style: TextStyle(color: Colors.black))
+                              ],
+                            )),
+                      ),
+                    ],
+                  )
+                ]),
               ),
             ),
           ],
@@ -236,5 +266,3 @@ class _FormaPagamentoState extends State<FormaPagamento> {
     );
   }
 }
-
-

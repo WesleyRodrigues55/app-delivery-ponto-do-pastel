@@ -38,34 +38,38 @@ class _PagamentoState extends State<Pagamento> {
             ),
           ],
         ),
-      ), bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) => {
-            setState(() {
-              _currentIndex = index;
-              if (index == 2) {
-              Navigator.pushNamed(context, '/carrinho');              
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => {
+          setState(() {
+            _currentIndex = index;
+            if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Carrinho()),
+              );
             }
           })
-          },
-          backgroundColor: const Color.fromARGB(255, 251, 251, 251),
-          unselectedItemColor: Colors.black,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.restaurant_menu),
-              label: 'Cardápio',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.summarize),
-              label: 'Pedidos',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: Colors.transparent,
-              icon: Icon(Icons.shopping_cart),
-              label: 'Carrinho',
-            ),
-          ],
-        ),
+        },
+        backgroundColor: const Color.fromARGB(255, 251, 251, 251),
+        unselectedItemColor: Colors.black,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant_menu),
+            label: 'Cardápio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.summarize),
+            label: 'Pedidos',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.transparent,
+            icon: Icon(Icons.shopping_cart),
+            label: 'Carrinho',
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding:
