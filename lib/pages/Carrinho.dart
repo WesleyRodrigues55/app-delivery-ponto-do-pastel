@@ -1,3 +1,4 @@
+import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
@@ -123,7 +124,12 @@ class _CarrinhoState extends State<Carrinho> {
                       PrimaryButton(
                         title: "+ Continuar Comprando",
                         extraLarge: 0,
-                        onPressed: () => {Navigator.pushNamed(context, '/')},
+                        onPressed: () => {
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home()
+                            ),
+                          )
+                        },
                       ),
                     ],
                   ),

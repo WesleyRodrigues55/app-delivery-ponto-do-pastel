@@ -1,19 +1,20 @@
 import 'dart:convert';
+import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_delivery_ponto_do_pastel/components/cardapio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeState extends State<Home> {
   int _currentIndex = 0;
 
   @override
@@ -77,7 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
             setState(() {
               _currentIndex = index;
               if (index == 2) {
-              Navigator.pushNamed(context, '/carrinho');              
+              // Navigator.pushNamed(context, '/carrinho');              
+              Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Carrinho()
+                ),
+              );
             }
           })
           },
@@ -164,9 +169,21 @@ class logoutDrawer extends StatelessWidget {
           )
         ],
       ),
-      onTap: () {
-        print('Finalizar sessão');
+      onTap: () async {
+        bool isLogout = await logout();
+        if (isLogout) {
+          Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const BoasVindas()
+            ),
+          );
+        }
       },
     );
+  }
+
+  Future<bool> logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+    return true;
   }
 }
