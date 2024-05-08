@@ -1,10 +1,12 @@
+import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/CadastroUsuario.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/NeedHelp.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/ProfileMenu.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
 import 'package:flutter/material.dart';
 
@@ -20,23 +22,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ponto do pastel',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const MyHomePage(title: 'LOGO'),
-        '/login': (context) => const Login(),
-        '/login/checkin': (context) => const Checkin(),
-        '/produto-selecionado': (context) => const ProdutoSelecionado(),
-        '/step': (context) => const CadastroUsuario(),
-        '/perfil-menu': (context) => const ProfileMenu(),
-        '/perfil-menu/meus-dados': (context) => const MyData(),
-        '/perfil-menu/ajuda': (context) => const NeedHelp(),
-      },
+      // routes: {
+      //   '/': (context) => const Home(),
+      //   '/login': (context) => Login(),
+      //   '/login/checkin': (context) => Checkin(),
+      //   '/produto-selecionado': (context) => ProdutoSelecionado(),
+      //   '/cadastro': (context) => const CadastroUsuario(),
+      //   '/carrinho': (context) => Carrinho()
+      // },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 198, 6, 6)),
         useMaterial3: true,
         fontFamily: 'Outfit',
       ),
+      home: const BoasVindas(),
     );
   }
 }
