@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_delivery_ponto_do_pastel/components/cardapio.dart';
@@ -29,7 +30,12 @@ class _HomeState extends State<Home> {
             children: [
               IconButton(
                 onPressed: () {
-                  print('Clique profile navbar');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MyData(),
+                    ),
+                  );
                 },
                 icon: const Icon(
                   Icons.person,
@@ -78,13 +84,13 @@ class _HomeState extends State<Home> {
             setState(() {
               _currentIndex = index;
               if (index == 2) {
-              // Navigator.pushNamed(context, '/carrinho');              
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Carrinho()
-                ),
-              );
-            }
-          })
+                // Navigator.pushNamed(context, '/carrinho');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Carrinho()),
+                );
+              }
+            })
           },
           backgroundColor: const Color.fromARGB(255, 251, 251, 251),
           unselectedItemColor: Colors.black,
@@ -172,9 +178,9 @@ class logoutDrawer extends StatelessWidget {
       onTap: () async {
         bool isLogout = await logout();
         if (isLogout) {
-          Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const BoasVindas()
-            ),
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const BoasVindas()),
           );
         }
       },

@@ -1,13 +1,4 @@
 import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Pagamento.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/PagamentoRecebido.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/CadastroUsuario.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/FormaPagamento.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,15 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Ponto do pastel',
-      // routes: {
-      //   '/': (context) => const Home(),
-      //   '/login': (context) => Login(),
-      //   '/login/checkin': (context) => Checkin(),
-      //   '/produto-selecionado': (context) => ProdutoSelecionado(),
-      //   '/cadastro': (context) => const CadastroUsuario(),
-      //   '/carrinho': (context) => Carrinho()
-      // },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 198, 6, 6)),
