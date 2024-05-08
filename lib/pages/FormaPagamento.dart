@@ -1,20 +1,19 @@
-import 'package:app_delivery_ponto_do_pastel/pages/FormaPagamento.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Pagamento.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-class Carrinho extends StatefulWidget {
-  const Carrinho({super.key});
+class FormaPagamento extends StatefulWidget {
+  const FormaPagamento({super.key});
 
   @override
-  State<Carrinho> createState() => _CarrinhoState();
+  State<FormaPagamento> createState() => _FormaPagamentoState();
 }
 
-class _CarrinhoState extends State<Carrinho> {
+class _FormaPagamentoState extends State<FormaPagamento> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -133,7 +132,8 @@ class _CarrinhoState extends State<Carrinho> {
                         onPressed: () => {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Home()),
+                            MaterialPageRoute(
+                                builder: (context) => const Home()),
                           )
                         },
                       ),
@@ -201,67 +201,64 @@ class _CarrinhoState extends State<Carrinho> {
             Container(
               child: Padding(
                 padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Pagamento',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Outfit'),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Pagamento',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        TextButton(
-                          onPressed: () => {
+                child: Column(children: [
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const FormaPagamento()),
-                            )
+                                  builder: (context) => const Carrinho()),
+                            );
                           },
-                          child: Text(
-                            'Escolher',
-                            style: TextStyle(
-                                fontSize: 14,
-                                decoration: TextDecoration.underline,
-                                color: Colors.black),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                          icon: Icon(Icons.arrow_back))
+                    ],
+                  ),
+                  Text('Escolha a forma de pagamento',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: TextButton(
+                            onPressed: () {
+                              {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Carrinho()),
+                                );
+                              }
+                            },
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        Color.fromARGB(255, 199, 197, 197))),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.credit_card,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'PIX - ',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                Text('Pague agora com pix',
+                                    style: TextStyle(color: Colors.black))
+                              ],
+                            )),
+                      ),
+                    ],
+                  )
+                ]),
               ),
-            ),
-            Column(
-              children: [
-                PrimaryButton(
-                  title: "Finalizar Pedido",
-                  extraLarge: 0,
-                  textColor: Colors.black,
-                  bgButton: Color.fromARGB(255, 199, 197, 197),
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Pagamento()),
-                    )
-                  },
-                ),
-              ],
             ),
           ],
         ),
