@@ -1,3 +1,6 @@
+import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
+import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 
 class MyData extends StatefulWidget {
@@ -9,25 +12,7 @@ class MyData extends StatefulWidget {
 
 class _MyDataState extends State<MyData> {
   int _currentIndex = 0;
-  bool _isMeusDadosExpanded = false;
-  bool _isAlterarDadosExpanded = false;
-  void _handleMeusDadosExpansion(bool isExpanded) {
-    setState(() {
-      _isMeusDadosExpanded = isExpanded;
-      if (isExpanded && _isAlterarDadosExpanded) {
-        _isAlterarDadosExpanded = false;
-      }
-    });
-  }
-
-  void _handleAlterarDadosExpansion(bool isExpanded) {
-    setState(() {
-      _isAlterarDadosExpanded = isExpanded;
-      if (isExpanded && _isMeusDadosExpanded) {
-        _isMeusDadosExpanded = false;
-      }
-    });
-  }
+  int _expandedPanelIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +24,7 @@ class _MyDataState extends State<MyData> {
           children: [
             IconButton(
               onPressed: () {
-                {
-                  Navigator.pop(context);
-                }
+                Navigator.pop(context);
               },
               icon: const Icon(
                 Icons.arrow_back_outlined,
@@ -55,23 +38,27 @@ class _MyDataState extends State<MyData> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              color: const Color.fromARGB(255, 241, 241, 241),
-              child: ExpansionTile(
-                initiallyExpanded: _isMeusDadosExpanded,
-                onExpansionChanged: _handleMeusDadosExpansion,
-                title: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "MEUS DADOS",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                children: [
-                  Container(
+            SizedBox(height: 33.0),
+            ExpansionPanelList(
+              expansionCallback: (panelIndex, isExpanded) {
+                setState(() {
+                  _expandedPanelIndex = isExpanded ? -1 : panelIndex;
+                });
+              },
+              children: [
+                ExpansionPanel(
+                  headerBuilder: (context, isExpanded) {
+                    return ListTile(
+                      title: const Text(
+                        'MEUS DADOS',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                  body: Container(
                     color: Colors.white,
                     child: const Column(
                       children: [
@@ -143,46 +130,111 @@ class _MyDataState extends State<MyData> {
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            const Divider(),
-            Container(
-              color: const Color.fromARGB(255, 241, 241, 241),
-              child: ExpansionTile(
-                initiallyExpanded: false,
-                title: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "ALTERAR DADOS",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  isExpanded: _expandedPanelIndex == 0,
                 ),
-                children: [
-                  Container(
+                ExpansionPanel(
+                  headerBuilder: (context, isExpanded) {
+                    return ListTile(
+                      title: const Text(
+                        'ALTERAR DADOS',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                  body: Container(
                     color: Colors.white,
-                    child: const Column(
+                    child: Column(
                       children: [
                         Divider(),
                         ListTile(
-                          title: Text('Novo Endereço'),
-                          trailing: Text(
-                            "_________________",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
+                          subtitle: Column(
+                            children: [
+                              //ARRUMAR
+                              InputCustom(
+                                label: 'Novo endereço *',
+                                placeholder: 'Digite o novo endereço',
+                                controllerName: TextEditingController(),
+                                validation: (value) {},
+                              ),
+                              const SizedBox(height: 33.0),
+                              //ARRUMAR
+                              PrimaryButton(
+                                onPressed: () {},
+                                title: 'Alterar Endereço',
+                                extraLarge: 1,
+                              ),
+                              const SizedBox(height: 33.0),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                  isExpanded: _expandedPanelIndex == 1,
+                ),
+                ExpansionPanel(
+                  headerBuilder: (context, isExpanded) {
+                    return ListTile(
+                      title: const Text(
+                        'ALTERAR SENHA',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                  body: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        const Divider(),
+                        ListTile(
+                          subtitle: Column(
+                            children: [
+                              //ARRUMAR
+                              InputCustom(
+                                label: 'Senha atual *',
+                                placeholder: '***************',
+                                controllerName: TextEditingController(),
+                                validation: (value) {},
+                              ),
+                              //ARRUMAR
+                              InputCustom(
+                                label: 'Nova senha *',
+                                placeholder: '***************',
+                                controllerName: TextEditingController(),
+                                validation: (value) {},
+                              ),
+                              //ARRUMAR
+                              InputCustom(
+                                label: 'Repita a nova senha *',
+                                placeholder: '***************',
+                                controllerName: TextEditingController(),
+                                validation: (value) {},
+                              ),
+                              const SizedBox(height: 33.0),
+                              //ARRUMAR
+                              PrimaryButton(
+                                onPressed: () {},
+                                title: 'Alterar Senha',
+                                extraLarge: 1,
+                              ),
+                              const SizedBox(height: 33.0),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  isExpanded: _expandedPanelIndex == 2,
+                ),
+              ],
             ),
+            SizedBox(height: 33.0),
           ],
         ),
       ),

@@ -20,21 +20,24 @@ class _MyHomePageState extends State<MyHomePage> {
       'descricaoProduto':
           'Delicioso paste de carne moída temperadinha com azeitonas e ovo',
       'precoProduto': 'Pastel Carne',
-      'imageProduto': '/img/produtos/pastel-carne.png',
+      'imageProduto':
+          'https://live.staticflickr.com/5007/5289570176_d4002b4fa6_w.jpg',
     },
     {
       'nomeProduto': 'Pastel de Queijo',
       'descricaoProduto':
           'Delicioso pastel recheado com muuuito queijo mussarela',
       'precoProduto': 'Pastel Carne',
-      'imageProduto': '/img/produtos/pastel-queijo.png',
+      'imageProduto':
+          'https://live.staticflickr.com/5007/5289570176_d4002b4fa6_w.jpg',
     },
     {
       'nomeProduto': 'Pastel de Brócolis',
       'descricaoProduto':
           'Para os vegetarianos de plantão! Delicioso pastel de brócolis temperadinho',
       'precoProduto': 'Pastel Carne',
-      'imageProduto': '/img/produtos/pastel-brocolis.png',
+      'imageProduto':
+          'https://live.staticflickr.com/5007/5289570176_d4002b4fa6_w.jpg',
     }
   ];
 

@@ -1,10 +1,11 @@
+import 'package:app_delivery_ponto_do_pastel/pages/CadastroUsuario.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/NeedHelp.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/ProfileMenu.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/checkin.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/NeedHelp.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const Login(),
         '/login/checkin': (context) => const Checkin(),
         '/produto-selecionado': (context) => const ProdutoSelecionado(),
+        '/step': (context) => const CadastroUsuario(),
         '/perfil-menu': (context) => const ProfileMenu(),
         '/perfil-menu/meus-dados': (context) => const MyData(),
         '/perfil-menu/ajuda': (context) => const NeedHelp(),
