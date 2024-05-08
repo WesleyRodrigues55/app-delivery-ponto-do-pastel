@@ -1,6 +1,7 @@
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BoasVindas extends StatefulWidget {
   const BoasVindas({super.key});
@@ -36,13 +37,13 @@ class _BoasVindasState extends State<BoasVindas> {
   }
 
   Future<bool> verificarToken() async {
-    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    // if (sharedPreferences.getString('token') != null) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-    return true;
+    if (sharedPreferences.getString('token') != null) {
+      return true;
+    } else {
+      return false;
+    }
+    // return true;
   }
 }
