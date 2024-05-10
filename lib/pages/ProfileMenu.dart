@@ -1,3 +1,4 @@
+import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
 import 'package:flutter/material.dart';
 
 class ProfileMenu extends StatefulWidget {
@@ -95,7 +96,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
           ],
         ),
       ),
-      drawer: const Drawer(),
+      drawer: const MyDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => {

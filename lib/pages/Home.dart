@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
@@ -17,179 +19,238 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+  bool status = true;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    verificarStatusLoja().then((value) {
+      if (value) {
+        setState(() {
+          status = true;
+        });
+      } else {
+        setState(() {
+          status = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (ModalRoute.of(context)?.isCurrent ?? false) {
+      verificaStatus();
+    }
+  }
+
+  void verificaStatus() {
+    verificarStatusLoja().then((value) {
+      if (value) {
+        setState(() {
+          status = true;
+        });
+      } else {
+        setState(() {
+          status = false;
+        });
+      }
+    });
+  }
+
+  Future<bool> verificarStatusLoja() async {
+     var url = Uri.parse(
+        'http://localhost:5000/api/store/get-status');
+    var response = await http.get(url);
+    var data = json.decode(response.body);
+
+    var status = data['results'][0]['status'];
+
+    if (status == 1) {
+      return true;
+    } else {
+      return false;
+    }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 231, 231, 231),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MyData(),
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.person,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          bottom: const TabBar(
-              isScrollable: true,
-              tabAlignment: TabAlignment.center,
-              tabs: [
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Salgados'),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Doces'),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Bebidas'),
-                ),
-              ]),
-        ),
-        body: const TabBarView(
+    if (status) {
+      return DefaultTabControllerHome(context);
+    } else {
+      return lojaFechada(context);
+    }
+  }
+
+  Scaffold lojaFechada(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 231, 231, 231),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Cardapio(category: 'salgados'),
-            Cardapio(category: 'doces'),
-            Cardapio(category: 'bebidas'),
-          ],
-        ),
-        drawer: const Drawer(
-          backgroundColor: Color.fromARGB(255, 231, 231, 231),
-          child: Padding(
-            padding: EdgeInsets.only(top: 20, right: 0, left: 20),
-            child: Column(
-              children: [logoutDrawer(), itemsDrawer()],
-            ),
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) => {
-            setState(() {
-              _currentIndex = index;
-              if (index == 2) {
-                // Navigator.pushNamed(context, '/carrinho');
+            IconButton(
+              onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Carrinho()),
+                  MaterialPageRoute(
+                    builder: (context) => const MyData(),
+                  ),
                 );
-              }
-            })
-          },
-          backgroundColor: const Color.fromARGB(255, 251, 251, 251),
-          unselectedItemColor: Colors.black,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.restaurant_menu),
-              label: 'Cardápio',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.summarize),
-              label: 'Pedidos',
-            ),
-            BottomNavigationBarItem(
-              backgroundColor: Colors.transparent,
-              icon: Icon(Icons.shopping_cart),
-              label: 'Carrinho',
+              },
+              icon: const Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
       ),
+      drawer: const MyDrawer(),
+      body: Center(
+        child:  Padding(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  const CircleAvatar(
+                    backgroundColor: Colors.red,
+                    maxRadius: 100,
+                    child: Icon(Icons.close_sharp, size: 140, color: Colors.white,),
+                  ),
+                  const SizedBox(height: 120,),
+                  const Text('QUE PENA!'),
+                  const Text(
+                    "A LOJA ESTÁ FECHADA!",
+                    style: TextStyle(
+                      fontSize: 28
+                    ),
+                  ),
+                  const Text('Volte mais tarde...'),
+                  PrimaryButton(
+                    title: 'Recaregar Página', 
+                    extraLarge:0, 
+                    bgButton: Colors.red, 
+                    onPressed: verificaStatus
+                  )
+                ],
+              ),
+              Container(
+                color: Colors.red,
+                alignment: Alignment.center,
+                width: double.infinity,
+                child: const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text(
+                    'Nosso horário de funcionamento é das 18h às 23h.',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontSize: 16
+                    ),
+                    ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
-}
 
-class itemsDrawer extends StatelessWidget {
-  const itemsDrawer({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 60),
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  DefaultTabController DefaultTabControllerHome(BuildContext context) {
+    return DefaultTabController(
+    length: 3,
+    child: Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 231, 231, 231),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ListTile(
-              title: const Text('Meu Perfil'),
-              onTap: () {
-                print('Meu Perfil');
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyData(),
+                  ),
+                );
               },
-            ),
-            ListTile(
-              title: const Text('Fale Conosco'),
-              onTap: () {
-                print('Fale Conosco');
-              },
-            ),
-            ListTile(
-              title: const Text('Dúvidas Frequentes'),
-              onTap: () {
-                print('Dúvidas Frequentes');
-              },
+              icon: const Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
             ),
           ],
-        ));
-  }
-}
-
-class logoutDrawer extends StatelessWidget {
-  const logoutDrawer({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: const Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        ),
+        bottom: const TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.center,
+            tabs: [
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text('Salgados'),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text('Doces'),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text('Bebidas'),
+              ),
+            ]),
+      ),
+      body: const TabBarView(
         children: [
-          Text(
-            'Finalizar sessão',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Icons.logout,
-            color: Colors.black,
-          )
+          Cardapio(category: 'salgados'),
+          Cardapio(category: 'doces'),
+          Cardapio(category: 'bebidas'),
         ],
       ),
-      onTap: () async {
-        bool isLogout = await logout();
-        if (isLogout) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const BoasVindas()),
-          );
-        }
-      },
-    );
-  }
-
-  Future<bool> logout() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
-    return true;
+      drawer: const MyDrawer(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => {
+          setState(() {
+            _currentIndex = index;
+            if (index == 2) {
+              // Navigator.pushNamed(context, '/carrinho');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Carrinho()),
+              );
+            }
+          })
+        },
+        backgroundColor: const Color.fromARGB(255, 251, 251, 251),
+        unselectedItemColor: Colors.black,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant_menu),
+            label: 'Cardápio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.summarize),
+            label: 'Pedidos',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.transparent,
+            icon: Icon(Icons.shopping_cart),
+            label: 'Carrinho',
+          ),
+        ],
+      ),
+    ),
+  );
   }
 }
+
+

@@ -1,3 +1,4 @@
+import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
 import 'package:flutter/material.dart';
 
 class NeedHelp extends StatefulWidget {
@@ -33,7 +34,7 @@ class _NeedHelpState extends State<NeedHelp> {
         ),
       ),
       body: Text("Precisa de ajuda?"),
-      drawer: const Drawer(),
+      drawer: MyDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => {
