@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Pedidos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_delivery_ponto_do_pastel/components/cardapio.dart';
@@ -88,6 +89,18 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Carrinho()),
+                );
+              }
+              if (index == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Pedidos()),
+                );
+              }
+              if (index == 0) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Home()),
                 );
               }
             })
