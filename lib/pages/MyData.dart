@@ -1,5 +1,6 @@
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 
@@ -214,7 +215,7 @@ class _MyDataState extends State<MyData> {
           ),
         ),
       ),
-      drawer: const Drawer(),
+      drawer: const MyDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => {

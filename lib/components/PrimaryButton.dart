@@ -28,9 +28,6 @@ class PrimaryButton extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextButton(
-                      // onPressed: (){
-                      //   Navigator.pushNamed(context, route ?? '');
-                      // },
                       onPressed: onPressed,
                       style: ButtonStyle(
                         padding: const MaterialStatePropertyAll(
