@@ -7,6 +7,8 @@ import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+const List<String> list = <String>['-', 'PIX'];
+
 class Carrinho extends StatefulWidget {
   const Carrinho({super.key});
 
@@ -16,6 +18,7 @@ class Carrinho extends StatefulWidget {
 
 class _CarrinhoState extends State<Carrinho> {
   int _currentIndex = 0;
+  String dropdownValue = list.first;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -221,25 +224,31 @@ class _CarrinhoState extends State<Carrinho> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Pagamento',
+                          'Escolha a Forma de Pagamento:',
                           style: TextStyle(fontSize: 14),
                         ),
-                        TextButton(
-                          onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const FormaPagamento()),
-                            )
-                          },
-                          child: Text(
-                            'Escolher',
-                            style: TextStyle(
-                                fontSize: 14,
-                                decoration: TextDecoration.underline,
-                                color: Colors.black),
+                        DropdownButton(
+                          value: dropdownValue,                            
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.black),
+                          underline: Container(
+                            height: 1,
+                            color: Colors.red,
                           ),
-                        ),
+                          onChanged: (String? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              dropdownValue = value!;
+                            });
+                          },
+                          items: list
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )
                       ],
                     )
                   ],
@@ -249,11 +258,11 @@ class _CarrinhoState extends State<Carrinho> {
             Column(
               children: [
                 PrimaryButton(
-                  title: "Finalizar Pedido",
+                  title: "Finalizar Pedido",                  
                   extraLarge: 0,
                   textColor: Colors.black,
                   bgButton: Color.fromARGB(255, 199, 197, 197),
-                  onPressed: () => {
+                  onPressed: () =>  {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
