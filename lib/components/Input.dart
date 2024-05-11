@@ -11,6 +11,7 @@ class InputCustom extends StatelessWidget {
     this.validation,
     this.obscureText,
     this.onChanged,
+    this.readOnly
   });
 
   final String label;
@@ -20,6 +21,7 @@ class InputCustom extends StatelessWidget {
   final String? Function(String?)? validation;
   final String? Function(String?)? onChanged;
   final TextInputType? keyboardType;
+  final bool? readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class InputCustom extends StatelessWidget {
       children: [
         const SizedBox(height: 20.0),
         TextFormField(
+          readOnly: readOnly ?? false,
           keyboardType: keyboardType,
           controller: controllerName,
           obscureText: obscureText ?? false,
