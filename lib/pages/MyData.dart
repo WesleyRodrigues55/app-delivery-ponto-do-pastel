@@ -180,7 +180,7 @@ class _MyDataState extends State<MyData> {
                       color: Colors.white,
                       child: Column(
                         children: [
-                          Divider(),
+                          const Divider(),
                           ListTile(
                             subtitle: Column(
                               children: [
