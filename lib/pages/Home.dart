@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
 
   Future<bool> verificarStatusLoja() async {
      var url = Uri.parse(
-        'http://localhost:5000/api/store/get-status');
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/store/get-status');
     var response = await http.get(url);
     var data = json.decode(response.body);
 
