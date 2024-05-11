@@ -213,16 +213,16 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   'Formulário é valido';
                   // Insira aqui o código para navegar para a tela de login
                   // Navigator.pushNamed(context, '/login');
-                  Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const Login()
-                    ),
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Login()),
                   );
                 } else {
                   'O formulário não é valido!';
                 }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 200,
             ),
           ],
