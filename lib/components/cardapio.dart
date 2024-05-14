@@ -37,7 +37,7 @@ class _CardapioState extends State<Cardapio> {
 
   Future<void> fetchProducts() async {
     var url = Uri.parse(
-        'http://localhost:5000/api/product/get-products-by-category/${widget.category.toLowerCase()}');
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/product/get-products-by-category/${widget.category.toLowerCase()}');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

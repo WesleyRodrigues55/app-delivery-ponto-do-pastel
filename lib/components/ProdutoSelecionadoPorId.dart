@@ -96,9 +96,7 @@ class TelaProdutoSelecionadoPorId extends StatefulWidget {
       _TelaProdutoSelecionadoPorIdState();
 }
 
-class _TelaProdutoSelecionadoPorIdState
-    extends State<TelaProdutoSelecionadoPorId> {
-  final List<bool> _checkboxes = [false, false, false, false];
+class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorId> {
   final _obsController = TextEditingController();
   int quantidadeProduto = 1;
   double valorTotal = 0;
@@ -106,7 +104,7 @@ class _TelaProdutoSelecionadoPorIdState
   // @override
   // void initState() {
   //   super.initState();
-  //   print(widget.ingredientesAdicionais);
+  //   print(widget.ingredientesAdicionais.length);
   // }
 
   void adicionarProduto() {
@@ -132,6 +130,10 @@ class _TelaProdutoSelecionadoPorIdState
   @override
   Widget build(BuildContext context) {
     // valorTotal = double.tryParse(widget.precoProduto);
+    List<bool> checkboxes = List.generate(
+      widget.ingredientesAdicionais.length, // Tamanho igual ao número de itens
+      (index) => false, // Inicializar todos como false
+    );
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
@@ -205,11 +207,11 @@ class _TelaProdutoSelecionadoPorIdState
                           return CheckboxListTile(
                             title: Text(
                                 "${widget.ingredientesAdicionais[i]['nome']} - R\$${widget.ingredientesAdicionais[i]['valor']}"),
-                            value: _checkboxes[i],
+                            value: checkboxes[i],
                             onChanged: (value) {
                               setState(() {
                                 valorTotal += 2;
-                                _checkboxes[i] = value!;
+                                checkboxes[i] = value!;
                               });
                             },
                             controlAffinity: ListTileControlAffinity.leading,
