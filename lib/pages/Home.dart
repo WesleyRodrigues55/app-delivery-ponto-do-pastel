@@ -74,7 +74,6 @@ class _HomeState extends State<Home> {
     } else {
       return false;
     }
-    
   }
 
   @override

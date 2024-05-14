@@ -20,15 +20,14 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     var id = ModalRoute.of(context)?.settings.arguments;
-    print(id);
     fetchProduct(id);
   }
+
 
   Future<void> fetchProduct(id) async {
     var url = Uri.parse(
         'https://backend-delivery-ponto-do-pastel.onrender.com/api/product/product-by-id/$id');
     var response = await http.get(url);
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
@@ -93,7 +92,7 @@ class TelaProdutoSelecionadoPorId extends StatefulWidget {
 }
 
 class _TelaProdutoSelecionadoPorIdState
-    extends State<TelaProdutoSelecionadoPorId> {
+  extends State<TelaProdutoSelecionadoPorId> {
   final List<bool> _checkboxes = [false, false, false, false];
   final _obsController = TextEditingController();
   int quantidadeProduto = 1;
