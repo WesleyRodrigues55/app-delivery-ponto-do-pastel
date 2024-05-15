@@ -1,6 +1,5 @@
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
 import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/FormaPagamento.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Pagamento.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
