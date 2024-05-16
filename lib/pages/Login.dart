@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_delivery_ponto_do_pastel/components/input.dart';
 import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/CadastroUsuario.dart';
@@ -122,10 +124,13 @@ class _LoginState extends State<Login> {
   Future<void> sendCodeVerification() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(
-        'https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/generator-code-app/${(_whatsappController.text.toString())}');
+    'https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/generator-code-app/${(_whatsappController.text.toString())}');
     var response = await http.put(url);
 
     if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      sharedPreferences.setString('userId', data['results']['userId'].toString());
+      
       Navigator.push(
         context,
         MaterialPageRoute(
