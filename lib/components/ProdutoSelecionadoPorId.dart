@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +19,7 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     var id = ModalRoute.of(context)?.settings.arguments;
+    print(id);
     fetchProduct(id);
   }
 
@@ -27,6 +27,7 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
     var url = Uri.parse(
         'https://backend-delivery-ponto-do-pastel.onrender.com/api/product/product-by-id-and-ingredients/$id');
     var response = await http.get(url);
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
@@ -96,7 +97,6 @@ class TelaProdutoSelecionadoPorId extends StatefulWidget {
 
 class _TelaProdutoSelecionadoPorIdState
     extends State<TelaProdutoSelecionadoPorId> {
-  final List<bool> _checkboxes = [false, false, false, false];
   final _obsController = TextEditingController();
   int quantidadeProduto = 1;
   double valorTotal = 0;
@@ -115,6 +115,7 @@ class _TelaProdutoSelecionadoPorIdState
   void adicionarProduto() {
     setState(() {
       quantidadeProduto++;
+      calcularValorTotal();
     });
   }
 
@@ -122,8 +123,23 @@ class _TelaProdutoSelecionadoPorIdState
     setState(() {
       if (quantidadeProduto > 1) {
         quantidadeProduto--;
+        calcularValorTotal();
       }
     });
+  }
+
+  void calcularValorTotal() {
+    double valorProduto = double.parse(widget.precoProduto);
+    double valorAdicionais = 0;
+
+    for (int i = 0; i < _checkboxes.length; i++) {
+      if (_checkboxes[i]) {
+        valorAdicionais +=
+            double.parse(widget.ingredientesAdicionais[i]['valor']);
+      }
+    }
+
+    valorTotal = quantidadeProduto * (valorProduto + valorAdicionais);
   }
 
   @override
@@ -134,13 +150,19 @@ class _TelaProdutoSelecionadoPorIdState
 
   @override
   Widget build(BuildContext context) {
-    // valorTotal = double.tryParse(widget.precoProduto);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
         child: Column(
           children: [
-            Image.network(widget.imagemProduto),
+            SizedBox(
+              width: double.infinity,
+              height: 220,
+              child: Image.network(
+                widget.imagemProduto,
+                fit: BoxFit.cover, // Ajusta a imagem dentro do contêiner
+              ),
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -186,9 +208,9 @@ class _TelaProdutoSelecionadoPorIdState
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                       InputCustom(
-                        label: 'Alguma observação?',
+                        label: 'Digite aqui sua observação',
                         placeholder:
-                            'Caso tenho algo a informar, digite aqui =)',
+                            'Caso tenho algo a informar, escreva aqui =)',
                         controllerName: _obsController,
                         keyboardType: null,
                       ),
@@ -211,17 +233,8 @@ class _TelaProdutoSelecionadoPorIdState
                             value: _checkboxes[i],
                             onChanged: (value) {
                               setState(() {
-                                double valorIngrediente = double.parse(widget
-                                    .ingredientesAdicionais[i]['valor']
-                                    .toString());
-                                if (value!) {
-                                  valorTotal +=
-                                      valorIngrediente; //// Se o checkbox foi marcado, add o valor
-                                } else {
-                                  valorTotal -=
-                                      valorIngrediente; // Se o checkbox foi desmarcado, subtrai o valor
-                                }
-                                _checkboxes[i] = value;
+                                _checkboxes[i] = value!;
+                                calcularValorTotal();
                               });
                             },
                             controlAffinity: ListTileControlAffinity.leading,
