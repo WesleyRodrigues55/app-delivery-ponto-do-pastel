@@ -100,7 +100,7 @@ class _CheckinState extends State<Checkin> {
   Future<bool> sendCodeVerification() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    // recebe id do produto selecionado
+    // recebe wpp do usuário que vai logar
     var wpp = ModalRoute.of(context)!.settings.arguments;
 
     var url = Uri.parse(

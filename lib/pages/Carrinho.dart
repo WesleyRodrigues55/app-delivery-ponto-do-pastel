@@ -1,11 +1,15 @@
-import 'package:app_delivery_ponto_do_pastel/pages/FormaPagamento.dart';
+import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
+import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Pagamento.dart';
+import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+
+List<String> list = ['Selecione', 'PIX'];
 
 class Carrinho extends StatefulWidget {
   const Carrinho({super.key});
@@ -16,58 +20,26 @@ class Carrinho extends StatefulWidget {
 
 class _CarrinhoState extends State<Carrinho> {
   int _currentIndex = 0;
+  String dropdownValue = list.first;
+  final controllerRua = TextEditingController();
+  final controllerNumero = TextEditingController();
+  final controllerBairro = TextEditingController();
+  final controllerReferencia = TextEditingController();
+
+  void validarBotao() {
+    if (dropdownValue == 'Selecione') {
+      SnackBarUtils.showSnackBar(
+          context, 'Por favor, selecione um método de pagamento!');
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Pagamento()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 231, 231, 231),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-              onPressed: () {
-                print('Clique profile navbar');
-              },
-              icon: Icon(
-                Icons.person,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) => {
-          setState(() {
-            _currentIndex = index;
-            if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Carrinho()),
-              );
-            }
-          })
-        },
-        backgroundColor: const Color.fromARGB(255, 251, 251, 251),
-        unselectedItemColor: Colors.black,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu),
-            label: 'Cardápio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.summarize),
-            label: 'Pedidos',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.transparent,
-            icon: Icon(Icons.shopping_cart),
-            label: 'Carrinho',
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Form(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -161,7 +133,8 @@ class _CarrinhoState extends State<Carrinho> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Taxa de Entrega', style: TextStyle(fontSize: 14)),
+                        Text('Taxa de Entrega',
+                            style: TextStyle(fontSize: 14)),
                         Text('R\$ 6,00', style: TextStyle(fontSize: 14))
                       ],
                     ),
@@ -202,7 +175,61 @@ class _CarrinhoState extends State<Carrinho> {
               child: Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Endereço de Entrega',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Outfit'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Form(
+                        child: Column(children: [
+                      InputCustom(
+                        controllerName: controllerRua,
+                        label: 'Rua',
+                        placeholder: 'Rua',
+                        keyboardType: TextInputType.text,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InputCustom(
+                        controllerName: controllerNumero,
+                        label: 'Número',
+                        placeholder: 'Número',
+                        keyboardType: TextInputType.number,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InputCustom(
+                        controllerName: controllerBairro,
+                        label: 'Bairro',
+                        placeholder: 'Bairro',
+                        keyboardType: TextInputType.text,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InputCustom(
+                        controllerName: controllerReferencia,
+                        label: 'Referência',
+                        placeholder: 'Referência',
+                        keyboardType: TextInputType.text,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ])),
                     Row(
                       children: [
                         Text(
@@ -221,25 +248,28 @@ class _CarrinhoState extends State<Carrinho> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Pagamento',
+                          'Escolha a Forma de Pagamento:',
                           style: TextStyle(fontSize: 14),
                         ),
-                        TextButton(
-                          onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const FormaPagamento()),
-                            )
-                          },
-                          child: Text(
-                            'Escolher',
-                            style: TextStyle(
-                                fontSize: 14,
-                                decoration: TextDecoration.underline,
-                                color: Colors.black),
+                        DropdownButton(
+                          value: dropdownValue,
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.black),
+                          underline: Container(
+                            height: 1,
+                            color: Colors.red,
                           ),
-                        ),
+                          onChanged: (String? value) {
+                            setState(() {
+                              dropdownValue = value!;
+                            });
+                          },
+                          items: list
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                                value: value, child: Text(value));
+                          }).toList(),
+                        )
                       ],
                     )
                   ],
@@ -253,14 +283,11 @@ class _CarrinhoState extends State<Carrinho> {
                   extraLarge: 0,
                   textColor: Colors.black,
                   bgButton: Color.fromARGB(255, 199, 197, 197),
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Pagamento()),
-                    )
-                  },
+                  onPressed: () => {validarBotao()},
                 ),
+                SizedBox(
+                  height: 10,
+                )
               ],
             ),
           ],
