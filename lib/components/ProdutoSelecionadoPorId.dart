@@ -96,7 +96,8 @@ class TelaProdutoSelecionadoPorId extends StatefulWidget {
       _TelaProdutoSelecionadoPorIdState();
 }
 
-class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorId> {
+class _TelaProdutoSelecionadoPorIdState
+    extends State<TelaProdutoSelecionadoPorId> {
   final _obsController = TextEditingController();
   int quantidadeProduto = 1;
   double valorTotal = 0;
@@ -105,13 +106,12 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
   @override
   void initState() {
     super.initState();
+    valorTotal = double.parse(widget.precoProduto.toString());
     _checkboxes = List.generate(
       widget.ingredientesAdicionais.length, // Tamanho igual ao número de itens
       (index) => false, // Inicializar todos como false
     );
   }
-
-
 
   void adicionarProduto() {
     setState(() {
@@ -212,8 +212,17 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
                             value: _checkboxes[i],
                             onChanged: (value) {
                               setState(() {
-                                valorTotal += 2;
-                                _checkboxes[i] = value!;
+                                double valorIngrediente = double.parse(widget
+                                    .ingredientesAdicionais[i]['valor']
+                                    .toString());
+                                if (value!) {
+                                  valorTotal +=
+                                      valorIngrediente; //// Se o checkbox foi marcado, add o valor
+                                } else {
+                                  valorTotal -=
+                                      valorIngrediente; // Se o checkbox foi desmarcado, subtrai o valor
+                                }
+                                _checkboxes[i] = value;
                               });
                             },
                             controlAffinity: ListTileControlAffinity.leading,
@@ -259,7 +268,8 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
                             ),
                             child: TextButton(
                                 onPressed: () {},
-                                child: Text("Adicionar R\$$valorTotal")),
+                                child: Text(
+                                    "Adicionar R\$${valorTotal.toStringAsFixed(2)}")),
                           ),
                         ],
                       ),
