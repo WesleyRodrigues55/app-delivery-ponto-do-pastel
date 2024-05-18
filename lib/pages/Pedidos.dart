@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 
 class Pedidos extends StatefulWidget {
   const Pedidos({super.key});
@@ -53,7 +54,7 @@ class _PedidosState extends State<Pedidos> {
                   trailing: Text(
                     "Pedido Finalizado",
                     style: TextStyle(
-                        fontSize: 8,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   ),
@@ -74,7 +75,7 @@ class _PedidosState extends State<Pedidos> {
                   trailing: Text(
                     "Pagamento Pendente",
                     style: TextStyle(
-                        fontSize: 8,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   ),
@@ -95,7 +96,7 @@ class _PedidosState extends State<Pedidos> {
                   trailing: Text(
                     "Pagamento Pendente",
                     style: TextStyle(
-                        fontSize: 8,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   ),
@@ -116,7 +117,7 @@ class _PedidosState extends State<Pedidos> {
                   trailing: Text(
                     "Pedido Finalizado",
                     style: TextStyle(
-                        fontSize: 8,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   ),
@@ -137,7 +138,7 @@ class _PedidosState extends State<Pedidos> {
                   trailing: Text(
                     "Pagamento Pendente",
                     style: TextStyle(
-                        fontSize: 8,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   ),
@@ -158,7 +159,7 @@ class _PedidosState extends State<Pedidos> {
                   trailing: Text(
                     "Pagamento Pendente",
                     style: TextStyle(
-                        fontSize: 8,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   ),
