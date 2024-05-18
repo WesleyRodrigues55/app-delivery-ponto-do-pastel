@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Pedidos.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_delivery_ponto_do_pastel/components/cardapio.dart';
 import 'package:flutter/material.dart';
