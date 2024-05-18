@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +25,7 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
 
   Future<void> fetchProduct(id) async {
     var url = Uri.parse(
-        'https://backend-delivery-ponto-do-pastel.onrender.com/api/product/product-by-id/$id');
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/product/product-by-id-and-ingredients/$id');
     var response = await http.get(url);
     print(response.statusCode);
 
@@ -66,6 +65,7 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
               descricaoProduto: product[i]['descricao'],
               precoProduto: product[i]['preco'].toString(),
               imagemProduto: product[i]['imagem_produto'],
+              ingredientesAdicionais: product[i]['ingredientesAdicionais'],
             ),
           );
         },
@@ -75,17 +75,20 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
 }
 
 class TelaProdutoSelecionadoPorId extends StatefulWidget {
-  const TelaProdutoSelecionadoPorId(
-      {super.key,
-      required this.nomeProduto,
-      required this.descricaoProduto,
-      required this.imagemProduto,
-      required this.precoProduto});
+  const TelaProdutoSelecionadoPorId({
+    super.key,
+    required this.nomeProduto,
+    required this.descricaoProduto,
+    required this.imagemProduto,
+    required this.precoProduto,
+    required this.ingredientesAdicionais,
+  });
 
   final String nomeProduto;
   final String descricaoProduto;
   final String imagemProduto;
   final String precoProduto;
+  final List<dynamic> ingredientesAdicionais;
 
   @override
   State<TelaProdutoSelecionadoPorId> createState() =>
@@ -94,13 +97,25 @@ class TelaProdutoSelecionadoPorId extends StatefulWidget {
 
 class _TelaProdutoSelecionadoPorIdState
     extends State<TelaProdutoSelecionadoPorId> {
-  final List<bool> _checkboxes = [false, false, false, false];
   final _obsController = TextEditingController();
   int quantidadeProduto = 1;
+  double valorTotal = 0;
+  late List<bool> _checkboxes;
+
+  @override
+  void initState() {
+    super.initState();
+    valorTotal = double.parse(widget.precoProduto.toString());
+    _checkboxes = List.generate(
+      widget.ingredientesAdicionais.length, // Tamanho igual ao número de itens
+      (index) => false, // Inicializar todos como false
+    );
+  }
 
   void adicionarProduto() {
     setState(() {
       quantidadeProduto++;
+      calcularValorTotal();
     });
   }
 
@@ -108,8 +123,23 @@ class _TelaProdutoSelecionadoPorIdState
     setState(() {
       if (quantidadeProduto > 1) {
         quantidadeProduto--;
+        calcularValorTotal();
       }
     });
+  }
+
+  void calcularValorTotal() {
+    double valorProduto = double.parse(widget.precoProduto);
+    double valorAdicionais = 0;
+
+    for (int i = 0; i < _checkboxes.length; i++) {
+      if (_checkboxes[i]) {
+        valorAdicionais +=
+            double.parse(widget.ingredientesAdicionais[i]['valor']);
+      }
+    }
+
+    valorTotal = quantidadeProduto * (valorProduto + valorAdicionais);
   }
 
   @override
@@ -125,7 +155,14 @@ class _TelaProdutoSelecionadoPorIdState
       child: Container(
         child: Column(
           children: [
-            Image.network(widget.imagemProduto),
+            SizedBox(
+              width: double.infinity,
+              height: 220,
+              child: Image.network(
+                widget.imagemProduto,
+                fit: BoxFit.cover, // Ajusta a imagem dentro do contêiner
+              ),
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -171,9 +208,9 @@ class _TelaProdutoSelecionadoPorIdState
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                       InputCustom(
-                        label: 'Alguma observação?',
+                        label: 'Digite aqui sua observação',
                         placeholder:
-                            'Caso tenho algo a informar, digite aqui =)',
+                            'Caso tenho algo a informar, escreva aqui =)',
                         controllerName: _obsController,
                         keyboardType: null,
                       ),
@@ -185,45 +222,24 @@ class _TelaProdutoSelecionadoPorIdState
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
-                      CheckboxListTile(
-                        title: const Text("Queijo mussarela - R\$3,50"),
-                        value: _checkboxes[0],
-                        onChanged: (value) {
-                          setState(() {
-                            _checkboxes[0] = value!;
-                          });
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: widget.ingredientesAdicionais.length,
+                        itemBuilder: (BuildContext context, int i) {
+                          return CheckboxListTile(
+                            title: Text(
+                                "${widget.ingredientesAdicionais[i]['nome']} - R\$${widget.ingredientesAdicionais[i]['valor']}"),
+                            value: _checkboxes[i],
+                            onChanged: (value) {
+                              setState(() {
+                                _checkboxes[i] = value!;
+                                calcularValorTotal();
+                              });
+                            },
+                            controlAffinity: ListTileControlAffinity.leading,
+                          );
                         },
-                        controlAffinity: ListTileControlAffinity.leading,
-                      ),
-                      CheckboxListTile(
-                        title: const Text("Queijo cheddar - R\$4,50"),
-                        value: _checkboxes[1],
-                        onChanged: (value) {
-                          setState(() {
-                            _checkboxes[1] = value!;
-                          });
-                        },
-                        controlAffinity: ListTileControlAffinity.leading,
-                      ),
-                      CheckboxListTile(
-                        title: const Text("Tomate picado - R\$2,00"),
-                        value: _checkboxes[2],
-                        onChanged: (value) {
-                          setState(() {
-                            _checkboxes[2] = value!;
-                          });
-                        },
-                        controlAffinity: ListTileControlAffinity.leading,
-                      ),
-                      CheckboxListTile(
-                        title: const Text("Bacon picado - R\$4,50"),
-                        value: _checkboxes[3],
-                        onChanged: (value) {
-                          setState(() {
-                            _checkboxes[3] = value!;
-                          });
-                        },
-                        controlAffinity: ListTileControlAffinity.leading,
                       ),
                       const SizedBox(
                         height: 15,
@@ -264,7 +280,8 @@ class _TelaProdutoSelecionadoPorIdState
                             ),
                             child: TextButton(
                                 onPressed: () {},
-                                child: const Text("Adicionar R\$ 10,00")),
+                                child: Text(
+                                    "Adicionar R\$${valorTotal.toStringAsFixed(2)}")),
                           ),
                         ],
                       ),
