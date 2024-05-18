@@ -190,56 +190,33 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          bottom: const TabBar(
-              isScrollable: true,
-              tabAlignment: TabAlignment.center,
-              tabs: [
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Salgados'),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Doces'),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Bebidas'),
-                ),
-              ]),
+          bottom: _currentIndex == 0
+              ? const TabBar(
+                  isScrollable: true,
+                  tabAlignment: TabAlignment.center,
+                  tabs: [
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text('Salgados'),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text('Doces'),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text('Bebidas'),
+                      ),
+                    ])
+              : null,
         ),
-        body: const TabBarView(
-          children: [
-            Cardapio(category: 'salgados'),
-            Cardapio(category: 'doces'),
-            Cardapio(category: 'bebidas'),
-          ],
-        ),
+        body: _getBody(),
         drawer: const MyDrawer(),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) => {
             setState(() {
               _currentIndex = index;
-              if (index == 2) {
-                // Navigator.pushNamed(context, '/carrinho');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Carrinho()),
-                );
-              }
-              if (index == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Pedidos()),
-                );
-              }
-              if (index == 0) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              }
             })
           },
           backgroundColor: const Color.fromARGB(255, 251, 251, 251),
@@ -261,6 +238,29 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _getBody() {
+    switch (_currentIndex) {
+      case 0:
+        return _getTabBarView(); // Retorna a view do TabBar
+      case 1:
+        return const Pedidos(); // Retorna o widget de pedidos
+      case 2:
+        return const Carrinho(); // Retorna o widget do carrinho
+      default:
+        return Container(); // Retorna um container vazio se não for nenhum dos índices esperados
+    }
+  }
+
+  Widget _getTabBarView() {
+    return const TabBarView(
+      children: [
+        Cardapio(category: 'salgados'),
+        Cardapio(category: 'doces'),
+        Cardapio(category: 'bebidas'),
+      ],
     );
   }
 }
