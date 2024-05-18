@@ -19,21 +19,27 @@ class Carrinho extends StatefulWidget {
 }
 
 class _CarrinhoState extends State<Carrinho> {
+  final formKey = GlobalKey<FormState>();
+
   int _currentIndex = 0;
-  String dropdownValue = list.first;
+  String dropdownValue = list.first; 
   final controllerRua = TextEditingController();
   final controllerNumero = TextEditingController();
   final controllerBairro = TextEditingController();
   final controllerReferencia = TextEditingController();
 
   void validarBotao() {
-    if (dropdownValue == 'Selecione') {
-      SnackBarUtils.showSnackBar(
-          context, 'Por favor, selecione um método de pagamento!');
-    } else {
+    if (formKey.currentState!.validate() && dropdownValue != 'Selecione') {
+      print('Funcionou');
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Pagamento()));
-    }
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Pagamento(),         
+        ),);
+    }    
+     else {
+      SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos');
+    }     
   }
 
   @override
@@ -58,10 +64,18 @@ class _CarrinhoState extends State<Carrinho> {
                             style: TextStyle(fontSize: 20),
                           ),
                           title: Text('Pastel de Chocolate'),
-                          subtitle: Text('R\$ 10,00'),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('R\$ 10,00'),
+                              Text('Adicional: Recheio extra'),
+                              Text('Adicional: Morango'),
+                              Text('Adicional: Confete'),
+                            ],
+                          ),
                           trailing: Image.network(
                               'https://images.pexels.com/photos/2233442/pexels-photo-2233442.jpeg'),
-                        ),
+                        ), TextButton(onPressed: (){},child: Text('Remover')),
                         Divider(
                           height: 0,
                           color: Color.fromARGB(255, 199, 197, 197),
@@ -133,9 +147,9 @@ class _CarrinhoState extends State<Carrinho> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Taxa de Entrega',
+                        Text('Taxa Fixa de Entrega',
                             style: TextStyle(fontSize: 14)),
-                        Text('R\$ 6,00', style: TextStyle(fontSize: 14))
+                        Text('R\$ 10,00', style: TextStyle(fontSize: 14))
                       ],
                     ),
                     SizedBox(
@@ -154,7 +168,7 @@ class _CarrinhoState extends State<Carrinho> {
                         Text('TOTAL',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold)),
-                        Text('R\$ 16,00',
+                        Text('R\$ 20,00',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold))
                       ],
@@ -192,12 +206,19 @@ class _CarrinhoState extends State<Carrinho> {
                       height: 10,
                     ),
                     Form(
+                        key: formKey,
                         child: Column(children: [
                       InputCustom(
                         controllerName: controllerRua,
                         label: 'Rua',
                         placeholder: 'Rua',
                         keyboardType: TextInputType.text,
+                        validation: (value) {
+                          if (value == null || value.length <5){
+                            return 'Digite uma Rua válida.';
+                          }
+                          return null;
+                        },                   
                       ),
                       SizedBox(
                         height: 10,
@@ -207,6 +228,12 @@ class _CarrinhoState extends State<Carrinho> {
                         label: 'Número',
                         placeholder: 'Número',
                         keyboardType: TextInputType.number,
+                        validation: (value) {
+                          if (value == null || value.length < 1){
+                            return 'Digite um Número válido.';
+                          }
+                          return null;
+                        },         
                       ),
                       SizedBox(
                         height: 10,
@@ -216,6 +243,12 @@ class _CarrinhoState extends State<Carrinho> {
                         label: 'Bairro',
                         placeholder: 'Bairro',
                         keyboardType: TextInputType.text,
+                        validation: (value) {
+                          if (value == null || value.length <5){
+                            return 'Digite um Bairro válido.';
+                          }
+                          return null;
+                        },         
                       ),
                       SizedBox(
                         height: 10,
