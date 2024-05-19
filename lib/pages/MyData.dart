@@ -1,12 +1,9 @@
 import 'dart:convert';
-
-import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
-import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
-import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
-import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
+import 'package:intl/intl.dart';
 
 class MyData extends StatefulWidget {
   const MyData({super.key});
@@ -17,10 +14,9 @@ class MyData extends StatefulWidget {
 
 class _MyDataState extends State<MyData> {
   int _currentIndex = 0;
-  final formKey = GlobalKey<FormState>();
   bool isLoading = true;
+  Map<String, dynamic>? user;
 
-  List<dynamic> user = [];
   @override
   void initState() {
     super.initState();
@@ -32,53 +28,68 @@ class _MyDataState extends State<MyData> {
         'https://backend-delivery-ponto-do-pastel.onrender.com/api/users/users-by-id/662bfd4dbd64ba8fa991f75a');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString('token');
-    var headers = {'Authorization': 'Bearer $token'};
 
-    var response = await http.get(url, headers: headers);
-
-    print(response.statusCode);
-
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      print(data);
+    if (token == null) {
+      print('Token is null');
       setState(() {
-        user = data['results'];
-        isLoading = false; // Indica que os dados foram carregados
+        isLoading = false;
       });
-    } else {
+      return;
+    }
+
+    var headers = {'Authorization': 'Bearer $token'};
+    print('Fetching user with token: $token');
+
+    try {
+      var response = await http.get(url, headers: headers);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        print('Decoded data: $data');
+
+        setState(() {
+          user = data['results'];
+          isLoading = false;
+        });
+      } else {
+        print('Failed to load user data');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+      print('Error fetching user data: $error');
       setState(() {
-        isLoading = false; // Indica que ocorreu um erro ao carregar os dados
+        isLoading = false;
       });
     }
+  }
+
+  String formatDate(String dateString) {
+    final DateTime parsedDate = DateTime.parse(dateString);
+    final DateFormat formatter = DateFormat('dd/MM/yyyy');
+    return formatter.format(parsedDate);
   }
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      // Dados ainda estão sendo carregados
       return const Center(
         child: CircularProgressIndicator(),
       );
-    } else if (user.isEmpty) {
-      // Dados carregados, mas a lista de produtos está vazia
+    } else if (user == null) {
       return const Center(
-        child: Text('Nenhum produto encontrado'),
+        child: Text('Nenhum usuario encontrado'),
       );
     } else {
-      //Dados carregados e há produtos na lista
-      return ListView.builder(
-        itemCount: user.length,
-        itemBuilder: (BuildContext context, int i) {
-          return SingleChildScrollView(
-            child: TelaUserSelecionadoPorId(
-              nomeUsuario: user[i]['nome'],
-              cpfUsuario: user[i]['cpf'],
-              dataNascimento: user[i]['data_nascimento'].toString(),
-              email: user[i]['email'],
-              whatsApp: user[i]['whatsapp'],
-            ),
-          );
-        },
+      return TelaUserSelecionadoPorId(
+        nomeUsuario: user!['nome'],
+        cpfUsuario: user!['cpf'],
+        dataNascimento: formatDate(user!['data_nascimento'].toString()),
+        email: user!['email'],
+        whatsApp: user!['whatsapp'],
       );
     }
   }
@@ -116,9 +127,7 @@ class _TelaUserSelecionadoPorIdState extends State<TelaUserSelecionadoPorId> {
           children: [
             IconButton(
               onPressed: () {
-                {
-                  Navigator.pop(context);
-                }
+                Navigator.pop(context);
               },
               icon: const Icon(
                 Icons.arrow_back_outlined,
@@ -132,8 +141,17 @@ class _TelaUserSelecionadoPorIdState extends State<TelaUserSelecionadoPorId> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 33.0),
-            Divider(),
+            const SizedBox(height: 22.0),
+            const Text(
+              "Meus Dados",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'OutFIT',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            ),
+            const SizedBox(height: 22.0),
+            const Divider(),
             Container(
               color: const Color.fromARGB(255, 241, 241, 241),
               child: Container(
@@ -141,71 +159,60 @@ class _TelaUserSelecionadoPorIdState extends State<TelaUserSelecionadoPorId> {
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text('Nome'),
+                      title: const Text('Nome'),
                       trailing: Text(
                         widget.nomeUsuario,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
-                      title: Text('CPF'),
+                      title: const Text('CPF'),
                       trailing: Text(
-                        "000.000.000-00",
-                        style: TextStyle(
+                        widget.cpfUsuario,
+                        style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
-                      title: Text('Data Nascimento'),
+                      title: const Text('Data Nascimento'),
                       trailing: Text(
-                        "15/01/2000",
-                        style: TextStyle(
+                        widget.dataNascimento,
+                        style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
-                      title: Text('E-mail'),
+                      title: const Text('E-mail'),
                       trailing: Text(
-                        "lucassuzuki@gmail.com",
-                        style: TextStyle(
+                        widget.email,
+                        style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
-                      title: Text('WhatsApp'),
+                      title: const Text('WhatsApp'),
                       trailing: Text(
-                        "(15)99999-9999",
-                        style: TextStyle(
+                        widget.whatsApp,
+                        style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                     ),
-                    Divider(),
-                    ListTile(
-                      title: Text('Endereço'),
-                      trailing: Text(
-                        "Rua Flutter",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    ),
-                    Divider(),
+                    const Divider(),
                   ],
                 ),
               ),
@@ -215,31 +222,6 @@ class _TelaUserSelecionadoPorIdState extends State<TelaUserSelecionadoPorId> {
         ),
       ),
       drawer: const MyDrawer(),
-      bottomNavigationBar: BottomNavigationBar(
-        // currentIndex: _currentIndex,
-        // onTap: (index) => {
-        //   setState(() {
-        //     _currentIndex = index;
-        //   })
-        // },
-        backgroundColor: const Color.fromARGB(255, 251, 251, 251),
-        unselectedItemColor: Colors.black,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu),
-            label: 'Cardápio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.summarize),
-            label: 'Pedidos',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.transparent,
-            icon: Icon(Icons.shopping_cart),
-            label: 'Carrinho',
-          ),
-        ],
-      ),
     );
   }
 }
