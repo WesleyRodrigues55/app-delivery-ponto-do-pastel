@@ -13,9 +13,8 @@ class MyData extends StatefulWidget {
 }
 
 class _MyDataState extends State<MyData> {
-  int _currentIndex = 0;
+  Map<dynamic, dynamic>? userSelected;
   bool isLoading = true;
-  Map<String, dynamic>? user;
 
   @override
   void initState() {
@@ -24,45 +23,25 @@ class _MyDataState extends State<MyData> {
   }
 
   Future<void> fetchUsers() async {
-    var url = Uri.parse(
-        'https://backend-delivery-ponto-do-pastel.onrender.com/api/users/users-by-id/662bfd4dbd64ba8fa991f75a');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString('token');
+    var userID = sharedPreferences.getString('userId');
 
-    if (token == null) {
-      print('Token is null');
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
+    var url = Uri.parse('https://backend-delivery-ponto-do-pastel.onrender.com/api/users/users-by-id/$userID');
 
     var headers = {'Authorization': 'Bearer $token'};
-    print('Fetching user with token: $token');
+    var response = await http.get(url, headers: headers);
 
-    try {
-      var response = await http.get(url, headers: headers);
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        print('Decoded data: $data');
-
-        setState(() {
-          user = data['results'];
-          isLoading = false;
-        });
-      } else {
-        print('Failed to load user data');
-        setState(() {
-          isLoading = false;
-        });
-      }
-    } catch (error) {
-      print('Error fetching user data: $error');
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      
       setState(() {
-        isLoading = false;
+        userSelected = data['results'];
+        isLoading = false; // Indica que os dados foram carregados
+      });
+    } else {
+      setState(() {
+        isLoading = false; // Indica que ocorreu um erro ao carregar os dados
       });
     }
   }
@@ -79,44 +58,39 @@ class _MyDataState extends State<MyData> {
       return const Center(
         child: CircularProgressIndicator(),
       );
-    } else if (user == null) {
+    } else if (userSelected == null) {
+      // Dados carregados, mas a lista de produtos está vazia
       return const Center(
-        child: Text('Nenhum usuario encontrado'),
+        child: Text('Nenhum usuário encontrado'),
       );
     } else {
       return TelaUserSelecionadoPorId(
-        nomeUsuario: user!['nome'],
-        cpfUsuario: user!['cpf'],
-        dataNascimento: formatDate(user!['data_nascimento'].toString()),
-        email: user!['email'],
-        whatsApp: user!['whatsapp'],
+        nomeUsuario: userSelected!['nome'],
+        cpfUsuario: userSelected!['cpf'],
+        dataNascimento: formatDate(userSelected!['data_nascimento'].toString()),
+        // email: user!['email'],
+        whatsApp: userSelected!['whatsapp'],
       );
     }
   }
 }
 
-class TelaUserSelecionadoPorId extends StatefulWidget {
+class TelaUserSelecionadoPorId extends StatelessWidget {
   const TelaUserSelecionadoPorId({
     super.key,
     required this.nomeUsuario,
     required this.cpfUsuario,
     required this.dataNascimento,
-    required this.email,
+    // required this.email,
     required this.whatsApp,
   });
 
   final String nomeUsuario;
   final String cpfUsuario;
   final String dataNascimento;
-  final String email;
+  // final String email;
   final String whatsApp;
 
-  @override
-  State<TelaUserSelecionadoPorId> createState() =>
-      _TelaUserSelecionadoPorIdState();
-}
-
-class _TelaUserSelecionadoPorIdState extends State<TelaUserSelecionadoPorId> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,7 +135,7 @@ class _TelaUserSelecionadoPorIdState extends State<TelaUserSelecionadoPorId> {
                     ListTile(
                       title: const Text('Nome'),
                       trailing: Text(
-                        widget.nomeUsuario,
+                        nomeUsuario,
                         style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -172,7 +146,7 @@ class _TelaUserSelecionadoPorIdState extends State<TelaUserSelecionadoPorId> {
                     ListTile(
                       title: const Text('CPF'),
                       trailing: Text(
-                        widget.cpfUsuario,
+                        cpfUsuario,
                         style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -183,29 +157,29 @@ class _TelaUserSelecionadoPorIdState extends State<TelaUserSelecionadoPorId> {
                     ListTile(
                       title: const Text('Data Nascimento'),
                       trailing: Text(
-                        widget.dataNascimento,
+                        dataNascimento,
                         style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                     ),
-                    const Divider(),
-                    ListTile(
-                      title: const Text('E-mail'),
-                      trailing: Text(
-                        widget.email,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    ),
+                    // const Divider(),
+                    // ListTile(
+                    //   title: const Text('E-mail'),
+                    //   trailing: Text(
+                    //     widget.email,
+                    //     style: const TextStyle(
+                    //         fontSize: 15,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.black),
+                    //   ),
+                    // ),
                     const Divider(),
                     ListTile(
                       title: const Text('WhatsApp'),
                       trailing: Text(
-                        widget.whatsApp,
+                        whatsApp,
                         style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
