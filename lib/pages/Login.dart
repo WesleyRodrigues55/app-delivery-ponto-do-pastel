@@ -66,19 +66,19 @@ class _LoginState extends State<Login> {
                   },
                 ),
                 const SizedBox(height: 10.0),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _keepLoggedIn,
-                      onChanged: (value) {
-                        setState(() {
-                          _keepLoggedIn = value!;
-                        });
-                      },
-                    ),
-                    const Text('Manter conectado'),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Checkbox(
+                //       value: _keepLoggedIn,
+                //       onChanged: (value) {
+                //         setState(() {
+                //           _keepLoggedIn = value!;
+                //         });
+                //       },
+                //     ),
+                //     const Text('Manter conectado'),
+                //   ],
+                // ),
                 const SizedBox(height: 33.0),
                 PrimaryButton(
                   onPressed: () {
@@ -106,13 +106,13 @@ class _LoginState extends State<Login> {
                         fontFamily: 'Outfit'),
                   ),
                 )),
-                const SizedBox(height: 10),
-                PrimaryButton(
-                  onPressed: () {},
-                  bgButton: Colors.black,
-                  title: 'Entrar com o Google+',
-                  extraLarge: 1,
-                ),
+                // const SizedBox(height: 10),
+                // PrimaryButton(
+                //   onPressed: () {},
+                //   bgButton: Colors.black,
+                //   title: 'Entrar com o Google+',
+                //   extraLarge: 1,
+                // ),
               ],
             ),
           ),

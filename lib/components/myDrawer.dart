@@ -44,13 +44,21 @@ class itemsDrawer extends StatelessWidget {
             ListTile(
               title: const Text('Fale Conosco'),
               onTap: () {
+                // abre wpp do suporte
                 print('Fale Conosco');
               },
             ),
             ListTile(
               title: const Text('Dúvidas Frequentes'),
               onTap: () {
+                // perguntas respostas
                 print('Dúvidas Frequentes');
+              },
+            ),
+            ListTile(
+              title: const Text('Políticas de privacidade'),
+              onTap: () {
+                print('Políticas de privacidade');
               },
             ),
           ],

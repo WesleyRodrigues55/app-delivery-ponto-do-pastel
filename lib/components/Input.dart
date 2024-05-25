@@ -6,6 +6,7 @@ class InputCustom extends StatelessWidget {
     super.key,
     required this.controllerName,
     required this.label,
+    this.qtdLength,
     required this.placeholder,
     required this.keyboardType,
     this.validation,
@@ -16,6 +17,7 @@ class InputCustom extends StatelessWidget {
 
   final String label;
   final String placeholder;
+  final int? qtdLength;
   final TextEditingController controllerName;
   final bool? obscureText;
   final String? Function(String?)? validation;
@@ -29,6 +31,7 @@ class InputCustom extends StatelessWidget {
       children: [
         const SizedBox(height: 20.0),
         TextFormField(
+          maxLength: qtdLength,
           readOnly: readOnly ?? false,
           keyboardType: keyboardType,
           controller: controllerName,
