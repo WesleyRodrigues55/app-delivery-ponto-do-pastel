@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,9 +19,13 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    var id = ModalRoute.of(context)?.settings.arguments;
-    print(id);
-    fetchProduct(id);
+
+    // var data = ModalRoute.of(context)?.settings.arguments;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final String? idProduto = args?['id_produto'];
+
+    fetchProduct(idProduto);
   }
 
   Future<void> fetchProduct(id) async {
@@ -150,6 +155,10 @@ class _TelaProdutoSelecionadoPorIdState
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final String? categoria = args?['categoria'];
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
@@ -217,30 +226,35 @@ class _TelaProdutoSelecionadoPorIdState
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text(
-                        "Algum adicional?",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: widget.ingredientesAdicionais.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          return CheckboxListTile(
-                            title: Text(
-                                "${widget.ingredientesAdicionais[i]['nome']} - R\$${widget.ingredientesAdicionais[i]['valor']}"),
-                            value: _checkboxes[i],
-                            onChanged: (value) {
-                              setState(() {
-                                _checkboxes[i] = value!;
-                                calcularValorTotal();
-                              });
-                            },
-                            controlAffinity: ListTileControlAffinity.leading,
-                          );
-                        },
-                      ),
+                      categoria == 'salgados'
+                          ? const Text(
+                              "Algum adicional?",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            )
+                          : const Text(""),
+                      categoria == 'salgados'
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: widget.ingredientesAdicionais.length,
+                              itemBuilder: (BuildContext context, int i) {
+                                return CheckboxListTile(
+                                  title: Text(
+                                      "${widget.ingredientesAdicionais[i]['nome']} - R\$${widget.ingredientesAdicionais[i]['valor']}"),
+                                  value: _checkboxes[i],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _checkboxes[i] = value!;
+                                      calcularValorTotal();
+                                    });
+                                  },
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
+                                );
+                              },
+                            )
+                          : const Text(" "),
                       const SizedBox(
                         height: 15,
                       ),

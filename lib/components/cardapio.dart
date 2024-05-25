@@ -5,21 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Cardapio extends StatefulWidget {
-  const Cardapio(
-      {super.key,
-      required this.category,
-      this.imageProduto,
-      this.descricaoProduto,
-      this.nomeProduto,
-      this.precoProduto,
-      this.onTap});
+  const Cardapio({
+    super.key,
+    required this.category,
+  });
 
   final String category;
-  final String? imageProduto;
-  final String? nomeProduto;
-  final String? precoProduto;
-  final String? descricaoProduto;
-  final void Function()? onTap;
 
   @override
   State<Cardapio> createState() => _CardapioState();
@@ -79,7 +70,10 @@ class _CardapioState extends State<Cardapio> {
                         MaterialPageRoute(
                           builder: (context) => const ProdutoSelecionado(),
                           settings: RouteSettings(
-                            arguments: products[i]['_id'],
+                            arguments: {
+                              "id_produto": products[i]['_id'],
+                              "categoria": widget.category
+                            },
                           ),
                         ),
                       )
