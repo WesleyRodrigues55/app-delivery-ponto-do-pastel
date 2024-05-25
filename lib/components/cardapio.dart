@@ -1,24 +1,16 @@
 import 'dart:convert';
+
 import 'package:app_delivery_ponto_do_pastel/pages/ProdutoSelecionado.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Cardapio extends StatefulWidget {
-  const Cardapio(
-      {super.key,
-      required this.category,
-      this.imageProduto,
-      this.descricaoProduto,
-      this.nomeProduto,
-      this.precoProduto,
-      this.onTap});
+  const Cardapio({
+    super.key,
+    required this.category,
+  });
 
   final String category;
-  final String? imageProduto;
-  final String? nomeProduto;
-  final String? precoProduto;
-  final String? descricaoProduto;
-  final void Function()? onTap;
 
   @override
   State<Cardapio> createState() => _CardapioState();
@@ -59,7 +51,7 @@ class _CardapioState extends State<Cardapio> {
       return const Center(
         child: CircularProgressIndicator(),
       );
-    } else if (products == null || products.isEmpty) {
+    } else if (products.isEmpty) {
       // Dados carregados, mas a lista de produtos está vazia
       return const Center(
         child: Text('Nenhum produto encontrado'),
@@ -71,22 +63,25 @@ class _CardapioState extends State<Cardapio> {
         itemBuilder: (BuildContext context, int i) {
           return SingleChildScrollView(
             child: CardapioItems(
-              // onTap: () => {Navigator.pushNamed(context, '/produto-selecionado', arguments: products[i]['_id'])},
-              onTap: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProdutoSelecionado(),
-                    settings: RouteSettings(
-                      arguments: products[i]['_id'],
-                    ),
-                  ),
-                )
-              },
-              imageProduto: products[i]['imagem_produto'].toString(),
-              descricaoProduto: products[i]['descricao'],
-              nomeProduto: products[i]['nome'],
-              precoProduto: products[i]['preco'].toString()
-            ),
+                // onTap: () => {Navigator.pushNamed(context, '/produto-selecionado', arguments: products[i]['_id'])},
+                onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProdutoSelecionado(),
+                          settings: RouteSettings(
+                            arguments: {
+                              "id_produto": products[i]['_id'],
+                              "categoria": widget.category
+                            },
+                          ),
+                        ),
+                      )
+                    },
+                imageProduto: products[i]['imagem_produto'].toString(),
+                descricaoProduto: products[i]['descricao'],
+                nomeProduto: products[i]['nome'],
+                precoProduto: products[i]['preco'].toString()),
           );
         },
       );
@@ -142,9 +137,8 @@ class CardapioItems extends StatelessWidget {
                         "Preço: R\$$precoProduto",
                         textAlign: TextAlign.right,
                         style: const TextStyle(
-                          fontFamily: 'Outfit-Bold',
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontFamily: 'Outfit-Bold',
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

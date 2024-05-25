@@ -1,11 +1,15 @@
-import 'package:app_delivery_ponto_do_pastel/pages/FormaPagamento.dart';
+import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
+import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Pagamento.dart';
+import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+
+List<String> list = ['Selecione', 'PIX'];
 
 class Carrinho extends StatefulWidget {
   const Carrinho({super.key});
@@ -15,59 +19,33 @@ class Carrinho extends StatefulWidget {
 }
 
 class _CarrinhoState extends State<Carrinho> {
+  final formKey = GlobalKey<FormState>();
+
   int _currentIndex = 0;
+  String dropdownValue = list.first; 
+  final controllerRua = TextEditingController();
+  final controllerNumero = TextEditingController();
+  final controllerBairro = TextEditingController();
+  final controllerReferencia = TextEditingController();
+
+  void validarBotao() {
+    if (formKey.currentState!.validate() && dropdownValue != 'Selecione') {
+      print('Funcionou');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Pagamento(),         
+        ),);
+    }    
+     else {
+      SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos');
+    }     
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 231, 231, 231),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-              onPressed: () {
-                print('Clique profile navbar');
-              },
-              icon: Icon(
-                Icons.person,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) => {
-          setState(() {
-            _currentIndex = index;
-            if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Carrinho()),
-              );
-            }
-          })
-        },
-        backgroundColor: const Color.fromARGB(255, 251, 251, 251),
-        unselectedItemColor: Colors.black,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu),
-            label: 'Cardápio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.summarize),
-            label: 'Pedidos',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.transparent,
-            icon: Icon(Icons.shopping_cart),
-            label: 'Carrinho',
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Form(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -86,10 +64,18 @@ class _CarrinhoState extends State<Carrinho> {
                             style: TextStyle(fontSize: 20),
                           ),
                           title: Text('Pastel de Chocolate'),
-                          subtitle: Text('R\$ 10,00'),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('R\$ 10,00'),
+                              Text('Adicional: Recheio extra'),
+                              Text('Adicional: Morango'),
+                              Text('Adicional: Confete'),
+                            ],
+                          ),
                           trailing: Image.network(
                               'https://images.pexels.com/photos/2233442/pexels-photo-2233442.jpeg'),
-                        ),
+                        ), TextButton(onPressed: (){},child: Text('Remover')),
                         Divider(
                           height: 0,
                           color: Color.fromARGB(255, 199, 197, 197),
@@ -161,8 +147,9 @@ class _CarrinhoState extends State<Carrinho> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Taxa de Entrega', style: TextStyle(fontSize: 14)),
-                        Text('R\$ 6,00', style: TextStyle(fontSize: 14))
+                        Text('Taxa Fixa de Entrega',
+                            style: TextStyle(fontSize: 14)),
+                        Text('R\$ 10,00', style: TextStyle(fontSize: 14))
                       ],
                     ),
                     SizedBox(
@@ -181,7 +168,7 @@ class _CarrinhoState extends State<Carrinho> {
                         Text('TOTAL',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold)),
-                        Text('R\$ 16,00',
+                        Text('R\$ 20,00',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold))
                       ],
@@ -202,7 +189,80 @@ class _CarrinhoState extends State<Carrinho> {
               child: Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Endereço de Entrega',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Outfit'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Form(
+                        key: formKey,
+                        child: Column(children: [
+                      InputCustom(
+                        controllerName: controllerRua,
+                        label: 'Rua',
+                        placeholder: 'Rua',
+                        keyboardType: TextInputType.text,
+                        validation: (value) {
+                          if (value == null || value.length <5){
+                            return 'Digite uma Rua válida.';
+                          }
+                          return null;
+                        },                   
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InputCustom(
+                        controllerName: controllerNumero,
+                        label: 'Número',
+                        placeholder: 'Número',
+                        keyboardType: TextInputType.number,
+                        validation: (value) {
+                          if (value == null || value.length < 1){
+                            return 'Digite um Número válido.';
+                          }
+                          return null;
+                        },         
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InputCustom(
+                        controllerName: controllerBairro,
+                        label: 'Bairro',
+                        placeholder: 'Bairro',
+                        keyboardType: TextInputType.text,
+                        validation: (value) {
+                          if (value == null || value.length <5){
+                            return 'Digite um Bairro válido.';
+                          }
+                          return null;
+                        },         
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InputCustom(
+                        controllerName: controllerReferencia,
+                        label: 'Referência',
+                        placeholder: 'Referência',
+                        keyboardType: TextInputType.text,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ])),
                     Row(
                       children: [
                         Text(
@@ -221,25 +281,28 @@ class _CarrinhoState extends State<Carrinho> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Pagamento',
+                          'Escolha a Forma de Pagamento:',
                           style: TextStyle(fontSize: 14),
                         ),
-                        TextButton(
-                          onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const FormaPagamento()),
-                            )
-                          },
-                          child: Text(
-                            'Escolher',
-                            style: TextStyle(
-                                fontSize: 14,
-                                decoration: TextDecoration.underline,
-                                color: Colors.black),
+                        DropdownButton(
+                          value: dropdownValue,
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.black),
+                          underline: Container(
+                            height: 1,
+                            color: Colors.red,
                           ),
-                        ),
+                          onChanged: (String? value) {
+                            setState(() {
+                              dropdownValue = value!;
+                            });
+                          },
+                          items: list
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                                value: value, child: Text(value));
+                          }).toList(),
+                        )
                       ],
                     )
                   ],
@@ -253,14 +316,11 @@ class _CarrinhoState extends State<Carrinho> {
                   extraLarge: 0,
                   textColor: Colors.black,
                   bgButton: Color.fromARGB(255, 199, 197, 197),
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Pagamento()),
-                    )
-                  },
+                  onPressed: () => {validarBotao()},
                 ),
+                SizedBox(
+                  height: 10,
+                )
               ],
             ),
           ],

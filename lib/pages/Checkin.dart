@@ -5,8 +5,8 @@ import 'package:app_delivery_ponto_do_pastel/components/primaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Checkin extends StatefulWidget {
   const Checkin({super.key});
@@ -28,16 +28,17 @@ class _CheckinState extends State<Checkin> {
       }
       if (isTrueLogin) {
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Home()
-          ),
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
         );
       } else {
         _codigoAcessoController.clear();
-        SnackBarUtils.showSnackBar(context, 'Código inválido!', color: Colors.red);
+        SnackBarUtils.showSnackBar(context, 'Código inválido!',
+            color: Colors.red);
       }
     } else {
-      SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos', color: Colors.red);
+      SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos',
+          color: Colors.red);
     }
   }
 
@@ -97,12 +98,13 @@ class _CheckinState extends State<Checkin> {
   }
 
   Future<bool> sendCodeVerification() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();    
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    // recebe id do produto selecionado
+    // recebe wpp do usuário que vai logar
     var wpp = ModalRoute.of(context)!.settings.arguments;
 
-    var url = Uri.parse('https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/authenticator-code-app');
+    var url = Uri.parse(
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/authenticator-code-app');
 
     var headers = {'Content-Type': 'application/json'};
     var data = {'username': wpp, 'senha': _codigoAcessoController.text};
@@ -118,7 +120,9 @@ class _CheckinState extends State<Checkin> {
       await sharedPreferences.setString('token', token.toString());
       return true;
     } else {
-      SnackBarUtils.showSnackBar(context, 'Código inválido, por favor, tente novamente!', color: Colors.red);
+      SnackBarUtils.showSnackBar(
+          context, 'Código inválido, por favor, tente novamente!',
+          color: Colors.red);
       return false;
     }
   }

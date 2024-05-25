@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-
 class BoasVindas extends StatefulWidget {
   const BoasVindas({super.key});
 
@@ -50,5 +49,4 @@ class _BoasVindasState extends State<BoasVindas> {
     }
     // return true;
   }
-
 }
