@@ -35,9 +35,10 @@ class _CarrinhoState extends State<Carrinho> {
   Future<void> fetchItensCarrinho() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString('token');
-    var headers = {'Authorization': 'Bearer $token'};
-    print('Fetching user with token: $token');
     String? userId = sharedPreferences.getString('userId');
+
+    var headers = {'Authorization': 'Bearer $token'};
+
     var url = Uri.parse(
         'https://backend-delivery-ponto-do-pastel.onrender.com/api/cart/get-cart-open-with-items-cart/$userId');
     var response = await http.get(url, headers: headers);
@@ -54,6 +55,16 @@ class _CarrinhoState extends State<Carrinho> {
     }
   }
 
+
+  void _existsItemsCart(listaCart) {
+    setState(() {
+
+      if (listaCart.isEmpty) {
+        print("Alterando estado");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -67,6 +78,32 @@ class _CarrinhoState extends State<Carrinho> {
         child: Text('Nenhum produto encontrado'),
       );
     } else {
+      if (itensCarrinho[0]['itens_carrinho'].isEmpty) {
+        return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.add_shopping_cart,
+              size: 80,
+              color: Colors.black,
+            ),
+            PrimaryButton(
+              title: 'Inicie sua compra', 
+              extraLarge: 0, 
+              bgButton: Color.fromARGB(255, 198, 6, 6),
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                )
+              },
+            )
+          ],
+        ),
+      );
+      }
+
       //Dados carregados e há produtos na lista
       return ListView.builder(
         itemCount: itensCarrinho.length,
@@ -78,6 +115,7 @@ class _CarrinhoState extends State<Carrinho> {
               taxaFixa: itensCarrinho[i]['taxa_fixa'],
               valorTotalComTaxa: itensCarrinho[i]['valor_total_com_taxa'],
               valorTotalCompra: itensCarrinho[i]['valor_total_compra'],
+              existsItemsCart: () => _existsItemsCart(itensCarrinho[i]['itens_carrinho']),
             ),
           );
         },
@@ -93,13 +131,16 @@ class CarrinhoBuilder extends StatefulWidget {
       required this.enderecoUsuarioList,
       required this.taxaFixa,
       required this.valorTotalComTaxa,
-      required this.valorTotalCompra});
+      required this.valorTotalCompra,
+      required this.existsItemsCart
+    });
 
   final String taxaFixa;
   final String valorTotalComTaxa;
   final String valorTotalCompra;
   final List<dynamic> itensCarrinhoList;
   final List<dynamic> enderecoUsuarioList;
+  final VoidCallback existsItemsCart;
 
   @override
   State<CarrinhoBuilder> createState() => _CarrinhoBuilderState();
@@ -112,7 +153,6 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
   @override
   void initState() {
     super.initState();
-    print(widget.enderecoUsuarioList);
   }
 
   void validarBotao() {
@@ -126,6 +166,17 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
     } else {
       SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos');
     }
+  }
+
+  void _onDeleteItem(String id) {
+    setState(() {
+      widget.itensCarrinhoList.removeWhere((item) => item['_id'] == id);
+      if (widget.itensCarrinhoList.isEmpty) {
+        widget.existsItemsCart();
+      }
+      print(widget.valorTotalComTaxa);
+      print(widget.valorTotalCompra);
+    });
   }
 
   @override
@@ -161,6 +212,9 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                     itemCount: widget.itensCarrinhoList.length,
                     itemBuilder: (BuildContext context, int i) {
                       return ItensCarrinho(
+                        onDelete: () => _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
+                        idItemCarrinho: widget.itensCarrinhoList[i]['_id'],
+
                         nomeProduto: widget.itensCarrinhoList[i]['produto']
                             ['nome'],
                         quantidade: widget.itensCarrinhoList[i]['quantidade'],
@@ -323,55 +377,149 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
   }
 }
 
-class ItensCarrinho extends StatelessWidget {
+class ItensCarrinho extends StatefulWidget {
   const ItensCarrinho(
       {super.key,
+      required this.idItemCarrinho,
       required this.nomeProduto,
       required this.quantidade,
       required this.precoTotal,
       required this.adicionaisList,
-      required this.imagem});
+      required this.imagem,
+      required this.onDelete,
+    });
+
+  final String idItemCarrinho;
   final int quantidade;
   final String nomeProduto;
   final String precoTotal;
   final String imagem;
   final List<dynamic> adicionaisList;
+  final VoidCallback onDelete;
+  
+
+  @override
+  State<ItensCarrinho> createState() => _ItensCarrinhoState();
+}
+
+class _ItensCarrinhoState extends State<ItensCarrinho> {
+  bool isLoading = true;
+
+  Future<void> deletedItemCart(idItemCart) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString('token');
+    
+    var headers = {
+      'Authorization': 'Bearer $token',
+    };
+
+    var url = Uri.parse(
+        'http://localhost:5000/api/items-cart/delete-item-cart-by-id/$idItemCart');
+
+    var response = await http.delete(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        widget.onDelete();
+        SnackBarUtils.showSnackBar(
+          context, 'Item removido do carrinho!', color: Colors.red);
+        isLoading = false; 
+      });
+    } else if (response.statusCode == 400)  {
+      setState(() {
+         SnackBarUtils.showSnackBar(
+          context, 'Ocorreu um erro em remover o item do carrinho', color: Colors.red);
+        isLoading = false; 
+      });
+    } else {
+      setState(() {
+        SnackBarUtils.showSnackBar(
+          context, 'Erro ao remover o item do carrinho.', color: Colors.red);
+        isLoading = false;
+      });
+    }
+  }
+
+  void removeItemCart(idItemCart) {
+    deletedItemCart(idItemCart);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(2.0),
       child: Column(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ListTile(
-                leading: Text(
-                  '${quantidade}x',
-                  style: TextStyle(fontSize: 20),
-                ),
-                title: Text(nomeProduto),
-                subtitle: Column(
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('R\$ ${precoTotal}'),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: adicionaisList.length,
-                      itemBuilder: (BuildContext context, int i) {
-                        return SingleChildScrollView(
-                          child: Text(
-                            'Adicional: ${adicionaisList[i]['nome']}',
+                    Row(
+                      children: [
+                        Text('1x'),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 40),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.nomeProduto,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                    Text('R\$ ${widget.precoTotal}'),
+                                    Container(
+                                      width: 200, // Define a largura máxima disponível
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: widget.adicionaisList.length,
+                                        itemBuilder: (BuildContext context, int i) {
+                                          return SingleChildScrollView(
+                                            child: Text(
+                                              'Adicional: ${widget.adicionaisList[i]['nome']}',
+                                              style: TextStyle(
+                                                fontSize: 10
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 60,
+                                width: 100,
+                                child: Image.network(
+                                  widget.imagem,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                        TextButton(
+                          onPressed: () => removeItemCart(widget.idItemCarrinho, ),
+                          child: Icon(
+                            Icons.delete_forever,
+                          )
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                trailing: Image.network(imagem),
               ),
-              TextButton(onPressed: () {}, child: Text('Remover')),
               Divider(
                 height: 0,
                 color: Color.fromARGB(255, 199, 197, 197),
