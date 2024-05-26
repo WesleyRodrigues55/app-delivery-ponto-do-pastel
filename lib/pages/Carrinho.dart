@@ -41,12 +41,10 @@ class _CarrinhoState extends State<Carrinho> {
     var url = Uri.parse(
         'https://backend-delivery-ponto-do-pastel.onrender.com/api/cart/get-cart-open-with-items-cart/$userId');
     var response = await http.get(url, headers: headers);
-
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       setState(() {
         itensCarrinho = data['results'];
-        print(data['results']);
         isLoading = false; // Indica que os dados foram carregados
       });
     } else {
@@ -110,11 +108,15 @@ class CarrinhoBuilder extends StatefulWidget {
 class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
   int _currentIndex = 0;
   String dropdownValue = list.first;
-  final formKey = GlobalKey<FormState>();  
+  final formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    print(widget.enderecoUsuarioList);
+  }
 
   void validarBotao() {
     if (dropdownValue != 'Selecione') {
-      print('Funcionou');
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -165,6 +167,8 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                         precoTotal: widget.itensCarrinhoList[i]['preco_total'],
                         adicionaisList: widget.itensCarrinhoList[i]
                             ['lista_ingredientes'],
+                        imagem: widget.itensCarrinhoList[i]['produto']
+                            ['imagem_produto'],
                       );
                     },
                   ),
@@ -250,7 +254,9 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  EnderecoUsuario(),
+                  EnderecoUsuario(
+                    enderecoUsuarioList: widget.enderecoUsuarioList,
+                  ),
                   Row(
                     children: [
                       Text(
@@ -323,10 +329,12 @@ class ItensCarrinho extends StatelessWidget {
       required this.nomeProduto,
       required this.quantidade,
       required this.precoTotal,
-      required this.adicionaisList});
+      required this.adicionaisList,
+      required this.imagem});
   final int quantidade;
   final String nomeProduto;
   final String precoTotal;
+  final String imagem;
   final List<dynamic> adicionaisList;
   @override
   Widget build(BuildContext context) {
@@ -361,8 +369,7 @@ class ItensCarrinho extends StatelessWidget {
                     ),
                   ],
                 ),
-                trailing: Image.network(
-                    'https://images.pexels.com/photos/2233442/pexels-photo-2233442.jpeg'),
+                trailing: Image.network(imagem),
               ),
               TextButton(onPressed: () {}, child: Text('Remover')),
               Divider(
@@ -378,8 +385,8 @@ class ItensCarrinho extends StatelessWidget {
 }
 
 class EnderecoUsuario extends StatefulWidget {
-  const EnderecoUsuario({super.key});
-   
+  const EnderecoUsuario({super.key, required this.enderecoUsuarioList});
+  final List<dynamic> enderecoUsuarioList;
   @override
   State<EnderecoUsuario> createState() => _EnderecoUsuarioState();
 }
@@ -393,7 +400,6 @@ class _EnderecoUsuarioState extends State<EnderecoUsuario> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -417,7 +423,7 @@ class _EnderecoUsuarioState extends State<EnderecoUsuario> {
               InputCustom(
                 controllerName: controllerRua,
                 label: 'Rua',
-                placeholder: 'Rua',
+                placeholder: 'Rua',                
                 keyboardType: TextInputType.text,
                 validation: (value) {
                   if (value == null || value.length < 5) {
