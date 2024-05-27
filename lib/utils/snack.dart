@@ -7,6 +7,8 @@ class SnackBarUtils {
       SnackBar(
         content: Text(mensagem),
         backgroundColor: color ?? Colors.black,
+        duration: Duration(seconds: 1),
+
       ),
     );
   }

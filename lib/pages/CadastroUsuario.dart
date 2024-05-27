@@ -58,6 +58,7 @@ Future<bool> sendCodeVerification() async {
         "nome": _nomeController.text,
         "username": _whatsappController.text,
         "whatsapp": _whatsappController.text,
+        "email": _whatsappController.text,
         "cpf": _cpfController.text,
         "data_nascimento": convertDate(_dataNascimentoController.text),
         "nivel": 1,
@@ -98,7 +99,7 @@ Future<bool> sendCodeVerification() async {
           _dataNascimentoController.clear();
           _whatsappController.clear();
 
-          SnackBarUtils.showSnackBar(context, 'Usuário cadastrado com sucesso!');
+          SnackBarUtils.showSnackBar(context, 'Usuário cadastrado com sucesso!', color: Colors.green);
         } 
       });
     } else {

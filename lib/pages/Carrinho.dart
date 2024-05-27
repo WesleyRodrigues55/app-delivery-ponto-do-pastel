@@ -1,3 +1,4 @@
+import 'package:app_delivery_ponto_do_pastel/components/CartEmpty.dart';
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
 import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
@@ -61,6 +62,8 @@ class _CarrinhoState extends State<Carrinho> {
 
       if (listaCart.isEmpty) {
         print("Alterando estado");
+      } else {
+        fetchItensCarrinho();
       }
     });
   }
@@ -74,34 +77,10 @@ class _CarrinhoState extends State<Carrinho> {
       );
     } else if (itensCarrinho.isEmpty) {
       // Dados carregados, mas a lista de produtos está vazia
-      return const Center(
-        child: Text('Nenhum produto encontrado'),
-      );
+      return CartEmpty();
     } else {
       if (itensCarrinho[0]['itens_carrinho'].isEmpty) {
-        return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add_shopping_cart,
-              size: 80,
-              color: Colors.black,
-            ),
-            PrimaryButton(
-              title: 'Inicie sua compra', 
-              extraLarge: 0, 
-              bgButton: Color.fromARGB(255, 198, 6, 6),
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()),
-                )
-              },
-            )
-          ],
-        ),
-      );
+        return CartEmpty();
       }
 
       //Dados carregados e há produtos na lista
@@ -123,6 +102,8 @@ class _CarrinhoState extends State<Carrinho> {
     }
   }
 }
+
+
 
 class CarrinhoBuilder extends StatefulWidget {
   const CarrinhoBuilder(
@@ -174,8 +155,7 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
       if (widget.itensCarrinhoList.isEmpty) {
         widget.existsItemsCart();
       }
-      print(widget.valorTotalComTaxa);
-      print(widget.valorTotalCompra);
+      widget.existsItemsCart();
     });
   }
 
@@ -414,7 +394,7 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
     };
 
     var url = Uri.parse(
-        'http://localhost:5000/api/items-cart/delete-item-cart-by-id/$idItemCart');
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/items-cart/delete-item-cart-by-id/$idItemCart');
 
     var response = await http.delete(url, headers: headers);
 
