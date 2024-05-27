@@ -51,7 +51,7 @@ String convertDate(String data) {
 
 Future<bool> sendCodeVerification() async {
     var url = Uri.parse(
-        'http://localhost:5000/api/auth/register-with-wpp');
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/register-with-wpp');
 
     var headers = {'Content-Type': 'application/json'};
     var data = {
