@@ -63,9 +63,8 @@ class _CheckinState extends State<Checkin> {
             child: Column(
               children: [
                 const Text(
-                  'Valide sua Conta',
+                  'Valide sua conta',
                   style: TextStyle(
-                    color: Color.fromRGBO(132, 147, 172, 1),
                     fontFamily: 'OutFIT',
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
