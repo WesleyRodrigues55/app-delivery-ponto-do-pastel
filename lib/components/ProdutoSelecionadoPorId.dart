@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
+import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProdutoSelecionadoPorId extends StatefulWidget {
   const ProdutoSelecionadoPorId({super.key});
@@ -66,6 +68,7 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
         itemBuilder: (BuildContext context, int i) {
           return SingleChildScrollView(
             child: TelaProdutoSelecionadoPorId(
+              idProduto: product[i]['_id'],
               nomeProduto: product[i]['nome'],
               descricaoProduto: product[i]['descricao'],
               precoProduto: product[i]['preco'].toString(),
@@ -82,6 +85,7 @@ class _ProdutoSelecionadoPorIdState extends State<ProdutoSelecionadoPorId> {
 class TelaProdutoSelecionadoPorId extends StatefulWidget {
   const TelaProdutoSelecionadoPorId({
     super.key,
+    required this.idProduto,
     required this.nomeProduto,
     required this.descricaoProduto,
     required this.imagemProduto,
@@ -89,6 +93,7 @@ class TelaProdutoSelecionadoPorId extends StatefulWidget {
     required this.ingredientesAdicionais,
   });
 
+  final String idProduto;
   final String nomeProduto;
   final String descricaoProduto;
   final String imagemProduto;
@@ -100,12 +105,14 @@ class TelaProdutoSelecionadoPorId extends StatefulWidget {
       _TelaProdutoSelecionadoPorIdState();
 }
 
-class _TelaProdutoSelecionadoPorIdState
-    extends State<TelaProdutoSelecionadoPorId> {
+class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorId> {
   final _obsController = TextEditingController();
   int quantidadeProduto = 1;
   double valorTotal = 0;
   late List<bool> _checkboxes;
+  List<Map<dynamic, dynamic>> listAdicionais = [];
+
+  
 
   @override
   void initState() {
@@ -139,8 +146,7 @@ class _TelaProdutoSelecionadoPorIdState
 
     for (int i = 0; i < _checkboxes.length; i++) {
       if (_checkboxes[i]) {
-        valorAdicionais +=
-            double.parse(widget.ingredientesAdicionais[i]['valor']);
+        valorAdicionais += double.parse(widget.ingredientesAdicionais[i]['valor']);
       }
     }
 
@@ -151,6 +157,79 @@ class _TelaProdutoSelecionadoPorIdState
   void dispose() {
     _obsController.dispose();
     super.dispose();
+  }
+
+  void addItemInList(indexCheckbox) {
+    double valorAdicionais = 0;
+    listAdicionais.clear();
+    for (int i = 0; i < _checkboxes.length; i++) {
+      if (_checkboxes[i]) {
+        listAdicionais.add(
+          {
+            "id": widget.ingredientesAdicionais[i]['_id'].toString(),
+            "preco": double.parse(widget.ingredientesAdicionais[i]['valor'].toString()),
+            "nome": widget.ingredientesAdicionais[i]['nome'].toString(),
+          }
+        );
+      } 
+    }
+  }
+
+  Future<bool> insertItemInCart(infosProduct) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString('token');
+    var userID = sharedPreferences.getString('userId');
+    
+    var url = Uri.parse(
+        'http://localhost:5000/api/items-cart/insert_item_in_cart/$userID');
+
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+
+    var data = {
+      "produto_id": infosProduct['idProduto'],
+      "lista_ingredientes": infosProduct['adicionais'],
+      "quantidade": infosProduct['qtd'],
+      "preco_unitario": infosProduct['precoUnitario'],
+      "preco_total": infosProduct['precoTotal'],
+      "observacao": infosProduct['observacao'],
+    };
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: json.encode(data),
+    );
+    if (response.statusCode == 200) {
+      SnackBarUtils.showSnackBar(
+          context, 'Item adicionado no carrinho!', color: Colors.green);
+      return true;
+    } else if (response.statusCode == 400) {
+        SnackBarUtils.showSnackBar(
+          context, 'Erro ao inserir produto no carrinho!',
+          color: Colors.red);
+      return false;
+    } else {
+      SnackBarUtils.showSnackBar(
+          context, 'Erro ao inserir produto no carrinho',
+          color: Colors.red);
+      return false;
+    }
+  }
+
+  void getInfosAndSubmitForm() {
+    Map<String, dynamic> infosProduct = {
+      "idProduto": widget.idProduto,
+      "precoUnitario": widget.precoProduto.toString(),
+      "precoTotal": valorTotal.toString(),
+      "qtd": quantidadeProduto,
+      "adicionais": listAdicionais,
+      "observacao": _obsController.text,
+    };
+
+    insertItemInCart(infosProduct);
   }
 
   @override
@@ -246,6 +325,7 @@ class _TelaProdutoSelecionadoPorIdState
                                   onChanged: (value) {
                                     setState(() {
                                       _checkboxes[i] = value!;
+                                      addItemInList(_checkboxes[i]);
                                       calcularValorTotal();
                                     });
                                   },
@@ -293,7 +373,7 @@ class _TelaProdutoSelecionadoPorIdState
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: TextButton(
-                                onPressed: () {},
+                                onPressed: getInfosAndSubmitForm,
                                 child: Text(
                                     "Adicionar R\$${valorTotal.toStringAsFixed(2)}")),
                           ),
