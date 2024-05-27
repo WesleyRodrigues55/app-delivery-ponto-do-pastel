@@ -181,7 +181,7 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
     var userID = sharedPreferences.getString('userId');
     
     var url = Uri.parse(
-        'http://localhost:5000/api/items-cart/insert_item_in_cart/66368613152b884cf07deff0');
+        'http://localhost:5000/api/items-cart/insert_item_in_cart/$userID');
 
     var headers = {
       'Authorization': 'Bearer $token',
@@ -193,7 +193,8 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
       "lista_ingredientes": infosProduct['adicionais'],
       "quantidade": infosProduct['qtd'],
       "preco_unitario": infosProduct['precoUnitario'],
-      "preco_total": infosProduct['precoTotal']
+      "preco_total": infosProduct['precoTotal'],
+      "observacao": infosProduct['observacao'],
     };
 
     var response = await http.post(
@@ -203,7 +204,7 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
     );
     if (response.statusCode == 200) {
       SnackBarUtils.showSnackBar(
-          context, 'Item adiciondo no carrinho!', color: Colors.green);
+          context, 'Item adicionado no carrinho!', color: Colors.green);
       return true;
     } else if (response.statusCode == 400) {
         SnackBarUtils.showSnackBar(
@@ -228,12 +229,7 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
       "observacao": _obsController.text,
     };
 
-    // falta observação 
-    
     insertItemInCart(infosProduct);
-
-
-
   }
 
   @override
