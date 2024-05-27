@@ -168,105 +168,109 @@ Future<bool> sendCodeVerification() async {
       ),
       body: Form(
         key: formKey,
-        child: Column(
-          children: [
-            Expanded(
-              child: Stepper(
-                type: _isVerticalStepper
-                    ? StepperType.vertical
-                    : StepperType.horizontal,
-                physics: const ScrollPhysics(),
-                currentStep: _currentStep,
-                onStepTapped: (step) => _stepTapped(step),
-                onStepContinue: _stepContinue,
-                onStepCancel: _stepCancel,
-                steps: [
-                  Step(
-                    title: const Text('Dados pessoais',
-                        style: TextStyle(
-                          fontFamily: 'Outfit',
-                          fontSize: 15.0,
-                        )),
-                    content: Column(
-                      children: [
-                        InputCustom(
-                          keyboardType: TextInputType.name,
-                          label: "Nome do usuário",
-                          placeholder: "Digite o seu nome completo",
-                          controllerName: _nomeController,
-                          validation: (value) => validateUsuario(value,)
-                        ),
-                        InputCustom(
-                          qtdLength: 11,
-                          keyboardType: TextInputType.number,
-                          label: "CPF",
-                          placeholder: "Digite o seu CPF, somente números!",
-                          controllerName: _cpfController,
-                          validation: (value) => validateCPF(value),
-                        ),
-                        InputCustom(
-                          qtdLength: 10,
-                          keyboardType: TextInputType.datetime,
-                          label: 'Data de Nascimento',
-                          placeholder: 'Exemplo: 27/01/1999',
-                          controllerName: _dataNascimentoController,
-                          validation: (value) => validateData(value),
-                          onChanged: (value) {
-                            changedValidadteData(value);
-                          },
-                        ),
-                      ],
+        child: Container(
+          height: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Stepper(
+                  type: _isVerticalStepper
+                      ? StepperType.vertical
+                      : StepperType.horizontal,
+                  physics: const ScrollPhysics(),
+                  currentStep: _currentStep,
+                  onStepTapped: (step) => _stepTapped(step),
+                  onStepContinue: _stepContinue,
+                  onStepCancel: _stepCancel,
+                  steps: [
+                    Step(
+                      title: const Text('Dados pessoais',
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
+                            fontSize: 15.0,
+                          )),
+                      content: Column(
+                        children: [
+                          InputCustom(
+                            keyboardType: TextInputType.name,
+                            label: "Nome do usuário",
+                            placeholder: "Digite o seu nome completo",
+                            controllerName: _nomeController,
+                            validation: (value) => validateUsuario(value,)
+                          ),
+                          InputCustom(
+                            qtdLength: 11,
+                            keyboardType: TextInputType.number,
+                            label: "CPF",
+                            placeholder: "Digite o seu CPF, somente números!",
+                            controllerName: _cpfController,
+                            validation: (value) => validateCPF(value),
+                          ),
+                          InputCustom(
+                            qtdLength: 10,
+                            keyboardType: TextInputType.datetime,
+                            label: 'Data de Nascimento',
+                            placeholder: 'Exemplo: 27/01/1999',
+                            controllerName: _dataNascimentoController,
+                            validation: (value) => validateData(value),
+                            onChanged: (value) {
+                              changedValidadteData(value);
+                            },
+                          ),
+                        ],
+                      ),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 1
+                          ? StepState.complete
+                          : StepState.disabled,
                     ),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 1
-                        ? StepState.complete
-                        : StepState.disabled,
-                  ),
-                  Step(
-                    title: const Text('WhatsApp',
-                        style: TextStyle(
-                          fontFamily: 'Outfit',
-                          fontSize: 15.0,
-                        )),
-                    content: Column(
-                      children: [
-                        InputCustom(
-                          qtdLength: 12,
-                          keyboardType: TextInputType.number,
-                          label: "Digite seu número de wpp com o DDD (somente números)",
-                          placeholder: "Digite seu número de wpp com o DDD (somente números)",
-                          controllerName: _whatsappController,
-                          validation: (whatsapp) {
-                            if (whatsapp == null || whatsapp.isEmpty) {
-                              return "Informe o número de celular";
-                            } else if (whatsapp.length < 11) {
-                              // Considerando os parênteses e o traço
-                              return "O número de celular deve conter 12 dígitos";
-                            } 
-                            return null;
-                          },
-                        ),
-                      ],
+                    Step(
+                      title: const Text('WhatsApp',
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
+                            fontSize: 15.0,
+                          )),
+                      content: Column(
+                        children: [
+                          InputCustom(
+                            qtdLength: 12,
+                            keyboardType: TextInputType.number,
+                            label: "Digite seu número de wpp com o DDD (somente números)",
+                            placeholder: "Digite seu número de wpp com o DDD (somente números)",
+                            controllerName: _whatsappController,
+                            validation: (whatsapp) {
+                              if (whatsapp == null || whatsapp.isEmpty) {
+                                return "Informe o número de celular";
+                              } else if (whatsapp.length < 11) {
+                                // Considerando os parênteses e o traço
+                                return "O número de celular deve conter 12 dígitos";
+                              } 
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 2
+                          ? StepState.complete
+                          : StepState.disabled,
                     ),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 2
-                        ? StepState.complete
-                        : StepState.disabled,
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            PrimaryButton(
-              title: 'Cadastrar',
-              extraLarge: 2,
-              onPressed: () {
-                validaCampos();
-              },
-            ),
-            const SizedBox(
-              height: 200,
-            ),
-          ],
+              PrimaryButton(
+                title: 'Cadastrar',
+                extraLarge: 2,
+                onPressed: () {
+                  validaCampos();
+                },
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+            ],
+          ),
         ),
       ),
     );
