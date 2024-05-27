@@ -12,6 +12,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -159,6 +160,12 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
     });
   }
 
+  String formatToTwoDecimalPlaces(String value) {
+    final number = double.parse(value);
+    final formatter = NumberFormat("#,##0.00", "en_US");
+    return formatter.format(number);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -233,7 +240,7 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Subtotal', style: TextStyle(fontSize: 14)),
-                      Text('R\$ ${widget.valorTotalCompra}',
+                      Text('R\$ ${formatToTwoDecimalPlaces(widget.valorTotalCompra)}',
                           style: TextStyle(fontSize: 14))
                     ],
                   ),
@@ -245,7 +252,7 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                     children: [
                       Text('Taxa Fixa de Entrega',
                           style: TextStyle(fontSize: 14)),
-                      Text('R\$ ${widget.taxaFixa}',
+                      Text('R\$ ${formatToTwoDecimalPlaces(widget.taxaFixa)}',
                           style: TextStyle(fontSize: 14))
                     ],
                   ),
@@ -265,7 +272,7 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                       Text('TOTAL',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
-                      Text('R\$ ${widget.valorTotalComTaxa}',
+                      Text('R\$ ${formatToTwoDecimalPlaces(widget.valorTotalComTaxa)}',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold))
                     ],
@@ -424,6 +431,12 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
     deletedItemCart(idItemCart);
   }
 
+  String formatToTwoDecimalPlaces(String value) {
+    final number = double.parse(value);
+    final formatter = NumberFormat("#,##0.00", "en_US");
+    return formatter.format(number);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -456,7 +469,7 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
                                         fontWeight: FontWeight.bold
                                       ),
                                     ),
-                                    Text('R\$ ${widget.precoTotal}'),
+                                    Text('R\$ ${formatToTwoDecimalPlaces(widget.precoTotal)}'),
                                     Container(
                                       width: 200, // Define a largura máxima disponível
                                       child: ListView.builder(
