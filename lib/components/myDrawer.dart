@@ -1,4 +1,5 @@
 import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +39,12 @@ class itemsDrawer extends StatelessWidget {
             ListTile(
               title: const Text('Meu Perfil'),
               onTap: () {
-                print('Meu Perfil');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyData(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -56,7 +62,7 @@ class itemsDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text('Políticas de privacidade'),
+              title: const Text('Políticas de Privacidade'),
               onTap: () {
                 print('Políticas de privacidade');
               },
