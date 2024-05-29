@@ -57,10 +57,8 @@ class _CarrinhoState extends State<Carrinho> {
     }
   }
 
-
   void _existsItemsCart(listaCart) {
     setState(() {
-
       if (listaCart.isEmpty) {
         print("Alterando estado");
       } else {
@@ -95,7 +93,8 @@ class _CarrinhoState extends State<Carrinho> {
               taxaFixa: itensCarrinho[i]['taxa_fixa'],
               valorTotalComTaxa: itensCarrinho[i]['valor_total_com_taxa'],
               valorTotalCompra: itensCarrinho[i]['valor_total_compra'],
-              existsItemsCart: () => _existsItemsCart(itensCarrinho[i]['itens_carrinho']),
+              existsItemsCart: () =>
+                  _existsItemsCart(itensCarrinho[i]['itens_carrinho']),
             ),
           );
         },
@@ -103,8 +102,6 @@ class _CarrinhoState extends State<Carrinho> {
     }
   }
 }
-
-
 
 class CarrinhoBuilder extends StatefulWidget {
   const CarrinhoBuilder(
@@ -114,8 +111,7 @@ class CarrinhoBuilder extends StatefulWidget {
       required this.taxaFixa,
       required this.valorTotalComTaxa,
       required this.valorTotalCompra,
-      required this.existsItemsCart
-    });
+      required this.existsItemsCart});
 
   final String taxaFixa;
   final String valorTotalComTaxa;
@@ -199,9 +195,9 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                     itemCount: widget.itensCarrinhoList.length,
                     itemBuilder: (BuildContext context, int i) {
                       return ItensCarrinho(
-                        onDelete: () => _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
+                        onDelete: () =>
+                            _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
                         idItemCarrinho: widget.itensCarrinhoList[i]['_id'],
-
                         nomeProduto: widget.itensCarrinhoList[i]['produto']
                             ['nome'],
                         quantidade: widget.itensCarrinhoList[i]['quantidade'],
@@ -240,7 +236,8 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Subtotal', style: TextStyle(fontSize: 14)),
-                      Text('R\$ ${formatToTwoDecimalPlaces(widget.valorTotalCompra)}',
+                      Text(
+                          'R\$ ${formatToTwoDecimalPlaces(widget.valorTotalCompra)}',
                           style: TextStyle(fontSize: 14))
                     ],
                   ),
@@ -272,7 +269,8 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                       Text('TOTAL',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
-                      Text('R\$ ${formatToTwoDecimalPlaces(widget.valorTotalComTaxa)}',
+                      Text(
+                          'R\$ ${formatToTwoDecimalPlaces(widget.valorTotalComTaxa)}',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold))
                     ],
@@ -365,16 +363,16 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
 }
 
 class ItensCarrinho extends StatefulWidget {
-  const ItensCarrinho(
-      {super.key,
-      required this.idItemCarrinho,
-      required this.nomeProduto,
-      required this.quantidade,
-      required this.precoTotal,
-      required this.adicionaisList,
-      required this.imagem,
-      required this.onDelete,
-    });
+  const ItensCarrinho({
+    super.key,
+    required this.idItemCarrinho,
+    required this.nomeProduto,
+    required this.quantidade,
+    required this.precoTotal,
+    required this.adicionaisList,
+    required this.imagem,
+    required this.onDelete,
+  });
 
   final String idItemCarrinho;
   final int quantidade;
@@ -383,7 +381,6 @@ class ItensCarrinho extends StatefulWidget {
   final String imagem;
   final List<dynamic> adicionaisList;
   final VoidCallback onDelete;
-  
 
   @override
   State<ItensCarrinho> createState() => _ItensCarrinhoState();
@@ -395,7 +392,7 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
   Future<void> deletedItemCart(idItemCart) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString('token');
-    
+
     var headers = {
       'Authorization': 'Bearer $token',
     };
@@ -408,20 +405,22 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
     if (response.statusCode == 200) {
       setState(() {
         widget.onDelete();
-        SnackBarUtils.showSnackBar(
-          context, 'Item removido do carrinho!', color: Colors.red);
-        isLoading = false; 
+        SnackBarUtils.showSnackBar(context, 'Item removido do carrinho!',
+            color: Colors.red);
+        isLoading = false;
       });
-    } else if (response.statusCode == 400)  {
+    } else if (response.statusCode == 400) {
       setState(() {
-         SnackBarUtils.showSnackBar(
-          context, 'Ocorreu um erro em remover o item do carrinho', color: Colors.red);
-        isLoading = false; 
+        SnackBarUtils.showSnackBar(
+            context, 'Ocorreu um erro em remover o item do carrinho',
+            color: Colors.red);
+        isLoading = false;
       });
     } else {
       setState(() {
         SnackBarUtils.showSnackBar(
-          context, 'Erro ao remover o item do carrinho.', color: Colors.red);
+            context, 'Erro ao remover o item do carrinho.',
+            color: Colors.red);
         isLoading = false;
       });
     }
@@ -466,23 +465,24 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
                                     Text(
                                       widget.nomeProduto,
                                       style: TextStyle(
-                                        fontWeight: FontWeight.bold
-                                      ),
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    Text('R\$ ${formatToTwoDecimalPlaces(widget.precoTotal)}'),
+                                    Text(
+                                        'R\$ ${formatToTwoDecimalPlaces(widget.precoTotal)}'),
                                     Container(
-                                      width: 200, // Define a largura máxima disponível
+                                      width:
+                                          200, // Define a largura máxima disponível
                                       child: ListView.builder(
                                         shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         itemCount: widget.adicionaisList.length,
-                                        itemBuilder: (BuildContext context, int i) {
+                                        itemBuilder:
+                                            (BuildContext context, int i) {
                                           return SingleChildScrollView(
                                             child: Text(
                                               'Adicional: ${widget.adicionaisList[i]['nome']}',
-                                              style: TextStyle(
-                                                fontSize: 10
-                                              ),
+                                              style: TextStyle(fontSize: 10),
                                             ),
                                           );
                                         },
@@ -492,8 +492,8 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
                                 ),
                               ),
                               SizedBox(
-                                height: 60,
-                                width: 100,
+                                height: 40,
+                                width: 80,
                                 child: Image.network(
                                   widget.imagem,
                                   fit: BoxFit.cover,
@@ -502,14 +502,15 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
                             ],
                           ),
                         ),
-                        TextButton(
-                          onPressed: () => removeItemCart(widget.idItemCarrinho, ),
-                          child: Icon(
-                            Icons.delete_forever,
-                          )
-                        ),
                       ],
                     ),
+                    TextButton(
+                        onPressed: () => removeItemCart(
+                              widget.idItemCarrinho,
+                            ),
+                        child: Icon(
+                          Icons.delete_forever,
+                        )),
                   ],
                 ),
               ),
@@ -564,7 +565,7 @@ class _EnderecoUsuarioState extends State<EnderecoUsuario> {
               InputCustom(
                 controllerName: controllerRua,
                 label: 'Rua',
-                placeholder: 'Rua',                
+                placeholder: 'Rua',
                 keyboardType: TextInputType.text,
                 validation: (value) {
                   if (value == null || value.length < 5) {
