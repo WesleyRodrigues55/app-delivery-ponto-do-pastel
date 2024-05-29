@@ -30,45 +30,58 @@ class itemsDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 60),
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              title: const Text('Meu Perfil'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyData(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('Fale Conosco'),
-              onTap: () {
-                // abre wpp do suporte
-                print('Fale Conosco');
-              },
-            ),
-            ListTile(
-              title: const Text('Dúvidas Frequentes'),
-              onTap: () {
-                // perguntas respostas
-                print('Dúvidas Frequentes');
-              },
-            ),
-            ListTile(
-              title: const Text('Políticas de Privacidade'),
-              onTap: () {
-                print('Políticas de privacidade');
-              },
-            ),
-          ],
-        ));
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              ListTile(
+                leading: Icon(Icons.person),
+                title: const Text('Meu Perfil'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MyData(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.policy),
+                title: const Text('Políticas de Privacidade'),
+                onTap: () {
+                  print('Políticas de privacidade');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.help),
+                title: const Text('Dúvidas Frequentes'),
+                onTap: () {
+                  // perguntas respostas
+                  print('Dúvidas Frequentes');
+                },
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              ListTile(
+                leading: Icon(Icons.message),
+                title: const Text('Fale Conosco'),
+                onTap: () {
+                  // abre wpp do suporte
+                  print('Fale Conosco');
+                },
+              ),
+              SizedBox(height: 20,)
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 
