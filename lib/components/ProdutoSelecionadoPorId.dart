@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -205,6 +206,12 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
     if (response.statusCode == 200) {
       SnackBarUtils.showSnackBar(
           context, 'Item adicionado no carrinho!', color: Colors.green);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Home(),
+            ),
+          );
       return true;
     } else if (response.statusCode == 400) {
         SnackBarUtils.showSnackBar(

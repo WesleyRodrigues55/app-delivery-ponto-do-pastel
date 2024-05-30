@@ -1,22 +1,14 @@
 import 'package:app_delivery_ponto_do_pastel/components/CartEmpty.dart';
-import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
-import 'package:app_delivery_ponto_do_pastel/components/myDrawer.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Pagamento.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/CheckoutCompra.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:easy_stepper/easy_stepper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-
-List<String> list = ['Selecione', 'PIX'];
 
 class Carrinho extends StatefulWidget {
   const Carrinho({super.key});
@@ -28,6 +20,7 @@ class Carrinho extends StatefulWidget {
 class _CarrinhoState extends State<Carrinho> {
   List<dynamic> itensCarrinho = [];
   bool isLoading = true;
+  
   @override
   void initState() {
     super.initState();
@@ -88,15 +81,14 @@ class _CarrinhoState extends State<Carrinho> {
       return ListView.builder(
         itemCount: itensCarrinho.length,
         itemBuilder: (BuildContext context, int i) {
-          return SingleChildScrollView(
-            child: CarrinhoBuilder(
-              enderecoUsuarioList: itensCarrinho[i]['endereco_usuario'],
-              itensCarrinhoList: itensCarrinho[i]['itens_carrinho'],
-              taxaFixa: itensCarrinho[i]['taxa_fixa'],
-              valorTotalComTaxa: itensCarrinho[i]['valor_total_com_taxa'],
-              valorTotalCompra: itensCarrinho[i]['valor_total_compra'],
-              existsItemsCart: () => _existsItemsCart(itensCarrinho[i]['itens_carrinho']),
-            ),
+          return CarrinhoBuilder(
+            idCarrinho: itensCarrinho[i]['_id'],
+            enderecoUsuarioList: itensCarrinho[i]['endereco_usuario'],
+            itensCarrinhoList: itensCarrinho[i]['itens_carrinho'],
+            taxaFixa: itensCarrinho[i]['taxa_fixa'],
+            valorTotalComTaxa: itensCarrinho[i]['valor_total_com_taxa'],
+            valorTotalCompra: itensCarrinho[i]['valor_total_compra'],
+            existsItemsCart: () => _existsItemsCart(itensCarrinho[i]['itens_carrinho']),
           );
         },
       );
@@ -109,6 +101,7 @@ class _CarrinhoState extends State<Carrinho> {
 class CarrinhoBuilder extends StatefulWidget {
   const CarrinhoBuilder(
       {super.key,
+      required this.idCarrinho,
       required this.itensCarrinhoList,
       required this.enderecoUsuarioList,
       required this.taxaFixa,
@@ -117,6 +110,7 @@ class CarrinhoBuilder extends StatefulWidget {
       required this.existsItemsCart
     });
 
+  final String idCarrinho;
   final String taxaFixa;
   final String valorTotalComTaxa;
   final String valorTotalCompra;
@@ -129,26 +123,8 @@ class CarrinhoBuilder extends StatefulWidget {
 }
 
 class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
-  int _currentIndex = 0;
-  String dropdownValue = list.first;
-  final formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    super.initState();
-  }
 
-  void validarBotao() {
-    if (dropdownValue != 'Selecione') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Pagamento(),
-        ),
-      );
-    } else {
-      SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos');
-    }
-  }
+  
 
   void _onDeleteItem(String id) {
     setState(() {
@@ -160,203 +136,66 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
     });
   }
 
-  String formatToTwoDecimalPlaces(String value) {
-    final number = double.parse(value);
-    final formatter = NumberFormat("#,##0.00", "en_US");
-    return formatter.format(number);
+  void continueBuyCheckout() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CheckoutCompra(),
+        settings: RouteSettings(
+          arguments: widget.idCarrinho
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 400,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: const Text(
-                          'Itens Carrinho',
-                          style: TextStyle(
-                            fontFamily: 'OutFIT',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ],
+          Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Text(
+                  'Itens Carrinho',
+                  style: TextStyle(
+                    fontFamily: 'OutFIT',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.itensCarrinhoList.length,
-                    itemBuilder: (BuildContext context, int i) {
-                      return ItensCarrinho(
-                        onDelete: () => _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
-                        idItemCarrinho: widget.itensCarrinhoList[i]['_id'],
-
-                        nomeProduto: widget.itensCarrinhoList[i]['produto']
-                            ['nome'],
-                        quantidade: widget.itensCarrinhoList[i]['quantidade'],
-                        precoTotal: widget.itensCarrinhoList[i]['preco_total'],
-                        adicionaisList: widget.itensCarrinhoList[i]
-                            ['lista_ingredientes'],
-                        imagem: widget.itensCarrinhoList[i]['produto']
-                            ['imagem_produto'],
-                      );
-                    },
-                  ),
-                ],
+                ),
               ),
-            ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.itensCarrinhoList.length,
+                itemBuilder: (BuildContext context, int i) {
+                  return ItensCarrinho(
+                    onDelete: () => _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
+                    idItemCarrinho: widget.itensCarrinhoList[i]['_id'],
+                  
+                    nomeProduto: widget.itensCarrinhoList[i]['produto']
+                        ['nome'],
+                    quantidade: widget.itensCarrinhoList[i]['quantidade'],
+                    precoTotal: widget.itensCarrinhoList[i]['preco_total'],
+                    adicionaisList: widget.itensCarrinhoList[i]
+                        ['lista_ingredientes'],
+                    imagem: widget.itensCarrinhoList[i]['produto']
+                        ['imagem_produto'],
+                  );
+                },
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: PrimaryButton(
-              title: "+ Continuar Comprando",
+              title: "Continuar para pagamento",
               extraLarge: 0,
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()),
-                )
-              },
+              onPressed: continueBuyCheckout,
             ),
-          ),
-          Container(
-            color: Color.fromARGB(255, 231, 231, 231),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Subtotal', style: TextStyle(fontSize: 14)),
-                      Text('R\$ ${formatToTwoDecimalPlaces(widget.valorTotalCompra)}',
-                          style: TextStyle(fontSize: 14))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Taxa Fixa de Entrega',
-                          style: TextStyle(fontSize: 14)),
-                      Text('R\$ ${formatToTwoDecimalPlaces(widget.taxaFixa)}',
-                          style: TextStyle(fontSize: 14))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('TOTAL',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold)),
-                      Text('R\$ ${formatToTwoDecimalPlaces(widget.valorTotalComTaxa)}',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'O pedido mínimo desse restaurante para entrega é de R\$ 10,00, sem contar a taxa de entrega',
-                    style: TextStyle(fontSize: 10),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  EnderecoUsuario(
-                    enderecoUsuarioList: widget.enderecoUsuarioList,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Pagamento',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Outfit'),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Escolha a Forma de Pagamento:',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      DropdownButton(
-                        value: dropdownValue,
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.black),
-                        underline: Container(
-                          height: 1,
-                          color: Colors.red,
-                        ),
-                        onChanged: (String? value) {
-                          setState(() {
-                            dropdownValue = value!;
-                          });
-                        },
-                        items:
-                            list.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                              value: value, child: Text(value));
-                        }).toList(),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              PrimaryButton(
-                title: "Finalizar Pedido",
-                extraLarge: 0,
-                textColor: Colors.black,
-                bgButton: Color.fromARGB(255, 199, 197, 197),
-                onPressed: () => {validarBotao()},
-              ),
-              SizedBox(
-                height: 10,
-              )
-            ],
           ),
         ],
       ),
@@ -437,6 +276,7 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
     return formatter.format(number);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -453,7 +293,7 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
                   children: [
                     Row(
                       children: [
-                        Text('1x'),
+                        Text('${widget.quantidade}x'),
                         Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -488,25 +328,29 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
                                         },
                                       ),
                                     ),
+                                    GestureDetector(
+                                      onTap: () => removeItemCart(widget.idItemCarrinho, ),
+                                      child: Text(
+                                        'Excluir', 
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
                               SizedBox(
                                 height: 60,
-                                width: 100,
+                                width: 60,
                                 child: Image.network(
                                   widget.imagem,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        TextButton(
-                          onPressed: () => removeItemCart(widget.idItemCarrinho, ),
-                          child: Icon(
-                            Icons.delete_forever,
-                          )
                         ),
                       ],
                     ),
@@ -525,98 +369,4 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
   }
 }
 
-class EnderecoUsuario extends StatefulWidget {
-  const EnderecoUsuario({super.key, required this.enderecoUsuarioList});
-  final List<dynamic> enderecoUsuarioList;
-  @override
-  State<EnderecoUsuario> createState() => _EnderecoUsuarioState();
-}
 
-class _EnderecoUsuarioState extends State<EnderecoUsuario> {
-  final formKey = GlobalKey<FormState>();
-  final controllerRua = TextEditingController();
-  final controllerNumero = TextEditingController();
-  final controllerBairro = TextEditingController();
-  final controllerReferencia = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              'Endereço de Entrega',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Outfit'),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Form(
-            key: formKey,
-            child: Column(children: [
-              InputCustom(
-                controllerName: controllerRua,
-                label: 'Rua',
-                placeholder: 'Rua',                
-                keyboardType: TextInputType.text,
-                validation: (value) {
-                  if (value == null || value.length < 5) {
-                    return 'Digite uma Rua válida.';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InputCustom(
-                controllerName: controllerNumero,
-                label: 'Número',
-                placeholder: 'Número',
-                keyboardType: TextInputType.number,
-                validation: (value) {
-                  if (value == null || value.length < 1) {
-                    return 'Digite um Número válido.';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InputCustom(
-                controllerName: controllerBairro,
-                label: 'Bairro',
-                placeholder: 'Bairro',
-                keyboardType: TextInputType.text,
-                validation: (value) {
-                  if (value == null || value.length < 5) {
-                    return 'Digite um Bairro válido.';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InputCustom(
-                controllerName: controllerReferencia,
-                label: 'Referência',
-                placeholder: 'Referência',
-                keyboardType: TextInputType.text,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ])),
-      ],
-    );
-  }
-}
