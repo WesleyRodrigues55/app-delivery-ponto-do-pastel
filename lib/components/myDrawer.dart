@@ -1,4 +1,5 @@
 import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/FrequentlyAskedQuestions.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/PrivacyPolicies.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,14 @@ class itemsDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.help),
                 title: const Text('Dúvidas Frequentes'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FrequentlyAskedQuestions(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
