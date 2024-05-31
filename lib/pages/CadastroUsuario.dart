@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/components/input.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Login.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({super.key});
@@ -37,36 +37,34 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
   }
 
-String convertDate(String data) {
-  List<String> dateParts = data.split('/');
-  int day = int.parse(dateParts[0]);
-  int month = int.parse(dateParts[1]);
-  int year = int.parse(dateParts[2]);
+  String convertDate(String data) {
+    List<String> dateParts = data.split('/');
+    int day = int.parse(dateParts[0]);
+    int month = int.parse(dateParts[1]);
+    int year = int.parse(dateParts[2]);
 
-  DateTime date = DateTime(year, month, day);
+    DateTime date = DateTime(year, month, day);
 
-  String isoDateString = date.toIso8601String();
-  return isoDateString;
-}
+    String isoDateString = date.toIso8601String();
+    return isoDateString;
+  }
 
-Future<bool> sendCodeVerification() async {
+  Future<bool> sendCodeVerification() async {
     var url = Uri.parse(
         'https://backend-delivery-ponto-do-pastel.onrender.com/api/auth/register-with-wpp');
 
     var headers = {'Content-Type': 'application/json'};
     var data = {
-        "nome": _nomeController.text,
-        "username": _whatsappController.text,
-        "whatsapp": _whatsappController.text,
-        "email": _whatsappController.text,
-        "cpf": _cpfController.text,
-        "data_nascimento": convertDate(_dataNascimentoController.text),
-        "nivel": 1,
-        "ativo": 1,
-        "preferencia_notificacao": [
-            "whatsapp"
-        ],
-        "termo_politicas": 1
+      "nome": _nomeController.text,
+      "username": _whatsappController.text,
+      "whatsapp": _whatsappController.text,
+      "email": _whatsappController.text,
+      "cpf": _cpfController.text,
+      "data_nascimento": convertDate(_dataNascimentoController.text),
+      "nivel": 1,
+      "ativo": 1,
+      "preferencia_notificacao": ["whatsapp"],
+      "termo_politicas": 1
     };
 
     var response = await http.post(
@@ -78,29 +76,36 @@ Future<bool> sendCodeVerification() async {
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 400) {
-        SnackBarUtils.showSnackBar(
+      SnackBarUtils.showSnackBar(
           context, 'O usuário já existe na base de dados',
           color: Colors.red);
       return false;
     } else {
-      SnackBarUtils.showSnackBar(
-          context, 'Erro ao cadastarr o usuário',
+      SnackBarUtils.showSnackBar(context, 'Erro ao cadastarr o usuário',
           color: Colors.red);
       return false;
     }
   }
-  
+
   void validaCampos() {
     if (formKey.currentState!.validate()) {
-       sendCodeVerification().then((value) {
+      sendCodeVerification().then((value) {
         if (value) {
           _nomeController.clear();
           _cpfController.clear();
           _dataNascimentoController.clear();
           _whatsappController.clear();
 
-          SnackBarUtils.showSnackBar(context, 'Usuário cadastrado com sucesso!', color: Colors.green);
-        } 
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Login(),
+            ),
+          );
+
+          SnackBarUtils.showSnackBar(context, 'Usuário cadastrado com sucesso!',
+              color: Colors.green);
+        }
       });
     } else {
       SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos');
@@ -128,7 +133,7 @@ Future<bool> sendCodeVerification() async {
     }
     return null;
   }
-  
+
   String? validateData(value) {
     if (value == null || value.isEmpty) {
       return 'Digite a data de nascimento';
@@ -146,25 +151,24 @@ Future<bool> sendCodeVerification() async {
         value += '/';
       } else if (value.length == 5 && !value.endsWith('/')) {
         value += '/';
-      } 
+      }
       setState(() {
-        _dataNascimentoController.value =
-            TextEditingValue(
+        _dataNascimentoController.value = TextEditingValue(
           text: value!,
-          selection: TextSelection.collapsed(
-              offset: value.length),
+          selection: TextSelection.collapsed(offset: value.length),
         );
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Color.fromARGB(255, 198, 6, 6),
-        title: const Text('Cadastro do usuário',),
+        title: const Text(
+          'Cadastro do usuário',
+        ),
       ),
       body: Form(
         key: formKey,
@@ -193,12 +197,13 @@ Future<bool> sendCodeVerification() async {
                       content: Column(
                         children: [
                           InputCustom(
-                            keyboardType: TextInputType.name,
-                            label: "Nome do usuário",
-                            placeholder: "Digite o seu nome completo",
-                            controllerName: _nomeController,
-                            validation: (value) => validateUsuario(value,)
-                          ),
+                              keyboardType: TextInputType.name,
+                              label: "Nome do usuário",
+                              placeholder: "Digite o seu nome completo",
+                              controllerName: _nomeController,
+                              validation: (value) => validateUsuario(
+                                    value,
+                                  )),
                           InputCustom(
                             qtdLength: 11,
                             keyboardType: TextInputType.number,
@@ -236,8 +241,10 @@ Future<bool> sendCodeVerification() async {
                           InputCustom(
                             qtdLength: 12,
                             keyboardType: TextInputType.number,
-                            label: "Digite seu número de wpp com o DDD (somente números)",
-                            placeholder: "Digite seu número de wpp com o DDD (somente números)",
+                            label:
+                                "Digite seu número de wpp com o DDD (somente números)",
+                            placeholder:
+                                "Digite seu número de wpp com o DDD (somente números)",
                             controllerName: _whatsappController,
                             validation: (whatsapp) {
                               if (whatsapp == null || whatsapp.isEmpty) {
@@ -245,7 +252,7 @@ Future<bool> sendCodeVerification() async {
                               } else if (whatsapp.length < 11) {
                                 // Considerando os parênteses e o traço
                                 return "O número de celular deve conter 12 dígitos";
-                              } 
+                              }
                               return null;
                             },
                           ),

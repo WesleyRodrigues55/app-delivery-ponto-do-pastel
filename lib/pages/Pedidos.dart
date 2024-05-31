@@ -4,6 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:easy_stepper/easy_stepper.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'DetalhesPedido.dart'; // Certifique-se de que o caminho esteja correto
 

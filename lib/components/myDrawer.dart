@@ -1,8 +1,9 @@
 import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/FrequentlyAskedQuestions.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/PrivacyPolicies.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({
@@ -53,15 +54,24 @@ class itemsDrawer extends StatelessWidget {
                 leading: Icon(Icons.policy),
                 title: const Text('Políticas de Privacidade'),
                 onTap: () {
-                  print('Políticas de privacidade');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PrivacyPolicies(),
+                    ),
+                  );
                 },
               ),
               ListTile(
                 leading: Icon(Icons.help),
                 title: const Text('Dúvidas Frequentes'),
                 onTap: () {
-                  // perguntas respostas
-                  print('Dúvidas Frequentes');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FrequentlyAskedQuestions(),
+                    ),
+                  );
                 },
               ),
             ],
@@ -76,7 +86,9 @@ class itemsDrawer extends StatelessWidget {
                   print('Fale Conosco');
                 },
               ),
-              SizedBox(height: 20,)
+              SizedBox(
+                height: 20,
+              )
             ],
           )
         ],
