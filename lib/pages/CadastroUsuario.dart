@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/components/input.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Login.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -98,6 +99,13 @@ Future<bool> sendCodeVerification() async {
           _cpfController.clear();
           _dataNascimentoController.clear();
           _whatsappController.clear();
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Login(),
+            ),
+          );
 
           SnackBarUtils.showSnackBar(context, 'Usuário cadastrado com sucesso!', color: Colors.green);
         } 
