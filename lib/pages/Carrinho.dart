@@ -20,6 +20,12 @@ class Carrinho extends StatefulWidget {
 class _CarrinhoState extends State<Carrinho> {
   List<dynamic> itensCarrinho = [];
   bool isLoading = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchItensCarrinho();
+  }
   
   @override
   void initState() {

@@ -1,11 +1,5 @@
-import 'dart:html';
-
-import 'package:app_delivery_ponto_do_pastel/pages/Carrinho.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 class PagamentoRecebido extends StatelessWidget {
   const PagamentoRecebido({super.key});
@@ -16,19 +10,17 @@ class PagamentoRecebido extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 231, 231, 231),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                onPressed: () {
-                  print('Clique profile navbar');
-                },
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.black,
+          title: Text("Pagamento recebido"),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              // Navega para outra tela ao pressionar o botão de voltar
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => Home(),
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
         body: SingleChildScrollView(
