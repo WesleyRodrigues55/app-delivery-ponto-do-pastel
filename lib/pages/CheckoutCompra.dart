@@ -156,7 +156,7 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
     var data = {
       "carrinho_id": widget.carrinhoId,
       "usuario_id": userID,
-      "valor_total":  '0.01',
+      "valor_total":  formatToTwoDecimalPlaces(widget.valorTotalComTaxa!),
       "endereco_usuario_id": widget.enderecoUsuarioList!.isNotEmpty ? widget.enderecoUsuarioList![0]['_id'] : '',
       "lista_pagamento": [
           {
