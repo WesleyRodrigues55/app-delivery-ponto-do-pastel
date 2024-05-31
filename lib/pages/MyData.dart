@@ -27,14 +27,15 @@ class _MyDataState extends State<MyData> {
     var token = sharedPreferences.getString('token');
     var userID = sharedPreferences.getString('userId');
 
-    var url = Uri.parse('https://backend-delivery-ponto-do-pastel.onrender.com/api/users/users-by-id/$userID');
+    var url = Uri.parse(
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/users/users-by-id/$userID');
 
     var headers = {'Authorization': 'Bearer $token'};
     var response = await http.get(url, headers: headers);
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      
+
       setState(() {
         userSelected = data['results'];
         isLoading = false; // Indica que os dados foram carregados
@@ -95,99 +96,77 @@ class TelaUserSelecionadoPorId extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 231, 231, 231),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back_outlined,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
+        title: const Text("Meus Dados"),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 22.0),
-            const Text(
-              "Meus Dados",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'OutFIT',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
-            ),
-            const SizedBox(height: 22.0),
-            const Divider(),
-            Container(
-              color: const Color.fromARGB(255, 241, 241, 241),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
               child: Container(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: const Text('Nome'),
-                      trailing: Text(
-                        nomeUsuario,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                color: const Color.fromARGB(255, 241, 241, 241),
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: const Text('Nome'),
+                        trailing: Text(
+                          nomeUsuario,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
                       ),
-                    ),
-                    const Divider(),
-                    ListTile(
-                      title: const Text('CPF'),
-                      trailing: Text(
-                        cpfUsuario,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                      const Divider(),
+                      ListTile(
+                        title: const Text('CPF'),
+                        trailing: Text(
+                          cpfUsuario,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
                       ),
-                    ),
-                    const Divider(),
-                    ListTile(
-                      title: const Text('Data Nascimento'),
-                      trailing: Text(
-                        dataNascimento,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                      const Divider(),
+                      ListTile(
+                        title: const Text('Data Nascimento'),
+                        trailing: Text(
+                          dataNascimento,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
                       ),
-                    ),
-                    // const Divider(),
-                    // ListTile(
-                    //   title: const Text('E-mail'),
-                    //   trailing: Text(
-                    //     widget.email,
-                    //     style: const TextStyle(
-                    //         fontSize: 15,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Colors.black),
-                    //   ),
-                    // ),
-                    const Divider(),
-                    ListTile(
-                      title: const Text('WhatsApp'),
-                      trailing: Text(
-                        whatsApp,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                      // const Divider(),
+                      // ListTile(
+                      //   title: const Text('E-mail'),
+                      //   trailing: Text(
+                      //     widget.email,
+                      //     style: const TextStyle(
+                      //         fontSize: 15,
+                      //         fontWeight: FontWeight.bold,
+                      //         color: Colors.black),
+                      //   ),
+                      // ),
+                      const Divider(),
+                      ListTile(
+                        title: const Text('WhatsApp'),
+                        trailing: Text(
+                          whatsApp,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
                       ),
-                    ),
-                    const Divider(),
-                  ],
+                      const Divider(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -195,7 +174,6 @@ class TelaUserSelecionadoPorId extends StatelessWidget {
           ],
         ),
       ),
-      drawer: const MyDrawer(),
     );
   }
 }

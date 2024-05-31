@@ -45,7 +45,7 @@ class _BoasVindasState extends State<BoasVindas> {
     if (sharedPreferences.getString('token') != null) {
       return true;
     } else {
-      return false;
+      return true;
     }
     // return true;
   }
