@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
+import 'package:easy_stepper/easy_stepper.dart';
 import 'package:http/http.dart' as http;
 import 'DetalhesPedido.dart'; // Certifique-se de que o caminho esteja correto
 
@@ -71,13 +74,11 @@ class _PagePedidosState extends State<PagePedidos> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: pedidos.length,
             itemBuilder: (BuildContext context, int i) {
-              return SingleChildScrollView(
-                child: Pedidos(
-                  idCarrinho: pedidos[i]['carrinho_id'],
-                  dataCompra: pedidos[i]['data_pedido'],
-                  numeroPedido: i + 1,
-                  valorTotal: pedidos[i]['valor_total'],
-                ),
+              return Pedidos(
+                idCarrinho: pedidos[i]['carrinho_id'],
+                dataCompra: pedidos[i]['data_pedido'],
+                numeroPedido: i + 1,
+                valorTotal: pedidos[i]['valor_total'],
               );
             },
           ),

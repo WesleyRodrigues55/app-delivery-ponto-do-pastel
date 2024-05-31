@@ -1,4 +1,5 @@
 import 'package:app_delivery_ponto_do_pastel/pages/BoasVindas.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,32 +30,58 @@ class itemsDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 60),
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              title: const Text('Meu Perfil'),
-              onTap: () {
-                print('Meu Perfil');
-              },
-            ),
-            ListTile(
-              title: const Text('Fale Conosco'),
-              onTap: () {
-                print('Fale Conosco');
-              },
-            ),
-            ListTile(
-              title: const Text('Dúvidas Frequentes'),
-              onTap: () {
-                print('Dúvidas Frequentes');
-              },
-            ),
-          ],
-        ));
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              ListTile(
+                leading: Icon(Icons.person),
+                title: const Text('Meu Perfil'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MyData(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.policy),
+                title: const Text('Políticas de Privacidade'),
+                onTap: () {
+                  print('Políticas de privacidade');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.help),
+                title: const Text('Dúvidas Frequentes'),
+                onTap: () {
+                  // perguntas respostas
+                  print('Dúvidas Frequentes');
+                },
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              ListTile(
+                leading: Icon(Icons.message),
+                title: const Text('Fale Conosco'),
+                onTap: () {
+                  // abre wpp do suporte
+                  print('Fale Conosco');
+                },
+              ),
+              SizedBox(height: 20,)
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 
