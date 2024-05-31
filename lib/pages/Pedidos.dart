@@ -1,73 +1,149 @@
-import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
-import 'package:app_delivery_ponto_do_pastel/pages/Pagamento.dart';
-import 'package:easy_stepper/easy_stepper.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'DetalhesPedido.dart'; // Certifique-se de que o caminho esteja correto
 
-class Pedidos extends StatefulWidget {
-  const Pedidos({super.key});
+class PagePedidos extends StatefulWidget {
+  PagePedidos({super.key});
 
   @override
-  State<Pedidos> createState() => _PedidosState();
+  State<PagePedidos> createState() => _PagePedidosState();
 }
 
-class _PedidosState extends State<Pedidos> {
-  final formKey = GlobalKey<FormState>();
-  int _currentIndex = 0;
+class _PagePedidosState extends State<PagePedidos> {
+  List<dynamic> pedidos = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPedidos();
+  }
+
+  Future<void> fetchPedidos() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? token = sharedPreferences.getString("token");
+    String? idUser = sharedPreferences.getString("userId");
+    var headers = {"Authorization": "Bearer $token"};
+    var url = Uri.parse(
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/order-details/get-orders-by-id-user/$idUser');
+    var response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      setState(() {
+        pedidos = data['results'];
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: const Text(
-                    'Meus Pedidos',
-                    style: TextStyle(
-                      fontFamily: 'OutFIT',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (pedidos.isEmpty) {
+      return const Center(
+        child: Text('Nenhum pedido encontrado'),
+      );
+    } else {
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: const Text(
+              'Meus Pedidos',
+              style: TextStyle(
+                fontFamily: 'OutFIT',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: pedidos.length,
+            itemBuilder: (BuildContext context, int i) {
+              return SingleChildScrollView(
+                child: Pedidos(
+                  idCarrinho: pedidos[i]['carrinho_id'],
+                  dataCompra: pedidos[i]['data_pedido'],
+                  numeroPedido: i + 1,
+                  valorTotal: pedidos[i]['valor_total'],
                 ),
-                ListTile(
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Nº Pedido: 12345',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Valor Total: R\$ 50,00'),
-                          ],
-                        ),
-                      ],
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Data da compra:",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Text('00/00/2024')
-                      ],
-                    )),
-                Divider(),
+              );
+            },
+          ),
+        ],
+      );
+    }
+  }
+}
+
+class Pedidos extends StatelessWidget {
+  const Pedidos({
+    super.key,
+    required this.numeroPedido,
+    required this.valorTotal,
+    required this.dataCompra,
+    required this.idCarrinho,
+  });
+
+  final int numeroPedido;
+  final String valorTotal;
+  final String dataCompra;
+  final String idCarrinho;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetalhesPedido(idCarrinho: idCarrinho),
+          ),
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ListTile(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Nº Pedido: $numeroPedido',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Valor Total: R\$ $valorTotal'),
+                  ],
+                ),
               ],
-            )),
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Data da compra:",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Text(dataCompra),
+              ],
+            ),
+          ),
+          Divider(),
+        ],
       ),
     );
   }

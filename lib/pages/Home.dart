@@ -244,7 +244,7 @@ class _HomeState extends State<Home> {
       case 0:
         return _getTabBarView(); // Retorna a view do TabBar
       case 1:
-        return const Pedidos(); // Retorna o widget de pedidos
+        return PagePedidos(); // Retorna o widget de pedidos
       case 2:
         return const Carrinho(); // Retorna o widget do carrinho
       default:
