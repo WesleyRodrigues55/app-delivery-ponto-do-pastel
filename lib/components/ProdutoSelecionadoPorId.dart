@@ -106,14 +106,13 @@ class TelaProdutoSelecionadoPorId extends StatefulWidget {
       _TelaProdutoSelecionadoPorIdState();
 }
 
-class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorId> {
+class _TelaProdutoSelecionadoPorIdState
+    extends State<TelaProdutoSelecionadoPorId> {
   final _obsController = TextEditingController();
   int quantidadeProduto = 1;
   double valorTotal = 0;
   late List<bool> _checkboxes;
   List<Map<dynamic, dynamic>> listAdicionais = [];
-
-  
 
   @override
   void initState() {
@@ -147,7 +146,8 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
 
     for (int i = 0; i < _checkboxes.length; i++) {
       if (_checkboxes[i]) {
-        valorAdicionais += double.parse(widget.ingredientesAdicionais[i]['valor']);
+        valorAdicionais +=
+            double.parse(widget.ingredientesAdicionais[i]['valor']);
       }
     }
 
@@ -165,14 +165,13 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
     listAdicionais.clear();
     for (int i = 0; i < _checkboxes.length; i++) {
       if (_checkboxes[i]) {
-        listAdicionais.add(
-          {
-            "id": widget.ingredientesAdicionais[i]['_id'].toString(),
-            "preco": double.parse(widget.ingredientesAdicionais[i]['valor'].toString()),
-            "nome": widget.ingredientesAdicionais[i]['nome'].toString(),
-          }
-        );
-      } 
+        listAdicionais.add({
+          "id": widget.ingredientesAdicionais[i]['_id'].toString(),
+          "preco": double.parse(
+              widget.ingredientesAdicionais[i]['valor'].toString()),
+          "nome": widget.ingredientesAdicionais[i]['nome'].toString(),
+        });
+      }
     }
   }
 
@@ -180,7 +179,7 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString('token');
     var userID = sharedPreferences.getString('userId');
-    
+
     var url = Uri.parse(
         'https://backend-delivery-ponto-do-pastel.onrender.com/api/items-cart/insert_item_in_cart/$userID');
 
@@ -204,23 +203,22 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
       body: json.encode(data),
     );
     if (response.statusCode == 200) {
-      SnackBarUtils.showSnackBar(
-          context, 'Item adicionado no carrinho!', color: Colors.green);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Home(),
-            ),
-          );
+      SnackBarUtils.showSnackBar(context, 'Item adicionado no carrinho!',
+          color: Colors.green);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Home(),
+        ),
+      );
       return true;
     } else if (response.statusCode == 400) {
-        SnackBarUtils.showSnackBar(
+      SnackBarUtils.showSnackBar(
           context, 'Erro ao inserir produto no carrinho!',
           color: Colors.red);
       return false;
     } else {
-      SnackBarUtils.showSnackBar(
-          context, 'Erro ao inserir produto no carrinho',
+      SnackBarUtils.showSnackBar(context, 'Erro ao inserir produto no carrinho',
           color: Colors.red);
       return false;
     }
@@ -391,7 +389,6 @@ class _TelaProdutoSelecionadoPorIdState extends State<TelaProdutoSelecionadoPorI
                 ),
               ],
             ),
-            
           ],
         ),
       ),

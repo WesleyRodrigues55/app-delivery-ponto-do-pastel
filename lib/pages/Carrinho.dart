@@ -4,6 +4,8 @@ import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
+import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -92,7 +94,8 @@ class _CarrinhoState extends State<Carrinho> {
             taxaFixa: itensCarrinho[i]['taxa_fixa'],
             valorTotalComTaxa: itensCarrinho[i]['valor_total_com_taxa'],
             valorTotalCompra: itensCarrinho[i]['valor_total_compra'],
-            existsItemsCart: () => _existsItemsCart(itensCarrinho[i]['itens_carrinho']),
+            existsItemsCart: () =>
+                _existsItemsCart(itensCarrinho[i]['itens_carrinho']),
           );
         },
       );
@@ -124,9 +127,6 @@ class CarrinhoBuilder extends StatefulWidget {
 }
 
 class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
-
-  
-
   void _onDeleteItem(String id) {
     setState(() {
       widget.itensCarrinhoList.removeWhere((item) => item['_id'] == id);
@@ -148,9 +148,7 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
       context,
       MaterialPageRoute(
         builder: (context) => CheckoutCompra(),
-        settings: RouteSettings(
-          arguments: widget.idCarrinho
-        ),
+        settings: RouteSettings(arguments: widget.idCarrinho),
       ),
     );
   }
@@ -180,11 +178,10 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                 itemCount: widget.itensCarrinhoList.length,
                 itemBuilder: (BuildContext context, int i) {
                   return ItensCarrinho(
-                    onDelete: () => _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
+                    onDelete: () =>
+                        _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
                     idItemCarrinho: widget.itensCarrinhoList[i]['_id'],
-                  
-                    nomeProduto: widget.itensCarrinhoList[i]['produto']
-                        ['nome'],
+                    nomeProduto: widget.itensCarrinhoList[i]['produto']['nome'],
                     quantidade: widget.itensCarrinhoList[i]['quantidade'],
                     precoTotal: widget.itensCarrinhoList[i]['preco_total'],
                     adicionaisList: widget.itensCarrinhoList[i]
@@ -205,8 +202,11 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Total Carrinho', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                      Text('R\$ ${formatToTwoDecimalPlaces(widget.valorTotalCompra!)}',
+                      Text('Total Carrinho',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
+                      Text(
+                          'R\$ ${formatToTwoDecimalPlaces(widget.valorTotalCompra!)}',
                           style: TextStyle(fontSize: 14))
                     ],
                   ),
@@ -218,7 +218,7 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
                 ],
               ),
             ),
-          ), 
+          ),
         ],
       ),
     );
@@ -299,7 +299,6 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
     return formatter.format(number);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -353,13 +352,14 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () => removeItemCart(widget.idItemCarrinho, ),
+                                      onTap: () => removeItemCart(
+                                        widget.idItemCarrinho,
+                                      ),
                                       child: Text(
-                                        'Excluir', 
+                                        'Excluir',
                                         style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold
-                                        ),
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     )
                                   ],
@@ -389,6 +389,102 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class EnderecoUsuario extends StatefulWidget {
+  const EnderecoUsuario({super.key, required this.enderecoUsuarioList});
+  final List<dynamic> enderecoUsuarioList;
+  @override
+  State<EnderecoUsuario> createState() => _EnderecoUsuarioState();
+}
+
+class _EnderecoUsuarioState extends State<EnderecoUsuario> {
+  final formKey = GlobalKey<FormState>();
+  final controllerRua = TextEditingController();
+  final controllerNumero = TextEditingController();
+  final controllerBairro = TextEditingController();
+  final controllerReferencia = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+              'Endereço de Entrega',
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Outfit'),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Form(
+            key: formKey,
+            child: Column(children: [
+              InputCustom(
+                controllerName: controllerRua,
+                label: 'Rua',
+                placeholder: 'Rua',
+                keyboardType: TextInputType.text,
+                validation: (value) {
+                  if (value == null || value.length < 5) {
+                    return 'Digite uma Rua válida.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InputCustom(
+                controllerName: controllerNumero,
+                label: 'Número',
+                placeholder: 'Número',
+                keyboardType: TextInputType.number,
+                validation: (value) {
+                  if (value == null || value.length < 1) {
+                    return 'Digite um Número válido.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InputCustom(
+                controllerName: controllerBairro,
+                label: 'Bairro',
+                placeholder: 'Bairro',
+                keyboardType: TextInputType.text,
+                validation: (value) {
+                  if (value == null || value.length < 5) {
+                    return 'Digite um Bairro válido.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InputCustom(
+                controllerName: controllerReferencia,
+                label: 'Referência',
+                placeholder: 'Referência',
+                keyboardType: TextInputType.text,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ])),
+      ],
     );
   }
 }
