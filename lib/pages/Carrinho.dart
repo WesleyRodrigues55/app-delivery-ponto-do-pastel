@@ -378,13 +378,6 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
                         ),
                       ],
                     ),
-                    TextButton(
-                        onPressed: () => removeItemCart(
-                              widget.idItemCarrinho,
-                            ),
-                        child: Icon(
-                          Icons.delete_forever,
-                        )),
                   ],
                 ),
               ),
