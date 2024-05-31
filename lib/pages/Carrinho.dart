@@ -136,6 +136,12 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
     });
   }
 
+  String formatToTwoDecimalPlaces(String value) {
+    final number = double.parse(value);
+    final formatter = NumberFormat("#,##0.00", "en_US");
+    return formatter.format(number);
+  }
+
   void continueBuyCheckout() {
     Navigator.push(
       context,
@@ -189,14 +195,29 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: PrimaryButton(
-              title: "Continuar para pagamento",
-              extraLarge: 0,
-              onPressed: continueBuyCheckout,
+          Container(
+            color: Color.fromARGB(255, 231, 231, 231),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Total Carrinho', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      Text('R\$ ${formatToTwoDecimalPlaces(widget.valorTotalCompra!)}',
+                          style: TextStyle(fontSize: 14))
+                    ],
+                  ),
+                  PrimaryButton(
+                    title: "Continuar para pagamento",
+                    extraLarge: 1,
+                    onPressed: continueBuyCheckout,
+                  ),
+                ],
+              ),
             ),
-          ),
+          ), 
         ],
       ),
     );

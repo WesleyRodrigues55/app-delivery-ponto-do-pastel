@@ -95,6 +95,7 @@ class _CheckoutCompraState extends State<CheckoutCompra> {
           itemBuilder: (BuildContext context, int i) {
             return SingleChildScrollView(
                 child: FormCheckoutCompra(
+                  carrinhoId: itensCarrinho[i]['_id'],
                   enderecoUsuarioList: itensCarrinho[i]['endereco_usuario'],
                   itensCarrinhoList: itensCarrinho[i]['itens_carrinho'],
                   taxaFixa: itensCarrinho[i]['taxa_fixa'],
@@ -113,6 +114,7 @@ class _CheckoutCompraState extends State<CheckoutCompra> {
 class FormCheckoutCompra extends StatefulWidget {
   FormCheckoutCompra({
     super.key,
+    required this.carrinhoId,
     required this.taxaFixa,
     required this.valorTotalComTaxa,
     required this.valorTotalCompra,
@@ -120,6 +122,7 @@ class FormCheckoutCompra extends StatefulWidget {
     required this.enderecoUsuarioList,
   });
 
+  final String carrinhoId;
   final String? taxaFixa;
   final String? valorTotalComTaxa;
   final String? valorTotalCompra;
@@ -138,15 +141,76 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
   final controllerReferencia = TextEditingController();
 
   String dropdownValue = list.first;
-  
-  void validarBotao() {
-    if (dropdownValue != 'Selecione' && formKey.currentState!.validate()) {
-      Navigator.push(
+
+  Future<void> insertOrderDetails() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString('token');
+    var userID = sharedPreferences.getString('userId');
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var data = {
+      "carrinho_id": widget.carrinhoId,
+      "usuario_id": userID,
+      "valor_total": widget.valorTotalComTaxa,
+      "endereco_usuario_id": widget.enderecoUsuarioList!.isNotEmpty ? widget.enderecoUsuarioList![0]['_id'] : '',
+      "lista_pagamento": [
+          {
+              "codigo_pagamento": "",
+              "forma_pagamento": dropdownValue,
+              "qrcode": "",
+              "status_pagamento": "",
+              "link_pagamento": ""
+          }
+      ],
+      "data_pedido": "2024-04-10T14:10:00.000+00:00",
+      "status_pedido": "pendente",
+      "primeiro_endereco": widget.enderecoUsuarioList!.isNotEmpty ? 0 : 1,
+      "endereco_usuario": [
+          {
+              "usuario_id": userID,
+              "cidade": "Sorocaba",
+              "bairro": controllerBairro.text,
+              "rua": controllerRua.text,
+              "numero": controllerNumero.text,
+              "complemento": controllerReferencia.text
+          }
+      ]
+    };
+    var url = Uri.parse('http://localhost:5000/api/order-details/insert-orders-details');
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: json.encode(data),
+    );
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      print("DEU CERTO!!!!");
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => const Pagamento(),
         ),
       );
+    } else {
+      SnackBarUtils.showSnackBar(
+          context, 'Ocorreu um erro ao validar seu whatsapp, tente novamente.',
+          color: Colors.red);
+    }
+  }
+  
+  void validarBotao() {
+    if (dropdownValue != 'Selecione' && formKey.currentState!.validate()) {
+      // fazer o post (do detalhe do pedido)
+      // setando as informações do cadastro
+      // levar para tela de Pagamento
+      insertOrderDetails();
+      
     } else {
       SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos', color: Colors.red);
     }
@@ -320,10 +384,11 @@ class EnderecoUsuario extends StatefulWidget {
 }
 
 class _EnderecoUsuarioState extends State<EnderecoUsuario> {
-  
   @override
   void initState() {
     super.initState();
+    print(widget.enderecoUsuarioList);
+
     if (widget.enderecoUsuarioList.isNotEmpty) {
       widget.controllerRua!.text = widget.enderecoUsuarioList[0]['rua'];
       widget.controllerBairro!.text = widget.enderecoUsuarioList[0]['bairro'];
