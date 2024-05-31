@@ -24,6 +24,12 @@ class _CarrinhoState extends State<Carrinho> {
   bool isLoading = true;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchItensCarrinho();
+  }
+  
+  @override
   void initState() {
     super.initState();
     fetchItensCarrinho();
