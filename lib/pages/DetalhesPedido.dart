@@ -33,7 +33,7 @@ class _DetalhesPedidoState extends State<DetalhesPedido> {
     var headers = {"Authorization": "Bearer $token"};
 
     var url = Uri.parse(
-        'http://localhost:5000/api/order-details/get-orders-details-by-id-carrinho/${widget.idCarrinho}');
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/order-details/get-orders-details-by-id-carrinho/${widget.idCarrinho}');
 
     var response = await http.get(url, headers: headers);
 
