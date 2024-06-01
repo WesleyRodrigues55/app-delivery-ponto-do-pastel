@@ -157,6 +157,7 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
       "carrinho_id": widget.carrinhoId,
       "usuario_id": userID,
       "valor_total":  '0.01',
+      // "valor_total":  formatToTwoDecimalPlaces(widget.valorTotalComTaxa!),
       "endereco_usuario_id": widget.enderecoUsuarioList!.isNotEmpty ? widget.enderecoUsuarioList![0]['_id'] : '',
       "lista_pagamento": [
           {
@@ -182,7 +183,7 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
           }
       ]
     };
-    var url = Uri.parse('http://localhost:5000/api/order-details/insert-orders-details');
+    var url = Uri.parse('https://backend-delivery-ponto-do-pastel.onrender.com/api/order-details/insert-orders-details');
 
     var response = await http.post(
       url,
