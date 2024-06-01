@@ -139,6 +139,7 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
   final controllerNumero = TextEditingController();
   final controllerBairro = TextEditingController();
   final controllerReferencia = TextEditingController();
+  final controllerEmail = TextEditingController();
 
   String dropdownValue = list.first;
 
@@ -155,7 +156,7 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
     var data = {
       "carrinho_id": widget.carrinhoId,
       "usuario_id": userID,
-      "valor_total": widget.valorTotalComTaxa,
+      "valor_total":  '0.01',
       "endereco_usuario_id": widget.enderecoUsuarioList!.isNotEmpty ? widget.enderecoUsuarioList![0]['_id'] : '',
       "lista_pagamento": [
           {
@@ -163,10 +164,11 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
               "forma_pagamento": dropdownValue,
               "qrcode": "",
               "status_pagamento": "",
-              "link_pagamento": ""
+              "link_pagamento": "",
+              "email_usuario": controllerEmail.text,
           }
       ],
-      "data_pedido": "2024-04-10T14:10:00.000+00:00",
+      "data_pedido": "",
       "status_pedido": "pendente",
       "primeiro_endereco": widget.enderecoUsuarioList!.isNotEmpty ? 0 : 1,
       "endereco_usuario": [
@@ -190,11 +192,13 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      print("DEU CERTO!!!!");
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => const Pagamento(),
+          settings: RouteSettings(
+            arguments: data['id_payment']
+          ),
         ),
       );
     } else {
@@ -208,8 +212,10 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
     if (dropdownValue != 'Selecione' && formKey.currentState!.validate()) {
       // fazer o post (do detalhe do pedido)
       // setando as informações do cadastro
-      // levar para tela de Pagamento
       insertOrderDetails();
+
+      // inserir informações de pagamento e gerar pagamento
+      // levar para tela de Pagamento
       
     } else {
       SnackBarUtils.showSnackBar(context, 'Os campos precisam ser preenchidos', color: Colors.red);
@@ -279,7 +285,19 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
                           }).toList(),
                         )
                       ],
-                    )
+                    ),
+                    InputCustom(
+                      controllerName: controllerEmail,
+                      label: 'E-mail',
+                      placeholder: 'E-mail',
+                      keyboardType: TextInputType.text,
+                      validation: (value) {
+                        if (value == null || value.length < 1) {
+                          return 'Digite um Email válido.';
+                        }
+                        return null;
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -387,7 +405,7 @@ class _EnderecoUsuarioState extends State<EnderecoUsuario> {
   @override
   void initState() {
     super.initState();
-    print(widget.enderecoUsuarioList);
+    // print(widget.enderecoUsuarioList);
 
     if (widget.enderecoUsuarioList.isNotEmpty) {
       widget.controllerRua!.text = widget.enderecoUsuarioList[0]['rua'];
