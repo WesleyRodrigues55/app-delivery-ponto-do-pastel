@@ -5,7 +5,6 @@ import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -127,6 +126,7 @@ class CarrinhoBuilder extends StatefulWidget {
 }
 
 class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
+
   void _onDeleteItem(String id) {
     setState(() {
       widget.itensCarrinhoList.removeWhere((item) => item['_id'] == id);
@@ -299,6 +299,7 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
     return formatter.format(number);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -392,20 +393,6 @@ class _ItensCarrinhoState extends State<ItensCarrinho> {
     );
   }
 }
-
-class EnderecoUsuario extends StatefulWidget {
-  const EnderecoUsuario({super.key, required this.enderecoUsuarioList});
-  final List<dynamic> enderecoUsuarioList;
-  @override
-  State<EnderecoUsuario> createState() => _EnderecoUsuarioState();
-}
-
-class _EnderecoUsuarioState extends State<EnderecoUsuario> {
-  final formKey = GlobalKey<FormState>();
-  final controllerRua = TextEditingController();
-  final controllerNumero = TextEditingController();
-  final controllerBairro = TextEditingController();
-  final controllerReferencia = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
