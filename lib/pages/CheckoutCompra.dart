@@ -156,7 +156,7 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
     var data = {
       "carrinho_id": widget.carrinhoId,
       "usuario_id": userID,
-      "valor_total":  formatToTwoDecimalPlaces(widget.valorTotalComTaxa!),
+      "valor_total":  '0.01',
       "endereco_usuario_id": widget.enderecoUsuarioList!.isNotEmpty ? widget.enderecoUsuarioList![0]['_id'] : '',
       "lista_pagamento": [
           {
@@ -168,7 +168,7 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
               "email_usuario": controllerEmail.text,
           }
       ],
-      "data_pedido": "2024-04-10T14:10:00.000+00:00",
+      "data_pedido": "",
       "status_pedido": "pendente",
       "primeiro_endereco": widget.enderecoUsuarioList!.isNotEmpty ? 0 : 1,
       "endereco_usuario": [
