@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_delivery_ponto_do_pastel/pages/Home.dart';
+import 'package:app_delivery_ponto_do_pastel/pages/PagamentoRecebido.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +22,8 @@ class _BoasVindasState extends State<BoasVindas> {
       if (value) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Home()),
+          // MaterialPageRoute(builder: (context) => const Home()),
+          MaterialPageRoute(builder: (context) => const PagamentoRecebido()),
         );
       } else {
         Navigator.pushReplacement(
