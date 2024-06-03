@@ -65,29 +65,31 @@ class _DetalhesPedidoState extends State<DetalhesPedido> {
         appBar: AppBar(
           title: Text('Detalhes do Pedido'),
         ),
-        body: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: detalhesPedido.length,
-                itemBuilder: (BuildContext context, int i) {
-                  return DetalhesPedidoView(
-                    observacao: detalhesPedido[i]['itens_carrinho'][i]['observacao'],
-                    listItensPedido: detalhesPedido[i]['itens_carrinho'],
-                    dataAbertura: detalhesPedido[i]['carrinho'][i]['data_abertura'],
-                    statusCompra: detalhesPedido[i]['carrinho'][i]['status_compra'],
-                    taxaFixa: detalhesPedido[i]['carrinho'][i]['taxa_fixa'],
-                    valorTotalComTaxa: detalhesPedido[i]['carrinho'][i]['valor_total_com_taxa'],
-                    valorTotalCompra: detalhesPedido[i]['carrinho'][i]['valor_total_compra'],
-                  );
-                },
-              ),
+        body: SingleChildScrollView(
+          child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: detalhesPedido.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    return DetalhesPedidoView(
+                      observacao: detalhesPedido[i]['itens_carrinho'][i]['observacao'],
+                      listItensPedido: detalhesPedido[i]['itens_carrinho'],
+                      dataAbertura: detalhesPedido[i]['carrinho'][i]['data_abertura'],
+                      statusCompra: detalhesPedido[i]['carrinho'][i]['status_compra'],
+                      taxaFixa: detalhesPedido[i]['carrinho'][i]['taxa_fixa'],
+                      valorTotalComTaxa: detalhesPedido[i]['carrinho'][i]['valor_total_com_taxa'],
+                      valorTotalCompra: detalhesPedido[i]['carrinho'][i]['valor_total_compra'],
+                    );
+                  },
+                ),
+        ),
       );
     }
   }
 }
 
 class DetalhesPedidoView extends StatelessWidget {
-  DetalhesPedidoView({
+  const DetalhesPedidoView({
     super.key,
     required this.observacao,
     required this.statusCompra,
@@ -98,13 +100,13 @@ class DetalhesPedidoView extends StatelessWidget {
     required this.listItensPedido,
   });
 
-  String observacao;
-  String statusCompra;
-  String dataAbertura;
-  String taxaFixa;
-  String valorTotalComTaxa;
-  String valorTotalCompra;
-  List<dynamic> listItensPedido;
+  final String observacao;
+  final String statusCompra;
+  final String dataAbertura;
+  final String taxaFixa;
+  final String valorTotalComTaxa;
+  final String valorTotalCompra;
+  final List<dynamic> listItensPedido;
 
   String formatToTwoDecimalPlaces(String value) {
     final number = double.parse(value);
@@ -117,120 +119,117 @@ class DetalhesPedidoView extends StatelessWidget {
     final DateFormat formatter = DateFormat('dd/MM/yyyy');
     return formatter.format(parsedDate);
   }
-
-
+  
   String formatHour(String hourString) {
     final DateTime parsedDate = DateTime.parse(hourString).subtract(Duration(hours: 3));
     final DateFormat formatter = DateFormat('HH:mm:ss');
     return formatter.format(parsedDate);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Form(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: listItensPedido.length,
+              itemBuilder: (BuildContext context, int i) {
+                return ItensPedido(
+                  imagemProduto: listItensPedido[i]['produto']['imagem_produto'],
+                  nomeProduto: listItensPedido[i]['produto']['nome'],
+                  precoProduto: listItensPedido[i]['produto']['preco'],
+                  quantidadeProduto: listItensPedido[i]['quantidade'],
+                  listAdicionais: listItensPedido[i]['lista_ingredientes'],
+                );
+              },
+            ),
+          ),
+          Center(
+            child: Container(
               padding: EdgeInsets.all(20.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: listItensPedido.length,
-                itemBuilder: (BuildContext context, int i) {
-                  return ItensPedido(
-                    imagemProduto: listItensPedido[i]['produto']['imagem_produto'],
-                    nomeProduto: listItensPedido[i]['produto']['nome'],
-                    precoProduto: listItensPedido[i]['produto']['preco'],
-                    quantidadeProduto: listItensPedido[i]['quantidade'],
-                    listAdicionais: listItensPedido[i]['lista_ingredientes'],
-                  );
-                },
+              color: Color.fromARGB(255, 231, 231, 231),
+              child: Column(
+                mainAxisSize: MainAxisSize
+                    .min, // Define o tamanho mínimo para o eixo principal (vertical)
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Data Pedido', style: TextStyle(fontSize: 14)),
+                      Text('${formatDate(dataAbertura)} às ${formatHour(dataAbertura)}', style: TextStyle(fontSize: 14)),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Status Pedido', style: TextStyle(fontSize: 14)),
+                      Text('$statusCompra', style: TextStyle(fontSize: 14)),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Subtotal', style: TextStyle(fontSize: 14)),
+                      Text('R\$ ${formatToTwoDecimalPlaces(valorTotalCompra)}', style: TextStyle(fontSize: 14)),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Taxa Fixa de Entrega', style: TextStyle(fontSize: 14)),
+                      Text('R\$ ${formatToTwoDecimalPlaces(taxaFixa)}', style: TextStyle(fontSize: 14)),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'TOTAL',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        'R\$ ${formatToTwoDecimalPlaces(valorTotalComTaxa)}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                ],
               ),
             ),
-            Center(
-              child: Container(
-                padding: EdgeInsets.all(20.0),
-                color: Color.fromARGB(255, 231, 231, 231),
-                child: Column(
-                  mainAxisSize: MainAxisSize
-                      .min, // Define o tamanho mínimo para o eixo principal (vertical)
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Data Pedido', style: TextStyle(fontSize: 14)),
-                        Text('${formatDate(dataAbertura)} às ${formatHour(dataAbertura)}', style: TextStyle(fontSize: 14)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Status Pedido', style: TextStyle(fontSize: 14)),
-                        Text('$statusCompra', style: TextStyle(fontSize: 14)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Subtotal', style: TextStyle(fontSize: 14)),
-                        Text('R\$ ${formatToTwoDecimalPlaces(valorTotalCompra)}', style: TextStyle(fontSize: 14)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Taxa Fixa de Entrega', style: TextStyle(fontSize: 14)),
-                        Text('R\$ ${formatToTwoDecimalPlaces(taxaFixa)}', style: TextStyle(fontSize: 14)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Divider(
-                      height: 1,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'TOTAL',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                        Text(
-                          'R\$ ${formatToTwoDecimalPlaces(valorTotalComTaxa)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
