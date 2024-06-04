@@ -47,9 +47,7 @@ class _PagamentoRecebidoState extends State<PagamentoRecebido> {
     };
 
     var url = Uri.parse(
-        'http://localhost:5000/api/order-details/get-status-order-details/$idOrderDetails');
-    // var url = Uri.parse(
-    //     'https://backend-delivery-ponto-do-pastel.onrender.com/api/payment/get-status-payment/$idPayment');
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/order-details/get-status-order-details/$idOrderDetails');
 
     var response = await http.get(url, headers: headers);
 
@@ -79,15 +77,6 @@ class _PagamentoRecebidoState extends State<PagamentoRecebido> {
       }
     }
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   idOrderDetails = ModalRoute.of(context)?.settings.arguments as String?;
-  //   fetchGetStatusOrder(idOrderDetails.toString());
-  // }
-
-
 
   @override
   Widget build(BuildContext context) {
