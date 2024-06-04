@@ -55,9 +55,7 @@ class _PagamentoState extends State<Pagamento> {
     };
 
     var url = Uri.parse(
-        'http://localhost:5000/api/payment/get-status-payment/$idPayment');
-    // var url = Uri.parse(
-    //     'https://backend-delivery-ponto-do-pastel.onrender.com/api/payment/get-status-payment/$idPayment');
+        'https://backend-delivery-ponto-do-pastel.onrender.com/api/payment/get-status-payment/$idPayment');
 
     var response = await http.get(url, headers: headers);
 

@@ -23,7 +23,6 @@ class _BoasVindasState extends State<BoasVindas> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const Home()),
-          // MaterialPageRoute(builder: (context) => const PagamentoRecebido()),
         );
       } else {
         Navigator.pushReplacement(
