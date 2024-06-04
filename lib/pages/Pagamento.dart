@@ -40,9 +40,8 @@ class _PagamentoState extends State<Pagamento> {
     });
   }
 
-   @override
+  @override
   void dispose() {
-    // Cancela o temporizador no dispose
     timer?.cancel();
     super.dispose();
   }
@@ -56,22 +55,30 @@ class _PagamentoState extends State<Pagamento> {
     };
 
     var url = Uri.parse(
-        'https://backend-delivery-ponto-do-pastel.onrender.com/api/payment/get-status-payment/$idPayment');
+        'http://localhost:5000/api/payment/get-status-payment/$idPayment');
+    // var url = Uri.parse(
+    //     'https://backend-delivery-ponto-do-pastel.onrender.com/api/payment/get-status-payment/$idPayment');
 
     var response = await http.get(url, headers: headers);
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       data = data['results'];
-      var statusPagamento = data['status'];
-      qrCodesImage = data['point_of_interaction']['transaction_data']['qr_code_base64'];
-      linkPix.text = data['point_of_interaction']['transaction_data']['qr_code'];
+      // var statusPagamento = data['status'];
+
+      var statusPagamento = data['status_payment']['status'];
+      var idOrderDetails = data['id_order_details'];
+      qrCodesImage = data['status_payment']['point_of_interaction']['transaction_data']['qr_code_base64'];
+      linkPix.text = data['status_payment']['point_of_interaction']['transaction_data']['qr_code'];
 
       if (statusPagamento == "approved") {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => PagamentoRecebido(),
+            settings: RouteSettings(
+              arguments: idOrderDetails.toString()
+            )
           ),
         );
       }
