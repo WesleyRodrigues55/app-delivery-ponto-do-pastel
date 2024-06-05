@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="app_delivery_ponto_do_pastel"
+        android:label="Delivery Ponto do Pastel"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

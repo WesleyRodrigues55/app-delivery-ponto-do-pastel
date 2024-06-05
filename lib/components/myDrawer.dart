@@ -4,6 +4,7 @@ import 'package:app_delivery_ponto_do_pastel/pages/MyData.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/PrivacyPolicies.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({
@@ -28,6 +29,15 @@ class itemsDrawer extends StatelessWidget {
   const itemsDrawer({
     super.key,
   });
+
+
+
+  Future<void> _launchUrl() async {
+  Uri _url = Uri.parse('api.whatsapp.com/send?phone=5511975699770');
+  if (!await launchUrl(_url)) {
+    throw Exception('Could not launch $_url');
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +91,7 @@ class itemsDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.message),
                 title: const Text('Fale Conosco'),
-                onTap: () {
-                  // abre wpp do suporte
-                  print('Fale Conosco');
-                },
+                onTap: _launchUrl,
               ),
               SizedBox(
                 height: 20,

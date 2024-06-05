@@ -2,9 +2,11 @@ import 'package:app_delivery_ponto_do_pastel/components/CartEmpty.dart';
 import 'package:app_delivery_ponto_do_pastel/pages/CheckoutCompra.dart';
 import 'package:app_delivery_ponto_do_pastel/utils/snack.dart';
 import 'package:easy_stepper/easy_stepper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery_ponto_do_pastel/components/PrimaryButton.dart';
 import 'package:app_delivery_ponto_do_pastel/components/Input.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -155,44 +157,46 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+    children: [
+      Column(
         children: [
-          Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Text(
-                  'Itens Carrinho',
-                  style: TextStyle(
-                    fontFamily: 'OutFIT',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
+          const Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Text(
+              'Itens Carrinho',
+              style: TextStyle(
+                fontFamily: 'OutFIT',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: widget.itensCarrinhoList.length,
-                itemBuilder: (BuildContext context, int i) {
-                  return ItensCarrinho(
-                    onDelete: () =>
-                        _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
-                    idItemCarrinho: widget.itensCarrinhoList[i]['_id'],
-                    nomeProduto: widget.itensCarrinhoList[i]['produto']['nome'],
-                    quantidade: widget.itensCarrinhoList[i]['quantidade'],
-                    precoTotal: widget.itensCarrinhoList[i]['preco_total'],
-                    adicionaisList: widget.itensCarrinhoList[i]
-                        ['lista_ingredientes'],
-                    imagem: widget.itensCarrinhoList[i]['produto']
-                        ['imagem_produto'],
-                  );
-                },
-              ),
-            ],
+            ),
           ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: widget.itensCarrinhoList.length,
+            itemBuilder: (BuildContext context, int i) {
+              return ItensCarrinho(
+                onDelete: () =>
+                    _onDeleteItem(widget.itensCarrinhoList[i]['_id']),
+                idItemCarrinho: widget.itensCarrinhoList[i]['_id'],
+                nomeProduto: widget.itensCarrinhoList[i]['produto']['nome'],
+                quantidade: widget.itensCarrinhoList[i]['quantidade'],
+                precoTotal: widget.itensCarrinhoList[i]['preco_total'],
+                adicionaisList: widget.itensCarrinhoList[i]
+                    ['lista_ingredientes'],
+                imagem: widget.itensCarrinhoList[i]['produto']
+                    ['imagem_produto'],
+              );
+            },
+          ),
+        ],
+      ),
+          
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           Container(
             color: Color.fromARGB(255, 231, 231, 231),
             child: Padding(
@@ -221,7 +225,9 @@ class _CarrinhoBuilderState extends State<CarrinhoBuilder> {
           ),
         ],
       ),
-    );
+    ],
+          );
+
   }
 }
 

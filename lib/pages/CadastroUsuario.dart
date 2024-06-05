@@ -179,6 +179,26 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
             children: [
               Expanded(
                 child: Stepper(
+                  controlsBuilder: (context, controller) {
+                    bool isLastStep = _currentStep == 1;
+
+                    return Row(
+                      children: <Widget>[
+                        if (!isLastStep)
+                          PrimaryButton(
+                            title: "Continuar", 
+                            extraLarge: 0, 
+                            onPressed: controller.onStepContinue
+                          ),
+                        if (_currentStep > 0)
+                          PrimaryButton(
+                            title: "Voltar", 
+                            extraLarge: 0, 
+                            onPressed: controller.onStepCancel
+                          ),
+                      ],
+                    );
+                  },
                   type: _isVerticalStepper
                       ? StepperType.vertical
                       : StepperType.horizontal,
