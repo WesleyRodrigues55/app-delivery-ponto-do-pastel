@@ -204,7 +204,7 @@ class _FormCheckoutCompraState extends State<FormCheckoutCompra> {
       );
     } else {
       SnackBarUtils.showSnackBar(
-          context, 'Ocorreu um erro ao validar seu whatsapp, tente novamente.',
+          context, 'Ocorreu um erro ao validar seu email, tente novamente.',
           color: Colors.red);
     }
   }

@@ -119,7 +119,7 @@ class _PagamentoState extends State<Pagamento> {
                 child: SizedBox(
                     height: 250,
                     width: 250,
-                    child: Image.network("data:image/jpeg;base64,$qrCodesImage")),
+                    child: Image.memory(base64Decode(qrCodesImage!))),
               )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

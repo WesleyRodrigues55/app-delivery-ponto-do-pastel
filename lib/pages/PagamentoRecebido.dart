@@ -110,7 +110,7 @@ class _PagamentoRecebidoState extends State<PagamentoRecebido> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(20),
-          child: Expanded(
+          child: Center(
             child: child!
           ),
         ));
