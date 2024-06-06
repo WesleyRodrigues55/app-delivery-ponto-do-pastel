@@ -61,8 +61,10 @@ class _MyDataState extends State<MyData> {
       );
     } else if (userSelected == null) {
       // Dados carregados, mas a lista de produtos está vazia
-      return const Center(
-        child: Text('Nenhum usuário encontrado'),
+      return const Scaffold(
+        body: Center(
+          child: Text('Nenhum usuário encontrado'),
+        ),
       );
     } else {
       return TelaUserSelecionadoPorId(
