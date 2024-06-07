@@ -1,3 +1,12 @@
+<div align="center">
+    <img src="img/logo-pastel-fundo-branco.jpg?raw=true" alt="Logo" width="250" height="250" />
+    <br>
+    <b>Ponto do Pastel</b>
+    <br>
+    <span>Um aplicativo delivery de pastel</span>
+</div>
+
+
 ## Overview
 
 Ponto do Pastel é uma aplicativo delivery mobile desenvolvido em Flutter, e que faz parte de um Projeto Acadêmico da Universidade de Sorocaba  - Uniso.
@@ -10,6 +19,7 @@ O projeto tem como objetivo simular um app delivery com a temática "Pastelaria"
 - [x] Processo de compra do pedido
 - [x] Lista de pedidos já realizados
 - [x] Perfil do usuário
+
 
 Este projeto está divido em 3 partes (repositórios):
 - [x] 1° é o app delivery (Este repositório)
@@ -26,6 +36,7 @@ Configurando e instalando o projeto Flutter (Se baseando no uso do VS Code como 
 1. Tenha em sua máquina as seguintes IDEs instaladas:
 - [x] Visual Studio Code
 - [x] Android Studio.
+
 É necessário ter ambas, pois precisa realizar configurações iniciais para qualquer projeto que use emulador.
 
 2. Faça o Download do Flutter e instale suas dependências [clicando aqui](https://docs.flutter.dev/get-started/install) (as configurações de download mudam para cada máquina e SO, então se atente as configurações de sua máquina e escolha o download correto)
@@ -35,8 +46,9 @@ Configurando e instalando o projeto Flutter (Se baseando no uso do VS Code como 
 - [x] [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
 
 4. Após a instalação das extenções, execute o seguinte comando em seu terminal:
+
     ```sh
-        flutter doctor
+    flutter doctor
     ```
 Este comando será responsável por analisar e te retornar as dependências necessários para a emulação de algum dispositivo em sua máquina.
 
@@ -60,4 +72,17 @@ Este comando será responsável por analisar e te retornar as dependências nece
     flutter run
     ```
 
-Tudo dando certo, o app será executado e abrirá sua tela inicial "Página de Login", agora é necessário o uso do backend e configuração dos apontamentos dos linkk de requisição.
+Tudo dando certo, o app será executado e abrirá sua tela inicial "Página de Login", agora é necessário o uso do backend e configuração dos apontamentos dos links de requisição.
+
+## Project Images
+
+em breve...
+
+
+## Contributors
+
+[<img src="https://avatars.githubusercontent.com/u/74609771?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/WesleyRodrigues55)
+[<img src="https://avatars.githubusercontent.com/u/116026829?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/Encattani)
+[<img src="https://avatars.githubusercontent.com/u/101207959?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/marilialloureiro)
+[<img src="https://avatars.githubusercontent.com/u/134734144?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/joaooliveira376)
+[<img src="https://avatars.githubusercontent.com/u/100249233?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/lucassuzuki)
