@@ -81,8 +81,8 @@ em breve...
 
 ## Contributors
 
-[<img src="https://avatars.githubusercontent.com/u/74609771?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/WesleyRodrigues55)
-[<img src="https://avatars.githubusercontent.com/u/116026829?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/Encattani)
-[<img src="https://avatars.githubusercontent.com/u/101207959?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/marilialloureiro)
-[<img src="https://avatars.githubusercontent.com/u/134734144?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/joaooliveira376)
-[<img src="https://avatars.githubusercontent.com/u/100249233?v=4" width="80" heoght="80" style="border-radius: 100%">](https://github.com/lucassuzuki)
+[<img src="https://avatars.githubusercontent.com/u/74609771?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/WesleyRodrigues55)
+[<img src="https://avatars.githubusercontent.com/u/116026829?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/Encattani)
+[<img src="https://avatars.githubusercontent.com/u/101207959?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/marilialloureiro)
+[<img src="https://avatars.githubusercontent.com/u/134734144?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/joaooliveira376)
+[<img src="https://avatars.githubusercontent.com/u/100249233?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/lucassuzuki)
