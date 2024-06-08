@@ -31,7 +31,7 @@ Este projeto está divido em 3 partes (repositórios):
 Para o teste do app é necessário que pelo menos o back-end seja configurado e utilizado, pois 80% do app depende das requisições HTTP ao back-end. Então antes de iniciar a simulação com o app, clone e configure o back-end, pode saber mais sobre o back-end do projeto [clicando aqui](https://github.com/WesleyRodrigues55/backend-delivery-ponto-do-pastel).
 
 Configurando e instalando o projeto Flutter (Se baseando no uso do VS Code como IDE).
-"Vou considerar que quem esteja seguindo este tutorial entenda como funciona a configuraçõa inicial do Android Studio"
+"Vou considerar que quem esteja seguindo este tutorial entenda como funciona a configuração inicial do Android Studio"
 
 1. Tenha em sua máquina as seguintes IDEs instaladas:
 - [x] Visual Studio Code
@@ -76,7 +76,11 @@ Tudo dando certo, o app será executado e abrirá sua tela inicial "Página de L
 
 ## Project Images
 
-em breve...
+<div align="center">
+    <img src="img/1.jpg" width="140" height="320">
+    <img src="img/2.jpg" width="140" height="320">
+    <img src="img/3.jpg" width="140" height="320">
+</div>
 
 
 ## Contributors
