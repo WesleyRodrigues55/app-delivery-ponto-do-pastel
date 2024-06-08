@@ -88,5 +88,5 @@ Tudo dando certo, o app será executado e abrirá sua tela inicial "Página de L
 [<img src="https://avatars.githubusercontent.com/u/74609771?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/WesleyRodrigues55)
 [<img src="https://avatars.githubusercontent.com/u/116026829?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/Encattani)
 [<img src="https://avatars.githubusercontent.com/u/101207959?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/marilialloureiro)
-[<img src="https://avatars.githubusercontent.com/u/134734144?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/joaooliveira376)
+[<img src="https://avatars.githubusercontent.com/u/100249293?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/joaooliveira375)
 [<img src="https://avatars.githubusercontent.com/u/100249233?v=4" width="80" height="80" style="border-radius: 100%">](https://github.com/lucassuzuki)
